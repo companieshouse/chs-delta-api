@@ -1,0 +1,7 @@
+*
+!config/
+!handlers/
+!spec/
+!go.mod
+!go.sum
+!main.go
