@@ -1,4 +1,4 @@
-package chs_delta_api
+package main
 
 import (
 	"context"
@@ -9,9 +9,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/companieshouse/chs.go/log"
 	"github.com/companieshouse/chs-delta-api/config"
 	"github.com/companieshouse/chs-delta-api/handlers"
+	"github.com/companieshouse/chs.go/log"
 	"github.com/gorilla/mux"
 )
 

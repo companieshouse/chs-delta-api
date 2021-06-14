@@ -1,4 +1,4 @@
-module "github.com/companieshouse/chs-delta-api"
+module github.com/companieshouse/chs-delta-api
 
 go 1.12
 
