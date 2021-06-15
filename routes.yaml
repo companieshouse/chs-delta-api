@@ -5,4 +5,4 @@ group: internalapi
 # LOWER than 1000
 weight: 900
 routes:
-  1: ^/chs-delta.*
+  1: ^/chs-delta-api.*
