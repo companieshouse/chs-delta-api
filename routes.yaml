@@ -1,6 +1,6 @@
 ---
 app_name: chs-delta-api
-group: api
+group: internalapi
 weight: 900
 routes:
-  1: ^/chs-delta-api.*
+  1: ^/delta.*
