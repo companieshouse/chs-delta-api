@@ -12,8 +12,9 @@ var mtx sync.Mutex
 
 // Config defines the configuration options for this service.
 type Config struct {
-	BindAddr string `env:"BIND_ADDR" flag:"bind-addr" flagDesc:"Bind address"`
-	ChsUrl   string `env:"CHS_URL"   flag:"chs-url"   flagDesc:"CHS URL"`
+	BindAddr   string   `env:"BIND_ADDR" flag:"bind-addr" flagDesc:"Bind address"`
+	BrokerAddr []string `env:"KAFKA_BROKER_ADDR" flag:"broker-addr" flagDesc:"Kafka broker address"`
+	ChsUrl     string   `env:"CHS_URL" flag:"chs-url" flagDesc:"CHS URL"`
 }
 
 // Get returns a pointer to a Config instance populated with values from environment or command-line flags
