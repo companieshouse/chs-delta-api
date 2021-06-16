@@ -10,7 +10,7 @@ import (
 
 // Register defines the endpoints for the API
 func Register(mainRouter *mux.Router) {
-	mainRouter.HandleFunc("/healthcheck", healthCheck).Methods(http.MethodGet).Name("healthcheck")
+	mainRouter.HandleFunc("/delta/healthcheck", healthCheck).Methods(http.MethodGet)
 	mainRouter.Use(log.Handler)
 }
 
