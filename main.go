@@ -28,7 +28,6 @@ func main() {
 
 	// Create router
 	mainRouter := mux.NewRouter()
-
 	handlers.Register(mainRouter)
 
 	log.Info("Starting " + namespace)
