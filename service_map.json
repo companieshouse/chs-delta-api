@@ -1,0 +1,18 @@
+{
+  "type": "Service",
+  "name": "chs-delta-api",
+  "description": "A Companies House service which takes delta's fired from CHIPS and publishes them to a kafka topic",
+  "owned_by": "Aardvark",
+  "calls_via": "eric",
+  "git_repo": "https://github.com/companieshouse/chs-delta-api",
+  "public": "private",
+  "users": "internal",
+  "code_analysis_link": "http://code-analysis.platform.aws.chdev.org:9000/",
+  "test_automation_repo": "TO BE ADDED",
+  "service_area": "Maintain a Company",
+  "service_component": "delta",
+  "language": "Go",
+  "integration_outgoing": [
+    "delta-processor,PUBLISHES_EVENTS_FOR"
+  ]
+}
