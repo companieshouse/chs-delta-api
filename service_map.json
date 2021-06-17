@@ -1,7 +1,7 @@
 {
   "type": "Service",
   "name": "chs-delta-api",
-  "description": "A Companies House service which takes delta's fired from CHIPS and publishes them to a kafka topic",
+  "description": "A Companies House service which takes deltas fired from CHIPS and publishes them to a Kafka topic",
   "owned_by": "Aardvark",
   "calls_via": "eric",
   "git_repo": "https://github.com/companieshouse/chs-delta-api",
