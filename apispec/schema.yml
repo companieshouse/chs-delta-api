@@ -31,10 +31,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Officer'
-        created_at:
+        CreatedAt:
           type: string
         delta_at:
           type: string
+      required:
+        - officers
+        - CreatedAt
+        - delta_at
 
     Officer:
       type: object
@@ -51,32 +55,43 @@ components:
           type: string
         title:
           type: string
+          maximum: 50
         corporate_ind:
           type: boolean
         surname:
           type: string
+          maximum: 160
         forename:
           type: string
+          maximum: 50
         middle_namename:
           type: string
+          maximum: 50
         date_of_birth:
           type: string
         service_address_same_as_registered_address:
           type: boolean
         nationality:
           type: string
+          maximum: 50
         occupation:
           type: string
+          maximum: 100
         officer_id:
           type: string
+          minimum: 0
+          maximum: 10
         secure_director:
           type: boolean
         officer_detail_id:
           type: string
+          minimum: 0
+          maximum: 10
         officer_role:
           type: string
         ususal_residential_country:
           type: string
+          maximum: 160
         previous_name_array:
           $ref: '#/components/schemas/Previous_name_array'
         identification:
@@ -85,6 +100,11 @@ components:
           $ref: '#/components/schemas/Address'
         usual_residential_address:
           $ref: '#/components/schemas/Address'
+      required:
+        - appointment_date
+        - service_address_same_as_registered_address
+        - officer_id
+        - secure_director
 
     Previous_name_array:
       type: object
@@ -120,6 +140,7 @@ components:
           type: string
         address_line_1:
           type: string
+          maximum: 250
         address_line_2:
           type: string
         locality:
@@ -136,6 +157,7 @@ components:
           type: string
         postal_code:
           type: string
+          maximum: 20
         usual_country_of_residence:
           type: string
 
@@ -147,3 +169,7 @@ components:
 
 security:
   - ApiKeyAuth: []
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/amoriartyCH/chs-delta-api/0.1
