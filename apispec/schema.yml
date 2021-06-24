@@ -169,7 +169,3 @@ components:
 
 security:
   - ApiKeyAuth: []
-servers:
-  # Added by API Auto Mocking Plugin
-  - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/amoriartyCH/chs-delta-api/0.1
