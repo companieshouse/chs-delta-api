@@ -64,7 +64,7 @@ components:
         forename:
           type: string
           maximum: 50
-        middle_namename:
+        middle_name:
           type: string
           maximum: 50
         date_of_birth:
