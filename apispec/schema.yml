@@ -47,12 +47,14 @@ components:
           type: string
         changed_at:
           type: string
+          format: date-time
         kind:
           type: string
         internal_id:
           type: string
         appointment_date:
           type: string
+          format: date
         title:
           type: string
           maximum: 50
