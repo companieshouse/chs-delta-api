@@ -1,6 +1,6 @@
 module github.com/companieshouse/chs-delta-api
 
-go 1.16
+go 1.12
 
 require (
 	github.com/companieshouse/chs.go v1.2.4
