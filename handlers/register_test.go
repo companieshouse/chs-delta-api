@@ -9,7 +9,7 @@ import (
 )
 
 func TestUnitHealthCheck(t *testing.T) {
-	Convey("Healthcheck", t, func() {
+	Convey("When I call the healthcheck endpoint, then I am given a 200 status", t, func() {
 		w := httptest.ResponseRecorder{}
 		healthCheck(&w, nil)
 		So(w.Code, ShouldEqual, http.StatusOK)

@@ -1,8 +1,8 @@
 *
 !config/
 !handlers/
-!models/
-!spec/
+!apispec/
+!services/
 !go.mod
 !go.sum
 !main.go
