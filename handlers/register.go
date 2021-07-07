@@ -11,7 +11,7 @@ import (
 // Register defines the endpoints for the API
 func Register(mainRouter *mux.Router) {
 	mainRouter.HandleFunc("/delta/healthcheck", healthCheck).Methods(http.MethodGet).Name("healthcheck")
-	mainRouter.HandleFunc("/delta/officers", NewOfficerHandler().ServeHTTP).Methods(http.MethodPost).Name("officers")
+	mainRouter.HandleFunc("/delta/officer-delta", NewOfficerHandler().HandleOfficerDelta).Methods(http.MethodPost).Name("officers")
 	mainRouter.Use(log.Handler)
 }
 

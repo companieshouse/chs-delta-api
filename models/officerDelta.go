@@ -1,9 +1,9 @@
 package models
 
 type OfficerDelta struct {
-	Officer   []Officer `json:"officers"`
-	CreatedAt string    `json:"created_at"`
-	DeltaAt   string    `json:"delta_at"`
+	Officer     []Officer `json:"officers"`
+	CreatedTime string    `json:"CreatedTime"`
+	DeltaAt     string    `json:"delta_at"`
 }
 
 type Officer struct {
