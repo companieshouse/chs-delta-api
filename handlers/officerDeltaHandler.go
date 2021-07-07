@@ -13,10 +13,10 @@ func NewOfficerDeltaHandler() *OfficerDeltaHandler {
 	return &OfficerDeltaHandler{}
 }
 
-// HandleOfficerDelta accepts an incoming OfficerDelta request via a POST method, validates it
+// ServeHTTP accepts an incoming OfficerDelta request via a POST method, validates it
 // and then passes it to a Kafka service for further processing. If errors are encountered
 // then they will be returned via the ResponseWriter.
-func (kp *OfficerDeltaHandler) HandleOfficerDelta(w http.ResponseWriter, r *http.Request) {
+func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 }

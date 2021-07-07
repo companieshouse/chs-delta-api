@@ -52,7 +52,7 @@ func TestOfficerDeltaHandlerWithCorrectRoute(t *testing.T) {
 		Convey("When the request is handled by the router", func() {
 
 			handler := NewOfficerDeltaHandler()
-			handler.HandleOfficerDelta(resp, req)
+			handler.ServeHTTP(resp, req)
 
 			Convey("Then the response should be 200", func() {
 				So(resp.Code, ShouldEqual, http.StatusOK)

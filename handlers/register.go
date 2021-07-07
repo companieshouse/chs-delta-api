@@ -11,7 +11,7 @@ import (
 // Register defines all REST endpoints for the API.
 func Register(mainRouter *mux.Router) {
 	mainRouter.HandleFunc("/delta/healthcheck", healthCheck).Methods(http.MethodGet).Name("healthcheck")
-	mainRouter.HandleFunc("/delta/officer-delta", NewOfficerDeltaHandler().HandleOfficerDelta).Methods(http.MethodPost).Name("officers")
+	mainRouter.HandleFunc("/delta/officer-delta", NewOfficerDeltaHandler().ServeHTTP).Methods(http.MethodPost).Name("officers")
 	mainRouter.Use(log.Handler)
 }
 
