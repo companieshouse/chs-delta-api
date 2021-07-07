@@ -24,6 +24,7 @@ func (kp *OfficerHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	// If the decoding fails, it will most likely be due to bad data being submitted by the user.
 	if err := json.NewDecoder(r.Body).Decode(&officersData) ; err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(err.Error()))
 		return
 	}
 

@@ -1,6 +1,7 @@
 *
 !config/
 !handlers/
+!models/
 !spec/
 !go.mod
 !go.sum

@@ -33,13 +33,20 @@ const (
 	}`
 
 	badRequestBody = `{
-	"test" : "xeiuohfwnw8347",
-	"wrong" : "049301-458312-500968",
-	"input" : "00006400"
+        "officers" : [
+			{
+				"company_number" : "99999999",
+				"company_name" : "Test company 1",
+				"forename" : "Test forename 1",
+				"middle_name" : "Test middle name 1",
+				"surname" : "Test surname 1",
+				"age" : "25"
+			}
+    	],
 	}`
 )
 
-func TestNewKafkaPublisherHandler(t *testing.T) {
+func TestNewOfficersHandler(t *testing.T) {
 
 	Convey("Then the constructor returns me a valid OfficerHandler", t, func() {
 
@@ -49,7 +56,7 @@ func TestNewKafkaPublisherHandler(t *testing.T) {
 	})
 }
 
-func TestKafkaPublisherHandlerWithCorrectRoute(t *testing.T) {
+func TestOfficersHandlerWithCorrectRoute(t *testing.T) {
 	Convey("Given a HTTP request for /delta/officers", t, func() {
 
 		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(requestBody)))
@@ -62,6 +69,24 @@ func TestKafkaPublisherHandlerWithCorrectRoute(t *testing.T) {
 
 			Convey("Then the response should be 200", func() {
 				So(resp.Code, ShouldEqual, http.StatusOK)
+			})
+		})
+	})
+}
+
+func TestOfficersHandlerWithBadRequest(t *testing.T) {
+	Convey("Given a HTTP request for /delta/officers", t, func() {
+
+		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(badRequestBody)))
+		resp := httptest.NewRecorder()
+
+		Convey("When the request is handled by the router", func() {
+
+			handler := NewOfficerHandler()
+			handler.ServeHTTP(resp, req)
+
+			Convey("Then the response should be 400", func() {
+				So(resp.Code, ShouldEqual, http.StatusBadRequest)
 			})
 		})
 	})
