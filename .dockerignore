@@ -3,6 +3,7 @@
 !handlers/
 !apispec/
 !services/
+!models/
 !go.mod
 !go.sum
 !main.go

@@ -2,6 +2,8 @@
 package handlers
 
 import (
+	"github.com/companieshouse/chs-delta-api/config"
+	"github.com/companieshouse/chs-delta-api/services"
 	"net/http"
 
 	"github.com/companieshouse/chs.go/log"
@@ -9,10 +11,16 @@ import (
 )
 
 // Register defines all REST endpoints for the API.
-func Register(mainRouter *mux.Router) {
+func Register(mainRouter *mux.Router, cfg *config.Config) error {
+	kSvc, err := services.NewKafkaService(cfg)
+	if err != nil {
+		return err
+	}
 	mainRouter.HandleFunc("/delta/healthcheck", healthCheck).Methods(http.MethodGet).Name("healthcheck")
-	mainRouter.HandleFunc("/delta/officer-delta", NewOfficerDeltaHandler().ServeHTTP).Methods(http.MethodPost).Name("officers")
+	mainRouter.HandleFunc("/delta/officer-delta", NewOfficerDeltaHandler(kSvc).ServeHTTP).Methods(http.MethodPost).Name("officers")
 	mainRouter.Use(log.Handler)
+
+	return nil
 }
 
 func healthCheck(w http.ResponseWriter, _ *http.Request) {

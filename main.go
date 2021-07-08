@@ -28,7 +28,10 @@ func main() {
 
 	// Create router
 	mainRouter := mux.NewRouter()
-	handlers.Register(mainRouter)
+	if err := handlers.Register(mainRouter, cfg); err != nil {
+		log.Error(fmt.Errorf("error registering routes: %s. Exiting", err), nil)
+		return
+	}
 
 	log.Info("Starting " + namespace)
 
