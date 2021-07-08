@@ -5,7 +5,7 @@ info:
   version: "1.0"
 
 paths:
-  /delta/officer-delta:
+  /delta/officers:
     $ref: 'officer-delta-spec.yml'
 
 components:
