@@ -1,26 +1,18 @@
-openapi: 3.0.0
-info:
-  title: CHS Delta API
-  description: API specification for the chs-delta-api service
-  version: "0.1"
-
-paths:
-  /delta/officer:
-    post:
-      summary: Accepts an incoming officer delta, transforms it into an avro schema and puts it onto a Kafka topic.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Officer_delta'
-      responses:
-        '200':
-          description: Successfully produced message onto Kafka topic.
-        '400':
-          description: Bad request body - validation errors.
-        '401':
-          description: Unauthorised - missing api key in header.
+post:
+  summary: Accepts an incoming officer delta, transforms it into an avro schema and puts it onto a Kafka topic.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/Officer_delta'
+  responses:
+    '200':
+      description: Successfully produced message onto Kafka topic.
+    '400':
+      description: Bad request body - validation errors.
+    '401':
+      description: Unauthorised - missing api key in header.
 
 components:
   schemas:
@@ -31,14 +23,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Officer'
-        CreatedAt:
+        CreatedTime:
           type: string
         delta_at:
           type: string
       required:
         - officers
-        - CreatedAt
-        - delta_at
+        - CreatedTime
 
     Officer:
       type: object
@@ -47,19 +38,20 @@ components:
           type: string
         changed_at:
           type: string
-          format: date-time
         kind:
           type: string
         internal_id:
           type: string
         appointment_date:
           type: string
-          format: date
         title:
           type: string
           maximum: 50
         corporate_ind:
-          type: boolean
+          type: string
+          enum:
+            - Y
+            - N
         surname:
           type: string
           maximum: 160
@@ -72,7 +64,10 @@ components:
         date_of_birth:
           type: string
         service_address_same_as_registered_address:
-          type: boolean
+          type: string
+          enum:
+            - Y
+            - N
         nationality:
           type: string
           maximum: 50
@@ -81,13 +76,14 @@ components:
           maximum: 100
         officer_id:
           type: string
-          minimum: 0
           maximum: 10
         secure_director:
-          type: boolean
+          type: string
+          enum:
+            - Y
+            - N
         officer_detail_id:
           type: string
-          minimum: 0
           maximum: 10
         officer_role:
           type: string
@@ -103,9 +99,11 @@ components:
         usual_residential_address:
           $ref: '#/components/schemas/Address'
       required:
+        - corporate_ind
         - appointment_date
         - service_address_same_as_registered_address
         - officer_id
+        - officer_detail_id
         - secure_director
 
     Previous_name_array:
@@ -162,12 +160,3 @@ components:
           maximum: 20
         usual_country_of_residence:
           type: string
-
-  securitySchemes:
-    ApiKeyAuth:
-      type: apiKey
-      name: X-API-KEY
-      in: header
-
-security:
-  - ApiKeyAuth: []
