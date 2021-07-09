@@ -19,6 +19,7 @@ func Register(mainRouter *mux.Router, cfg *config.Config) error {
 	}
 
 	mainRouter.HandleFunc("/delta/healthcheck", healthCheck).Methods(http.MethodGet).Name("healthcheck")
+	mainRouter.HandleFunc("/delta/officers", NewOfficerDeltaHandler().ServeHTTP).Methods(http.MethodPost).Name("officer-delta")
 	mainRouter.HandleFunc("/delta/officer-delta", NewOfficerDeltaHandler(kSvc).ServeHTTP).Methods(http.MethodPost).Name("officers")
 	mainRouter.Use(log.Handler)
 
