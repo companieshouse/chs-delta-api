@@ -4,6 +4,7 @@
 !apispec/
 !services/
 !models/
+!helpers/
 !go.mod
 !go.sum
 !main.go
