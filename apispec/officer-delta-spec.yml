@@ -119,7 +119,7 @@ components:
           type: string
 
     Identification:
-      anyOf:
+      oneOf:
         - properties:
             EEA:
               $ref: '#/components/schemas/EEA'

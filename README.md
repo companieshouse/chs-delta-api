@@ -6,7 +6,7 @@ Clone Docker CHS Development and follow the steps in the README.
 
 Enable the `delta` module
 
-Navigate to http://api.chs.local:<PORT_TO_BE_DECIDED>
+All traffic will be handled via http://api.chs.local using the `/delta` endpoint. See API spec for available endpoints.
 
 Development mode is available for this service in Docker CHS Development.
 
