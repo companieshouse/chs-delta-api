@@ -5,8 +5,19 @@ import (
 	"net/http"
 )
 
+type Helper interface {
+	GetDataFromRequest(r *http.Request) (string, error)
+}
+
+type Impl struct {
+}
+
+func NewHelper() Impl {
+	return Impl{}
+}
+
 // GetDataFromRequest will try to retrieve the Body from a given request and convert it into a string.
-func GetDataFromRequest(r *http.Request) (string, error) {
+func (h Impl) GetDataFromRequest(r *http.Request) (string, error) {
 
 	// Retrieve the request body.
 	data, err := ioutil.ReadAll(r.Body)

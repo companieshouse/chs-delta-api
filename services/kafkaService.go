@@ -17,6 +17,7 @@ const (
 
 // KafkaService defines all Methods needed to successfully send a message onto a Kafka topic.
 type KafkaService interface {
+	Init(cfg *config.Config) error
 	SendMessage(topic, data string) error
 }
 
@@ -27,14 +28,17 @@ type KafkaServiceImpl struct {
 }
 
 // NewKafkaService constructs and returns a KafkaServiceImpl using a provided Config.
-func NewKafkaService(cfg *config.Config) (KafkaServiceImpl, error) {
+func NewKafkaService() KafkaServiceImpl {
+	return KafkaServiceImpl{}
+}
 
+func (kSvc *KafkaServiceImpl) Init(cfg *config.Config) error {
 	// Retrieve the generic chs-delta avro schema.
 	log.Trace("Get schema from Avro", log.Data{"schema_name": schemaName})
 	sch, err := schema.Get(cfg.SchemaRegistryURL, schemaName)
 	if err != nil {
 		log.Error(fmt.Errorf("error receiving %s schema: %s", schemaName, err))
-		return KafkaServiceImpl{}, err
+		return err
 	}
 	log.Trace("Successfully received schema", log.Data{"schema_name": schemaName})
 
@@ -43,14 +47,13 @@ func NewKafkaService(cfg *config.Config) (KafkaServiceImpl, error) {
 	p, err := producer.New(&producer.Config{Acks: &producer.WaitForAll, BrokerAddrs: cfg.BrokerAddr})
 	if err != nil {
 		log.Error(fmt.Errorf("error initialising producer: %s", err))
-		return KafkaServiceImpl{}, err
+		return err
 	}
 
-	// Return our fully constructed KafkaServiceImpl.
-	return KafkaServiceImpl{
-		Schema: sch,
-		Producer: p,
-	}, nil
+	kSvc.Schema = sch
+	kSvc.Producer = p
+
+	return nil
 }
 
 // SendMessage publishes a given data string retrieved from a REST request onto a chosen Kafka topic.

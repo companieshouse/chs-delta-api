@@ -2,6 +2,10 @@ package handlers
 
 import (
 	"bytes"
+	"errors"
+	hMocks "github.com/companieshouse/chs-delta-api/helpers/mocks"
+	sMocks "github.com/companieshouse/chs-delta-api/services/mocks"
+	"github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
 	"net/http"
 	"net/http/httptest"
@@ -31,19 +35,64 @@ const (
     	"CreatedTime" : "07-JUN-21 15.26.17.000000",
     	"delta_at" : "20140925171003950844"
 	}`
+
+	topic = "officer-delta"
 )
 
 func TestNewOfficerDeltaHandler(t *testing.T) {
 
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
 	Convey("When I call the constructor, then it returns me a valid OfficerDeltaHandler", t, func() {
 
-		officerHandler := NewOfficerDeltaHandler()
+		svc := sMocks.NewMockKafkaService(mockCtrl)
+		h := hMocks.NewMockHelper(mockCtrl)
+
+		officerHandler := NewOfficerDeltaHandler(svc, h)
 
 		So(officerHandler, ShouldNotBeNil)
+
+		So(officerHandler.KSvc, ShouldNotBeNil)
+		So(officerHandler.KSvc, ShouldEqual, svc)
+
+		So(officerHandler.h, ShouldNotBeNil)
+		So(officerHandler.h, ShouldEqual, h)
 	})
 }
 
-func TestOfficerDeltaHandlerWithCorrectRoute(t *testing.T) {
+func TestOfficerDeltaHandlerFailsRequestBodyRetrieval(t *testing.T) {
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
+	Convey("Given a HTTP POST request via the officer delta endpoint", t, func() {
+
+		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(requestBody)))
+		resp := httptest.NewRecorder()
+
+		Convey("When the request is handled by the router, but the kafka service fails to send", func() {
+
+			h := hMocks.NewMockHelper(mockCtrl)
+			svc := sMocks.NewMockKafkaService(mockCtrl)
+
+			h.EXPECT().GetDataFromRequest(req).Return("", errors.New("error converting request body"))
+
+			handler := NewOfficerDeltaHandler(svc, h)
+			handler.ServeHTTP(resp, req)
+
+			Convey("Then the response should be 400 and an error returned", func() {
+				So(resp.Code, ShouldEqual, http.StatusBadRequest)
+			})
+		})
+	})
+}
+
+func TestOfficerDeltaHandlerSuccessfullySends(t *testing.T) {
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
 	Convey("Given a HTTP POST request via the officer delta endpoint", t, func() {
 
 		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(requestBody)))
@@ -51,11 +100,45 @@ func TestOfficerDeltaHandlerWithCorrectRoute(t *testing.T) {
 
 		Convey("When the request is handled by the router", func() {
 
-			handler := NewOfficerDeltaHandler()
+			h := hMocks.NewMockHelper(mockCtrl)
+			svc := sMocks.NewMockKafkaService(mockCtrl)
+
+			h.EXPECT().GetDataFromRequest(req).Return(requestBody, nil)
+			svc.EXPECT().SendMessage(topic, requestBody).Return(nil)
+
+			handler := NewOfficerDeltaHandler(svc, h)
 			handler.ServeHTTP(resp, req)
 
 			Convey("Then the response should be 200", func() {
 				So(resp.Code, ShouldEqual, http.StatusOK)
+			})
+		})
+	})
+}
+
+func TestOfficerDeltaHandlerFailsSend(t *testing.T) {
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
+	Convey("Given a HTTP POST request via the officer delta endpoint", t, func() {
+
+		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(requestBody)))
+		resp := httptest.NewRecorder()
+
+		Convey("When the request is handled by the router, but the kafka service fails to send", func() {
+
+			h := hMocks.NewMockHelper(mockCtrl)
+			svc := sMocks.NewMockKafkaService(mockCtrl)
+
+			h.EXPECT().GetDataFromRequest(req).Return(requestBody, nil)
+			svc.EXPECT().SendMessage(topic, requestBody).Return(errors.New("error sending message"))
+
+			handler := NewOfficerDeltaHandler(svc, h)
+			handler.ServeHTTP(resp, req)
+
+			Convey("Then the response should be 400 and an error returned", func() {
+				So(resp.Code, ShouldEqual, http.StatusBadRequest)
 			})
 		})
 	})

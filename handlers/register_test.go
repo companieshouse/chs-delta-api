@@ -1,6 +1,9 @@
 package handlers
 
 import (
+	"github.com/companieshouse/chs-delta-api/config"
+	"github.com/companieshouse/chs-delta-api/services/mocks"
+	"github.com/golang/mock/gomock"
 	"github.com/gorilla/mux"
 	"net/http"
 	"net/http/httptest"
@@ -18,10 +21,20 @@ func TestUnitHealthCheck(t *testing.T) {
 }
 
 func TestRegister(t *testing.T) {
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
 	Convey("When we call the register function then all routes are registered", t, func() {
 		router := mux.NewRouter()
-		Register(router)
+		cfg, _ := config.Get()
+		Ksvc := mocks.NewMockKafkaService(mockCtrl)
+
+		Ksvc.EXPECT().Init(cfg).Return(nil)
+
+		err := Register(router, cfg, Ksvc)
 		So(router.GetRoute("healthcheck"), ShouldNotBeNil)
 		So(router.GetRoute("officer-delta"), ShouldNotBeNil)
+		So(err, ShouldBeNil)
 	})
 }
