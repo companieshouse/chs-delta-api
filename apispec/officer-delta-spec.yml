@@ -13,6 +13,8 @@ post:
       description: Bad request body - validation errors.
     '401':
       description: Unauthorised - missing api key in header.
+    '500':
+      description: Internal server error has occured.
 
 components:
   schemas:
@@ -117,21 +119,33 @@ components:
           type: string
 
     Identification:
-      type: object
-      properties:
-        EEA:
-          $ref: '#/components/schemas/EEA'
+      anyOf:
+        - properties:
+            EEA:
+              $ref: '#/components/schemas/EEA'
+            non_eea:
+              $ref: '#/components/schemas/EEA'
+            UK_limited_company:
+              $ref: '#/components/schemas/EEA'
+            other_corporate_body_or_firm:
+              $ref: '#/components/schemas/EEA'
+
 
     EEA:
       type: object
       properties:
         place_registered:
           type: string
+          maximum: 160
         registration_number:
           type: string
-      required:
-        - place_registered
-        - registration_number
+          maximum: 160
+        legal_authority:
+          type: string
+          maximum: 160
+        legal_form:
+          type: string
+          maximum: 160
 
     Address:
       type: object
