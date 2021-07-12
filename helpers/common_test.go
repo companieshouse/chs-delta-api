@@ -15,6 +15,7 @@ const (
 }`
 )
 
+// TestGetDataFromRequestSuccess asserts that a data string is returned with no errors when given a valid request.
 func TestGetDataFromRequestSuccess(t *testing.T) {
 
 	Convey("Given I pass a request into the GetDataFromRequest function", t, func() {
@@ -33,9 +34,10 @@ func TestGetDataFromRequestSuccess(t *testing.T) {
 //Used in error test for asserting error occurs
 type mockRequestError struct{}
 func (mockRequestError) Read(p []byte) (n int, err error) {
-	return 0, errors.New("test error")
+	return 0, errors.New("error reading request")
 }
 
+// TestGetDataFromRequestError asserts that when reading of the request fails, it returns an empty string and error.
 func TestGetDataFromRequestError(t *testing.T) {
 
 	Convey("Given I pass a request into the GetDataFromRequest function", t, func() {
