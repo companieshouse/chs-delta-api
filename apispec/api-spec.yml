@@ -1,0 +1,19 @@
+openapi: 3.0.3
+info:
+  title: CHS Delta API
+  description: API specification for the chs-delta-api service
+  version: "1.0"
+
+paths:
+  /delta/officers:
+    $ref: 'officer-delta-spec.yml'
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: X-API-KEY
+      in: header
+
+security:
+  - ApiKeyAuth: []

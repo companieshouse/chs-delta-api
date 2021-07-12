@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"github.com/gorilla/mux"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -13,5 +14,14 @@ func TestUnitHealthCheck(t *testing.T) {
 		w := httptest.ResponseRecorder{}
 		healthCheck(&w, nil)
 		So(w.Code, ShouldEqual, http.StatusOK)
+	})
+}
+
+func TestRegister(t *testing.T) {
+	Convey("When we call the register function then all routes are registered", t, func() {
+		router := mux.NewRouter()
+		Register(router)
+		So(router.GetRoute("healthcheck"), ShouldNotBeNil)
+		So(router.GetRoute("officer-delta"), ShouldNotBeNil)
 	})
 }

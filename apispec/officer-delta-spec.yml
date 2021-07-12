@@ -1,0 +1,176 @@
+post:
+  summary: Accepts an incoming officer delta, transforms it into an avro schema and puts it onto a Kafka topic.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/Officer_delta'
+  responses:
+    '200':
+      description: Successfully produced message onto Kafka topic.
+    '400':
+      description: Bad request body - validation errors.
+    '401':
+      description: Unauthorised - missing api key in header.
+    '500':
+      description: Internal server error has occured.
+
+components:
+  schemas:
+    Officer_delta:
+      type: object
+      properties:
+        officers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Officer'
+        CreatedTime:
+          type: string
+        delta_at:
+          type: string
+      required:
+        - officers
+        - CreatedTime
+
+    Officer:
+      type: object
+      properties:
+        company_number:
+          type: string
+        changed_at:
+          type: string
+        kind:
+          type: string
+        internal_id:
+          type: string
+        appointment_date:
+          type: string
+        title:
+          type: string
+          maximum: 50
+        corporate_ind:
+          type: string
+          enum:
+            - Y
+            - N
+        surname:
+          type: string
+          maximum: 160
+        forename:
+          type: string
+          maximum: 50
+        middle_name:
+          type: string
+          maximum: 50
+        date_of_birth:
+          type: string
+        service_address_same_as_registered_address:
+          type: string
+          enum:
+            - Y
+            - N
+        nationality:
+          type: string
+          maximum: 50
+        occupation:
+          type: string
+          maximum: 100
+        officer_id:
+          type: string
+          maximum: 10
+        secure_director:
+          type: string
+          enum:
+            - Y
+            - N
+        officer_detail_id:
+          type: string
+          maximum: 10
+        officer_role:
+          type: string
+        ususal_residential_country:
+          type: string
+          maximum: 160
+        previous_name_array:
+          $ref: '#/components/schemas/Previous_name_array'
+        identification:
+          $ref: '#/components/schemas/Identification'
+        service_address:
+          $ref: '#/components/schemas/Address'
+        usual_residential_address:
+          $ref: '#/components/schemas/Address'
+      required:
+        - corporate_ind
+        - appointment_date
+        - service_address_same_as_registered_address
+        - officer_id
+        - officer_detail_id
+        - secure_director
+
+    Previous_name_array:
+      type: object
+      properties:
+        previous_surname:
+          type: string
+        previous_forename:
+          type: string
+        previous_timestamp:
+          type: string
+
+    Identification:
+      oneOf:
+        - properties:
+            EEA:
+              $ref: '#/components/schemas/EEA'
+            non_eea:
+              $ref: '#/components/schemas/EEA'
+            UK_limited_company:
+              $ref: '#/components/schemas/EEA'
+            other_corporate_body_or_firm:
+              $ref: '#/components/schemas/EEA'
+
+
+    EEA:
+      type: object
+      properties:
+        place_registered:
+          type: string
+          maximum: 160
+        registration_number:
+          type: string
+          maximum: 160
+        legal_authority:
+          type: string
+          maximum: 160
+        legal_form:
+          type: string
+          maximum: 160
+
+    Address:
+      type: object
+      properties:
+        premise:
+          type: string
+        address_line_1:
+          type: string
+          maximum: 250
+        address_line_2:
+          type: string
+        locality:
+          type: string
+        care_of:
+          type: string
+        region:
+          type: string
+        po_box:
+          type: string
+        supplied_company_name:
+          type: string
+        country:
+          type: string
+        postal_code:
+          type: string
+          maximum: 20
+        usual_country_of_residence:
+          type: string
