@@ -15,6 +15,14 @@ const (
 	schemaName = "chs-delta"
 )
 
+// Used for unit testing. By Adding variables which link to certain package level functions / methods, we can
+// override them during unit testing and change them to point to mock implementations to assert functionality.
+var (
+	callSchemaGet   = schema.Get
+	callProducerNew = producer.New
+	callSend        = sendViaProducer
+)
+
 // KafkaService defines all Methods needed to successfully send a message onto a Kafka topic.
 type KafkaService interface {
 	Init(cfg *config.Config) error
@@ -23,19 +31,21 @@ type KafkaService interface {
 
 // KafkaServiceImpl is a concrete implementation of the KafkaService interface.
 type KafkaServiceImpl struct {
-	Schema   string
-	Producer *producer.Producer
+	Schema string
+	P      *producer.Producer
 }
 
-// NewKafkaService constructs and returns a KafkaServiceImpl using a provided Config.
+// NewKafkaService returns a KafkaServiceImpl that isn't configured.
 func NewKafkaService() KafkaServiceImpl {
 	return KafkaServiceImpl{}
 }
 
+// Init initialises a KafkaService using a provided config.
 func (kSvc *KafkaServiceImpl) Init(cfg *config.Config) error {
+
 	// Retrieve the generic chs-delta avro schema.
 	log.Trace("Get schema from Avro", log.Data{"schema_name": schemaName})
-	sch, err := schema.Get(cfg.SchemaRegistryURL, schemaName)
+	sch, err := callSchemaGet(cfg.SchemaRegistryURL, schemaName)
 	if err != nil {
 		log.Error(fmt.Errorf("error receiving %s schema: %s", schemaName, err))
 		return err
@@ -44,14 +54,14 @@ func (kSvc *KafkaServiceImpl) Init(cfg *config.Config) error {
 
 	// Create a new Kafka Producer which will be used to publish our message onto a given Kafka topic.
 	log.Trace("Using Streaming Kafka broker Address", log.Data{"Brokers": cfg.BrokerAddr})
-	p, err := producer.New(&producer.Config{Acks: &producer.WaitForAll, BrokerAddrs: cfg.BrokerAddr})
+	p, err := callProducerNew(&producer.Config{Acks: &producer.WaitForAll, BrokerAddrs: cfg.BrokerAddr})
 	if err != nil {
 		log.Error(fmt.Errorf("error initialising producer: %s", err))
 		return err
 	}
 
 	kSvc.Schema = sch
-	kSvc.Producer = p
+	kSvc.P = p
 
 	return nil
 }
@@ -66,10 +76,8 @@ func (kSvc *KafkaServiceImpl) SendMessage(topic, data string) error {
 
 	// Construct a chs-delta using provided data.
 	deltaData := models.ChsDelta{
-		ContextId: "uu-aa-dd",
-		DeltaAt: 2014, // TODO: Should these be removed from the avro schema?
-		CreatedAt: "20140925104551", // TODO: Should these be removed from the avro schema?
-		Data: data,
+		ContextId: "uu-aa-dd", // TODO: Create contextId.
+		Data:      data,
 	}
 
 	// Marshall the chs-delta previously created into the avro schema and convert it to a []byte for sending.
@@ -86,8 +94,13 @@ func (kSvc *KafkaServiceImpl) SendMessage(topic, data string) error {
 	}
 
 	// Finally try to send the message.
-	partition, offset, err := kSvc.Producer.Send(producerMessage)
+	partition, offset, err := callSend(kSvc, producerMessage)
 	log.Info("Sending message", log.Data{"topic": producerMessage.Topic, "partition": partition, "offset": offset})
-	log.Trace("Sending message", log.Data{"message source": deltaData}) // TODO: Temp, we need to find a way not to output sensitive data.
+	log.Trace("Sending message", log.Data{"message source": deltaData}) // TODO: Don't log entire data blob
 	return err
+}
+
+// sendViaProducer is used to add an abstraction layer for unit testing when calling to send a message via a producer.
+func sendViaProducer(k *KafkaServiceImpl, msg *producer.Message) (int32, int64, error) {
+	return k.P.Send(msg)
 }
