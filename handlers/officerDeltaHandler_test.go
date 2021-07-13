@@ -39,6 +39,7 @@ const (
 	topic = "officer-delta"
 )
 
+// TestNewOfficerDeltaHandler asserts that the constructor for the OfficerDeltaHandler returns a fully configured handler.
 func TestNewOfficerDeltaHandler(t *testing.T) {
 
 	mockCtrl := gomock.NewController(t)
@@ -61,6 +62,8 @@ func TestNewOfficerDeltaHandler(t *testing.T) {
 	})
 }
 
+// TestOfficerDeltaHandlerFailsRequestBodyRetrieval asserts that when converting the request body fails, errors are
+// handled correctly and returned to the user with the correct status.
 func TestOfficerDeltaHandlerFailsRequestBodyRetrieval(t *testing.T) {
 
 	mockCtrl := gomock.NewController(t)
@@ -88,6 +91,7 @@ func TestOfficerDeltaHandlerFailsRequestBodyRetrieval(t *testing.T) {
 	})
 }
 
+// TestOfficerDeltaHandlerSuccessfullySends asserts that you can send a REST request onto a kafka topic with no errors.
 func TestOfficerDeltaHandlerSuccessfullySends(t *testing.T) {
 
 	mockCtrl := gomock.NewController(t)
@@ -116,6 +120,7 @@ func TestOfficerDeltaHandlerSuccessfullySends(t *testing.T) {
 	})
 }
 
+// TestOfficerDeltaHandlerFailsSend asserts that the officerDeltaHandler returns a bad request status when sending fails.
 func TestOfficerDeltaHandlerFailsSend(t *testing.T) {
 
 	mockCtrl := gomock.NewController(t)

@@ -18,6 +18,7 @@ const (
 {"name":"context_id","type":"string","doc":"Loggingcontextidusedtotracktherequestacrossservices"}]}`
 )
 
+// TestNewKafkaService asserts that the KafkaService constructor returns a non-nil reference to a KafkaServiceImpl.
 func TestNewKafkaService(t *testing.T) {
 	Convey("Given I want a new KafkaService", t, func() {
 		Ksvc := NewKafkaService()
@@ -28,6 +29,7 @@ func TestNewKafkaService(t *testing.T) {
 	})
 }
 
+// TestKafkaServiceInitSuccessful asserts that the Init method successfully creates and initialises a KafkaServiceImpl.
 func TestKafkaServiceInitSuccessful(t *testing.T) {
 
 	cfg, _ := config.Get()
@@ -51,6 +53,7 @@ func TestKafkaServiceInitSuccessful(t *testing.T) {
 	})
 }
 
+// TestKafkaServiceInitGetSchemaFails asserts that errors are captured and returned when retrieving a schema fails.
 func TestKafkaServiceInitGetSchemaFails(t *testing.T) {
 
 	cfg, _ := config.Get()
@@ -74,6 +77,7 @@ func TestKafkaServiceInitGetSchemaFails(t *testing.T) {
 	})
 }
 
+// TestKafkaServiceInitNewProducerFails asserts that errors are captured and returned when creating a producer fails.
 func TestKafkaServiceInitNewProducerFails(t *testing.T) {
 
 	cfg, _ := config.Get()
@@ -98,6 +102,7 @@ func TestKafkaServiceInitNewProducerFails(t *testing.T) {
 	})
 }
 
+// TestSendMessageSuccessfully asserts that when no errors occur, a message can be published onto a kafka topic.
 func TestSendMessageSuccessfully(t *testing.T) {
 	Convey("Given I have a Kafka service", t, func() {
 		k := NewKafkaService()
@@ -117,6 +122,7 @@ func TestSendMessageSuccessfully(t *testing.T) {
 	})
 }
 
+// TestSendMessageFailsSchemaMarshalling asserts that errors are handled and returned when marshalling a schema fails.
 func TestSendMessageFailsSchemaMarshalling(t *testing.T) {
 	Convey("Given I have a Kafka service", t, func() {
 		k := NewKafkaService()
@@ -133,6 +139,7 @@ func TestSendMessageFailsSchemaMarshalling(t *testing.T) {
 	})
 }
 
+// TestSendMessageFailsWithError asserts that errors are captured and returned when calling to send a message fails.
 func TestSendMessageFailsWithError(t *testing.T) {
 	Convey("Given I have a Kafka service", t, func() {
 		k := NewKafkaService()

@@ -12,6 +12,7 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
+// TestUnitHealthCheck asserts that the healthcheck endpoint correctly returns 200 when called.
 func TestUnitHealthCheck(t *testing.T) {
 	Convey("When I call the healthcheck endpoint, then I am given a 200 status", t, func() {
 		w := httptest.ResponseRecorder{}
@@ -20,6 +21,7 @@ func TestUnitHealthCheck(t *testing.T) {
 	})
 }
 
+// TestRegister asserts that all routes are correctly registered and can be called.
 func TestRegister(t *testing.T) {
 
 	mockCtrl := gomock.NewController(t)

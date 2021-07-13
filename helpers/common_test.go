@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	. "github.com/smartystreets/goconvey/convey"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"testing"
@@ -30,16 +31,17 @@ func TestGetDataFromRequestSuccess(t *testing.T) {
 
 //Used in error test for asserting error occurs
 type mockRequestError struct{}
-func (mockRequestError) Read(p []byte) (n int, err error) {
-	return 0, errors.New("error reading request")
-}
 
 // TestGetDataFromRequestError asserts that when reading of the request fails, it returns an empty string and error.
 func TestGetDataFromRequestError(t *testing.T) {
 
 	Convey("Given I pass a request into the GetDataFromRequest function", t, func() {
 
-		reqBody := http.Request{Body: ioutil.NopCloser(mockRequestError{})}
+		callReadAll = func (r io.Reader) ([]byte, error) {
+			return nil, errors.New("error getting data from request")
+		}
+
+		reqBody := http.Request{Body: ioutil.NopCloser(bytes.NewReader([]byte(requestExample)))}
 
 		h := NewHelper()
 		data, err := h.GetDataFromRequest(&reqBody)

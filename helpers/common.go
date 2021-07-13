@@ -5,13 +5,21 @@ import (
 	"net/http"
 )
 
+// Used for unit testing. Allows for redirecting to stubbed functions to assert correct behaviour.
+var (
+	callReadAll = ioutil.ReadAll
+)
+
+// Helper contains a list of all common functions.
 type Helper interface {
 	GetDataFromRequest(r *http.Request) (string, error)
 }
 
+// Impl directly implements the Helper interface.
 type Impl struct {
 }
 
+// NewHelper Returns an Impl.
 func NewHelper() Impl {
 	return Impl{}
 }
@@ -20,7 +28,7 @@ func NewHelper() Impl {
 func (h Impl) GetDataFromRequest(r *http.Request) (string, error) {
 
 	// Retrieve the request body.
-	data, err := ioutil.ReadAll(r.Body)
+	data, err := callReadAll(r.Body)
 	if err != nil {
 		return "", err
 	}
