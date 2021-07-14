@@ -29,9 +29,6 @@ func TestGetDataFromRequestSuccess(t *testing.T) {
 	})
 }
 
-//Used in error test for asserting error occurs
-type mockRequestError struct{}
-
 // TestGetDataFromRequestError asserts that when reading of the request fails, it returns an empty string and error.
 func TestGetDataFromRequestError(t *testing.T) {
 
