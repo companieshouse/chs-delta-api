@@ -36,7 +36,7 @@ const (
     	"delta_at" : "20140925171003950844"
 	}`
 
-	topic = "officer-delta"
+	topic = "officers-delta"
 )
 
 // TestNewOfficerDeltaHandler asserts that the constructor for the OfficerDeltaHandler returns a fully configured handler.

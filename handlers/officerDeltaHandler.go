@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	officerTopic = "officer-delta"
+	officersTopic = "officers-delta"
 )
 
 // OfficerDeltaHandler offers a handler by which to publish an office-delta onto the officer-delta kafka topic.
@@ -22,7 +22,7 @@ func NewOfficerDeltaHandler(kSvc services.KafkaService, h helpers.Helper) *Offic
 }
 
 // ServeHTTP accepts an incoming OfficerDelta request via a POST method, validates it
-// and then passes it to a Kafka service for further processing along with an officer-delta topic. If errors are
+// and then passes it to a Kafka service for further processing along with an officers-delta topic. If errors are
 // encountered then they will be returned via the ResponseWriter.
 func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
@@ -35,7 +35,7 @@ func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request)
 	}
 
 	// Send message to Kafka service for publishing.
-	if err := kp.KSvc.SendMessage(officerTopic, data); err != nil {
+	if err := kp.KSvc.SendMessage(officersTopic, data); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Send message: " + err.Error())) // TODO: Temp until we add the CH errors object
 		return

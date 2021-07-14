@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	topic  = "officer-delta"
+	topic  = "officers-delta"
 	data   = `{"test" : "value"}`
 	badSchema = `"bad_schema_value"`
 	s = `{"type":"record","namespace":"delta","name":"delta","doc":"SchemaforthedeltathatwillbeusedtotransferdatafromCHIPStoCHS.",
