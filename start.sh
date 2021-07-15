@@ -7,7 +7,7 @@ APP_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 if [[ -z "${MESOS_SLAVE_PID}" ]]; then
     source ~/.chs_env/private_env
     source ~/.chs_env/global_env
-    #source ~/.chs_env/chs-delta-api/env
+    source ~/.chs_env/chs-delta-api/env
 
     PORT="${CHS_DELTA_API_PORT}"
 else
@@ -25,7 +25,7 @@ else
     # wget -O "${APP_DIR}/app_env" "${CONFIG_URL}/${ENVIRONMENT}/${APP_NAME}/env"
     source "${APP_DIR}/private_env"
     source "${APP_DIR}/global_env"
-    #source "${APP_DIR}/app_env"
+    source "${APP_DIR}/app_env"
 fi
 
 # Read brokers from environment and split on comma
