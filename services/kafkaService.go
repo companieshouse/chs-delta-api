@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	schemaName = "chs-delta"
+	SchemaName = "chs-delta"
 )
 
 // Used for unit testing. By Adding variables which link to certain package level functions / methods, we can
@@ -31,7 +31,7 @@ type KafkaService interface {
 
 // KafkaServiceImpl is a concrete implementation of the KafkaService interface.
 type KafkaServiceImpl struct {
-	Schema string
+	schema string
 	P      *producer.Producer
 }
 
@@ -44,13 +44,13 @@ func NewKafkaService() KafkaServiceImpl {
 func (kSvc *KafkaServiceImpl) Init(cfg *config.Config) error {
 
 	// Retrieve the generic chs-delta avro schema.
-	log.Trace("Get schema from Avro", log.Data{"schema_name": schemaName})
-	sch, err := callSchemaGet(cfg.SchemaRegistryURL, schemaName)
+	log.Trace("Get schema from Avro", log.Data{"schema_name": SchemaName})
+	sch, err := callSchemaGet(cfg.SchemaRegistryURL, SchemaName)
 	if err != nil {
-		log.Error(fmt.Errorf("error receiving %s schema: %s", schemaName, err))
+		log.Error(fmt.Errorf("error receiving %s schema: %s", SchemaName, err))
 		return err
 	}
-	log.Trace("Successfully received schema", log.Data{"schema_name": schemaName})
+	log.Trace("Successfully received schema", log.Data{"schema_name": SchemaName})
 
 	// Create a new Kafka Producer which will be used to publish our message onto a given Kafka topic.
 	log.Trace("Using Streaming Kafka broker Address", log.Data{"Brokers": cfg.BrokerAddr})
@@ -60,7 +60,7 @@ func (kSvc *KafkaServiceImpl) Init(cfg *config.Config) error {
 		return err
 	}
 
-	kSvc.Schema = sch
+	kSvc.schema = sch
 	kSvc.P = p
 
 	return nil
@@ -71,7 +71,7 @@ func (kSvc *KafkaServiceImpl) SendMessage(topic, data string) error {
 
 	// Retrieve our chs-delta avro schema using the chs go avro package.
 	chsDeltaAvro := &avro.Schema{
-		Definition: kSvc.Schema,
+		Definition: kSvc.schema,
 	}
 
 	// Construct a chs-delta using provided data.

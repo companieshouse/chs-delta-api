@@ -54,8 +54,8 @@ func TestNewOfficerDeltaHandler(t *testing.T) {
 
 		So(officerHandler, ShouldNotBeNil)
 
-		So(officerHandler.KSvc, ShouldNotBeNil)
-		So(officerHandler.KSvc, ShouldEqual, svc)
+		So(officerHandler.kSvc, ShouldNotBeNil)
+		So(officerHandler.kSvc, ShouldEqual, svc)
 
 		So(officerHandler.h, ShouldNotBeNil)
 		So(officerHandler.h, ShouldEqual, h)
@@ -84,8 +84,8 @@ func TestOfficerDeltaHandlerFailsRequestBodyRetrieval(t *testing.T) {
 			handler := NewOfficerDeltaHandler(svc, h)
 			handler.ServeHTTP(resp, req)
 
-			Convey("Then the response should be 400 and an error returned", func() {
-				So(resp.Code, ShouldEqual, http.StatusBadRequest)
+			Convey("Then the response should be 500 and an error returned", func() {
+				So(resp.Code, ShouldEqual, http.StatusInternalServerError)
 			})
 		})
 	})

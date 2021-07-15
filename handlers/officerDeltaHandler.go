@@ -12,13 +12,13 @@ const (
 
 // OfficerDeltaHandler offers a handler by which to publish an office-delta onto the officer-delta kafka topic.
 type OfficerDeltaHandler struct {
-	KSvc services.KafkaService
+	kSvc services.KafkaService
 	h helpers.Helper
 }
 
 // NewOfficerDeltaHandler returns an OfficerDeltaHandler.
 func NewOfficerDeltaHandler(kSvc services.KafkaService, h helpers.Helper) *OfficerDeltaHandler {
-	return &OfficerDeltaHandler{KSvc: kSvc, h: h}
+	return &OfficerDeltaHandler{kSvc: kSvc, h: h}
 }
 
 // ServeHTTP accepts an incoming OfficerDelta request via a POST method, validates it
@@ -29,15 +29,13 @@ func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request)
 	// Get request body.
 	data, err := kp.h.GetDataFromRequest(r)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Error retrieving request body: " + err.Error())) // TODO: Temp until we add the CH errors object
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	// Send message to Kafka service for publishing.
-	if err := kp.KSvc.SendMessage(officersTopic, data); err != nil {
+	if err := kp.kSvc.SendMessage(officersTopic, data); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("Send message: " + err.Error())) // TODO: Temp until we add the CH errors object
 		return
 	}
 

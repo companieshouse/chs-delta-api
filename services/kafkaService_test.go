@@ -9,10 +9,10 @@ import (
 )
 
 const (
-	topic  = "officers-delta"
-	data   = `{"test" : "value"}`
-	badSchema = `"bad_schema_value"`
-	s = `{"type":"record","namespace":"delta","name":"delta","doc":"SchemaforthedeltathatwillbeusedtotransferdatafromCHIPStoCHS.",
+	Topic      = "officers-delta"
+	Data       = `{"test" : "value"}`
+	BadSchema  = `"bad_schema_value"`
+	GoodSchema = `{"type":"record","namespace":"delta","name":"delta","doc":"SchemaforthedeltathatwillbeusedtotransferdatafromCHIPStoCHS.",
 "fields":[{"name":"data","type":"string","doc":"PayloadthatwillbetransferredfromCHIPStoCHSviaKafka"},
 {"name":"attempt","type":"int","default":0,"doc":"NumberofattemptstoretrypublishingthemessagetoKafkaTopic"},
 {"name":"context_id","type":"string","doc":"Loggingcontextidusedtotracktherequestacrossservices"}]}`
@@ -21,10 +21,10 @@ const (
 // TestNewKafkaService asserts that the KafkaService constructor returns a non-nil reference to a KafkaServiceImpl.
 func TestNewKafkaService(t *testing.T) {
 	Convey("Given I want a new KafkaService", t, func() {
-		Ksvc := NewKafkaService()
+		k := NewKafkaService()
 
 		Convey("Then I am given a service back that is not nil", func() {
-			So(Ksvc, ShouldNotBeNil)
+			So(k, ShouldNotBeNil)
 		})
 	})
 }
@@ -106,14 +106,14 @@ func TestKafkaServiceInitNewProducerFails(t *testing.T) {
 func TestSendMessageSuccessfully(t *testing.T) {
 	Convey("Given I have a Kafka service", t, func() {
 		k := NewKafkaService()
-		k.Schema = s
+		k.schema = GoodSchema
 
 		Convey("When I call to send a message via the producer", func() {
 			callSend = func(k *KafkaServiceImpl, msg *producer.Message) (int32, int64, error) {
 				return int32(0), int64(0), nil
 			}
 
-			err := k.SendMessage(topic, data)
+			err := k.SendMessage(Topic, Data)
 
 			Convey("Then there are no errors", func() {
 				So(err, ShouldBeNil)
@@ -126,11 +126,11 @@ func TestSendMessageSuccessfully(t *testing.T) {
 func TestSendMessageFailsSchemaMarshalling(t *testing.T) {
 	Convey("Given I have a Kafka service", t, func() {
 		k := NewKafkaService()
-		k.Schema = badSchema
+		k.schema = BadSchema
 
 		Convey("When I call to send a message via the producer", func() {
 
-			err := k.SendMessage(topic, data)
+			err := k.SendMessage(Topic, Data)
 
 			Convey("Then there are errors returned", func() {
 				So(err, ShouldNotBeNil)
@@ -143,14 +143,14 @@ func TestSendMessageFailsSchemaMarshalling(t *testing.T) {
 func TestSendMessageFailsWithError(t *testing.T) {
 	Convey("Given I have a Kafka service", t, func() {
 		k := NewKafkaService()
-		k.Schema = s
+		k.schema = GoodSchema
 
 		Convey("When I call to send a message via the producer", func() {
 			callSend = func(k *KafkaServiceImpl, msg *producer.Message) (int32, int64, error) {
 				return int32(0), int64(0), errors.New("error sending to kafka producer")
 			}
 
-			err := k.SendMessage(topic, data)
+			err := k.SendMessage(Topic, Data)
 
 			Convey("Then there are errors returned", func() {
 				So(err, ShouldNotBeNil)
