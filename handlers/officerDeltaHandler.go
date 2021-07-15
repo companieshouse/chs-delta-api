@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	officersTopic = "officers-delta"
+	OfficersTopic = "officers-delta"
 )
 
 // OfficerDeltaHandler offers a handler by which to publish an office-delta onto the officer-delta kafka topic.
@@ -34,7 +34,7 @@ func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request)
 	}
 
 	// Send message to Kafka service for publishing.
-	if err := kp.kSvc.SendMessage(officersTopic, data); err != nil {
+	if err := kp.kSvc.SendMessage(OfficersTopic, data); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
