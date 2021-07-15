@@ -43,20 +43,15 @@ func NewKafkaService() KafkaServiceImpl {
 // Init initialises a KafkaService using a provided config.
 func (kSvc *KafkaServiceImpl) Init(cfg *config.Config) error {
 
-	// Retrieve the generic chs-delta avro schema.
-	log.Trace("Get schema from Avro", log.Data{"schema_name": SchemaName})
-	sch, err := callSchemaGet(cfg.SchemaRegistryURL, SchemaName)
+	// Initialise the avro schema.
+	sch, err := initSchema(cfg)
 	if err != nil {
-		log.Error(fmt.Errorf("error receiving %s schema: %s", SchemaName, err))
 		return err
 	}
-	log.Trace("Successfully received schema", log.Data{"schema_name": SchemaName})
 
-	// Create a new Kafka Producer which will be used to publish our message onto a given Kafka topic.
-	log.Trace("Using Streaming Kafka broker Address", log.Data{"Brokers": cfg.BrokerAddr})
-	p, err := callProducerNew(&producer.Config{Acks: &producer.WaitForAll, BrokerAddrs: cfg.BrokerAddr})
+	// Initialise the kafka producer.
+	p, err := initProducer(cfg)
 	if err != nil {
-		log.Error(fmt.Errorf("error initialising producer: %s", err))
 		return err
 	}
 
@@ -64,6 +59,30 @@ func (kSvc *KafkaServiceImpl) Init(cfg *config.Config) error {
 	kSvc.P = p
 
 	return nil
+}
+
+func initSchema(cfg *config.Config) (string, error) {
+	// Retrieve the generic chs-delta avro schema.
+	log.Trace("Get schema from Avro", log.Data{"schema_name": SchemaName})
+	sch, err := callSchemaGet(cfg.SchemaRegistryURL, SchemaName)
+	if err != nil {
+		log.Error(fmt.Errorf("error receiving %s schema: %s", SchemaName, err))
+		return "", err
+	}
+	log.Trace("Successfully received schema", log.Data{"schema_name": SchemaName})
+	return sch, nil
+}
+
+func initProducer(cfg *config.Config) (*producer.Producer, error) {
+	// Create a new Kafka Producer which will be used to publish our message onto a given Kafka topic.
+	log.Trace("Using Streaming Kafka broker Address", log.Data{"Brokers": cfg.BrokerAddr})
+	p, err := callProducerNew(&producer.Config{Acks: &producer.WaitForAll, BrokerAddrs: cfg.BrokerAddr})
+	if err != nil {
+		log.Error(fmt.Errorf("error initialising producer: %s", err))
+		return nil, err
+	}
+
+	return p, nil
 }
 
 // SendMessage publishes a given data string retrieved from a REST request onto a chosen Kafka topic.

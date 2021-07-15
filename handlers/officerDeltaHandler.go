@@ -3,6 +3,7 @@ package handlers
 import (
 	"github.com/companieshouse/chs-delta-api/helpers"
 	"github.com/companieshouse/chs-delta-api/services"
+	"github.com/companieshouse/chs.go/log"
 	"net/http"
 )
 
@@ -35,7 +36,8 @@ func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request)
 
 	// Send message to Kafka service for publishing.
 	if err := kp.kSvc.SendMessage(OfficersTopic, data); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		log.Error(err)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 

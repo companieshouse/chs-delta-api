@@ -142,8 +142,8 @@ func TestOfficerDeltaHandlerFailsSend(t *testing.T) {
 			handler := NewOfficerDeltaHandler(svc, h)
 			handler.ServeHTTP(resp, req)
 
-			Convey("Then the response should be 400 and an error returned", func() {
-				So(resp.Code, ShouldEqual, http.StatusBadRequest)
+			Convey("Then the response should be 500 and an error returned", func() {
+				So(resp.Code, ShouldEqual, http.StatusInternalServerError)
 			})
 		})
 	})
