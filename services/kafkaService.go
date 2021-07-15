@@ -69,13 +69,13 @@ func initSchema(cfg *config.Config) (string, error) {
 		log.Error(fmt.Errorf("error receiving %s schema: %s", SchemaName, err))
 		return "", err
 	}
-	log.Trace("Successfully received schema", log.Data{"schema_name": SchemaName})
+	log.Info("Successfully received schema", log.Data{"schema_name": SchemaName})
 	return sch, nil
 }
 
 func initProducer(cfg *config.Config) (*producer.Producer, error) {
 	// Create a new Kafka Producer which will be used to publish our message onto a given Kafka topic.
-	log.Trace("Using Streaming Kafka broker Address", log.Data{"Brokers": cfg.BrokerAddr})
+	log.Info("Using Streaming Kafka broker Address", log.Data{"Brokers": cfg.BrokerAddr})
 	p, err := callProducerNew(&producer.Config{Acks: &producer.WaitForAll, BrokerAddrs: cfg.BrokerAddr})
 	if err != nil {
 		log.Error(fmt.Errorf("error initialising producer: %s", err))

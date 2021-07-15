@@ -22,7 +22,7 @@ func Register(mainRouter *mux.Router, cfg *config.Config, kSvc services.KafkaSer
 
 	// Register endpoints for service.
 	mainRouter.HandleFunc("/delta/healthcheck", healthCheck).Methods(http.MethodGet).Name("healthcheck")
-	mainRouter.HandleFunc("/delta/officers", NewOfficerDeltaHandler(kSvc, h).ServeHTTP).Methods(http.MethodPost).Name("officer-delta")
+	mainRouter.HandleFunc("/delta/officers", NewOfficerDeltaHandler(kSvc, h, cfg).ServeHTTP).Methods(http.MethodPost).Name("officer-delta")
 	mainRouter.Use(log.Handler)
 
 	return nil

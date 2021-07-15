@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"fmt"
 	"github.com/companieshouse/chs.go/log"
 	"io/ioutil"
 	"net/http"
@@ -31,7 +32,7 @@ func (h Impl) GetDataFromRequest(r *http.Request) (string, error) {
 	// Retrieve the request body.
 	data, err := callReadAll(r.Body)
 	if err != nil {
-		log.Error(err)
+		log.Error(fmt.Errorf("error retrieve the Body from a given request and convert it into a string : %s", err), nil)
 		return "", err
 	}
 

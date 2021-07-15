@@ -3,6 +3,7 @@ package handlers
 import (
 	"bytes"
 	"errors"
+	"github.com/companieshouse/chs-delta-api/config"
 	hMocks "github.com/companieshouse/chs-delta-api/helpers/mocks"
 	sMocks "github.com/companieshouse/chs-delta-api/services/mocks"
 	"github.com/golang/mock/gomock"
@@ -49,8 +50,9 @@ func TestNewOfficerDeltaHandler(t *testing.T) {
 
 		svc := sMocks.NewMockKafkaService(mockCtrl)
 		h := hMocks.NewMockHelper(mockCtrl)
+		cfg, _ := config.Get()
 
-		officerHandler := NewOfficerDeltaHandler(svc, h)
+		officerHandler := NewOfficerDeltaHandler(svc, h, cfg)
 
 		So(officerHandler, ShouldNotBeNil)
 
@@ -78,10 +80,11 @@ func TestOfficerDeltaHandlerFailsRequestBodyRetrieval(t *testing.T) {
 
 			h := hMocks.NewMockHelper(mockCtrl)
 			svc := sMocks.NewMockKafkaService(mockCtrl)
+			cfg, _ := config.Get()
 
 			h.EXPECT().GetDataFromRequest(req).Return("", errors.New("error converting request body"))
 
-			handler := NewOfficerDeltaHandler(svc, h)
+			handler := NewOfficerDeltaHandler(svc, h, cfg)
 			handler.ServeHTTP(resp, req)
 
 			Convey("Then the response should be 500 and an error returned", func() {
@@ -106,11 +109,12 @@ func TestOfficerDeltaHandlerSuccessfullySends(t *testing.T) {
 
 			h := hMocks.NewMockHelper(mockCtrl)
 			svc := sMocks.NewMockKafkaService(mockCtrl)
+			cfg, _ := config.Get()
 
 			h.EXPECT().GetDataFromRequest(req).Return(requestBody, nil)
 			svc.EXPECT().SendMessage(topic, requestBody).Return(nil)
 
-			handler := NewOfficerDeltaHandler(svc, h)
+			handler := NewOfficerDeltaHandler(svc, h, cfg)
 			handler.ServeHTTP(resp, req)
 
 			Convey("Then the response should be 200", func() {
@@ -135,11 +139,12 @@ func TestOfficerDeltaHandlerFailsSend(t *testing.T) {
 
 			h := hMocks.NewMockHelper(mockCtrl)
 			svc := sMocks.NewMockKafkaService(mockCtrl)
+			cfg, _ := config.Get()
 
 			h.EXPECT().GetDataFromRequest(req).Return(requestBody, nil)
 			svc.EXPECT().SendMessage(topic, requestBody).Return(errors.New("error sending message"))
 
-			handler := NewOfficerDeltaHandler(svc, h)
+			handler := NewOfficerDeltaHandler(svc, h, cfg)
 			handler.ServeHTTP(resp, req)
 
 			Convey("Then the response should be 500 and an error returned", func() {

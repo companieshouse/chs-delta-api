@@ -30,11 +30,11 @@ func TestRegister(t *testing.T) {
 	Convey("When we call the register function then all routes are registered", t, func() {
 		router := mux.NewRouter()
 		cfg, _ := config.Get()
-		Ksvc := mocks.NewMockKafkaService(mockCtrl)
+		kSvc := mocks.NewMockKafkaService(mockCtrl)
 
-		Ksvc.EXPECT().Init(cfg).Return(nil)
+		kSvc.EXPECT().Init(cfg).Return(nil)
 
-		err := Register(router, cfg, Ksvc)
+		err := Register(router, cfg, kSvc)
 		So(router.GetRoute("healthcheck"), ShouldNotBeNil)
 		So(router.GetRoute("officer-delta"), ShouldNotBeNil)
 		So(err, ShouldBeNil)

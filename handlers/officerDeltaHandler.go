@@ -1,25 +1,24 @@
 package handlers
 
 import (
+	"fmt"
+	"github.com/companieshouse/chs-delta-api/config"
 	"github.com/companieshouse/chs-delta-api/helpers"
 	"github.com/companieshouse/chs-delta-api/services"
 	"github.com/companieshouse/chs.go/log"
 	"net/http"
 )
 
-const (
-	OfficersTopic = "officers-delta"
-)
-
 // OfficerDeltaHandler offers a handler by which to publish an office-delta onto the officer-delta kafka topic.
 type OfficerDeltaHandler struct {
 	kSvc services.KafkaService
 	h helpers.Helper
+	cfg *config.Config
 }
 
 // NewOfficerDeltaHandler returns an OfficerDeltaHandler.
-func NewOfficerDeltaHandler(kSvc services.KafkaService, h helpers.Helper) *OfficerDeltaHandler {
-	return &OfficerDeltaHandler{kSvc: kSvc, h: h}
+func NewOfficerDeltaHandler(kSvc services.KafkaService, h helpers.Helper, cfg *config.Config) *OfficerDeltaHandler {
+	return &OfficerDeltaHandler{kSvc: kSvc, h: h, cfg: cfg}
 }
 
 // ServeHTTP accepts an incoming OfficerDelta request via a POST method, validates it
@@ -35,8 +34,8 @@ func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request)
 	}
 
 	// Send message to Kafka service for publishing.
-	if err := kp.kSvc.SendMessage(OfficersTopic, data); err != nil {
-		log.Error(err)
+	if err := kp.kSvc.SendMessage(kp.cfg.OfficerDeltaTopic, data); err != nil {
+		log.Error(fmt.Errorf("error sending the message to the given kafka topic %s: %s", kp.cfg.OfficerDeltaTopic, err), nil)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
