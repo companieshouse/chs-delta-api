@@ -2,7 +2,7 @@ CHS_ENV_HOME ?= $(HOME)/.chs_env
 TESTS        ?= ./...
 
 bin          := chs-delta-api
-chs_envs     := $(CHS_ENV_HOME)/global_env #$(CHS_ENV_HOME)/chs-delta-api/env
+chs_envs     := $(CHS_ENV_HOME)/global_env $(CHS_ENV_HOME)/chs-delta-api/env
 source_env   := for chs_env in $(chs_envs); do test -f $$chs_env && . $$chs_env; done
 xunit_output := test.xml
 lint_output  := lint.txt
