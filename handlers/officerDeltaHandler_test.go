@@ -38,6 +38,8 @@ const (
 	}`
 
 	topic = "officers-delta"
+	openApiSpec = "./api-spec/api-spec.yml"
+
 )
 
 // TestNewOfficerDeltaHandler asserts that the constructor for the OfficerDeltaHandler returns a fully configured handler.

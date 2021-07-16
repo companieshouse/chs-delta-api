@@ -5,6 +5,7 @@ import (
 	"github.com/companieshouse/chs-delta-api/config"
 	"github.com/companieshouse/chs-delta-api/helpers"
 	"github.com/companieshouse/chs-delta-api/services"
+	"github.com/companieshouse/chs-delta-api/validation"
 	"github.com/companieshouse/chs.go/log"
 	"net/http"
 )
@@ -25,6 +26,15 @@ func NewOfficerDeltaHandler(kSvc services.KafkaService, h helpers.Helper, cfg *c
 // and then passes it to a Kafka service for further processing along with an officers-delta topic. If errors are
 // encountered then they will be returned via the ResponseWriter.
 func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+
+	log.Info(fmt.Sprintf("Open API spec to use: %s", kp.cfg.OpenApiSpec), nil)
+
+	errValidation := validation.ValidateRequestAgainstOpenApiSpec(r, kp.cfg.OpenApiSpec)
+	if errValidation != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write(errValidation)
+		return
+	}
 
 	// Get request body.
 	data, err := kp.h.GetDataFromRequest(r)

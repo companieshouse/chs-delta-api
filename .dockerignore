@@ -5,6 +5,7 @@
 !services/
 !models/
 !helpers/
+!validation/
 !go.mod
 !go.sum
 !main.go
