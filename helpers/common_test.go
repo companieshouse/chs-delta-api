@@ -34,7 +34,7 @@ func TestGetDataFromRequestError(t *testing.T) {
 
 	Convey("Given I pass a request into the GetDataFromRequest function", t, func() {
 
-		callReadAll = func (r io.Reader) ([]byte, error) {
+		callReadAll = func(r io.Reader) ([]byte, error) {
 			return nil, errors.New("error getting data from request")
 		}
 
