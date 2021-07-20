@@ -10,6 +10,7 @@ import (
 
 var cfg *Config
 var mtx sync.Mutex
+var mandatoryElementMissing bool
 
 // Config defines the configuration options for this service.
 type Config struct {
@@ -23,7 +24,6 @@ type Config struct {
 func Get() (*Config, error) {
 	mtx.Lock()
 	defer mtx.Unlock()
-	var mandatoryElementMissing bool
 
 	if cfg != nil {
 		return cfg, nil
@@ -47,7 +47,7 @@ func Get() (*Config, error) {
 
 func validateConfigs(cfg *Config ) bool {
 
-	mandatoryElementMissing := false
+	mandatoryElementMissing = false
 
 	if cfg.BindAddr == "" {
 		log.Info("BIND_ADDR not set in environment")
