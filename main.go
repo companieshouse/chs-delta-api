@@ -24,6 +24,7 @@ func main() {
 	cfg, err := config.Get()
 	if err != nil {
 		log.Error(fmt.Errorf("error configuring service: %s. Exiting", err), nil)
+		os.Exit(1)
 		return
 	}
 
