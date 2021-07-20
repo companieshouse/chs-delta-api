@@ -12,8 +12,8 @@ import (
 // OfficerDeltaHandler offers a handler by which to publish an office-delta onto the officer-delta kafka topic.
 type OfficerDeltaHandler struct {
 	kSvc services.KafkaService
-	h helpers.Helper
-	cfg *config.Config
+	h    helpers.Helper
+	cfg  *config.Config
 }
 
 // NewOfficerDeltaHandler returns an OfficerDeltaHandler.
