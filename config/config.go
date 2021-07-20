@@ -23,7 +23,7 @@ type Config struct {
 func Get() (*Config, error) {
 	mtx.Lock()
 	defer mtx.Unlock()
-	mandatoryElementMissing := false
+	var mandatoryElementMissing bool
 
 	if cfg != nil {
 		return cfg, nil
