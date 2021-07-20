@@ -4,10 +4,10 @@ import (
 	"os"
 	"testing"
 )
-func TestGetGoFigureErrors(t *testing.T) {
+func TestGetHasErrors(t *testing.T) {
 	Convey("When I try to get the config via the Get method", t, func(){
 		cfg, err := Get()
-		Convey("Then I am given an error when calling go figure and it is handled correctly", func() {
+		Convey("Then I am given an error when config validation function is executed", func() {
 			So(cfg, ShouldBeNil)
 			So(err, ShouldNotBeNil)
 		})

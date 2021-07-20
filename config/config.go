@@ -15,7 +15,7 @@ var mandatoryElementMissing bool
 // Config defines the configuration options for this service.
 type Config struct {
 	BindAddr          string    `env:"BIND_ADDR" flag:"bind-addr" flagDesc:"Bind address"`
-	BrokerAddr        []string  `env:"KAFKA_BROKER_ADDR" flag:"broker-addr" flagDesc:"Kafka broker address (Comma separated list if there are more than one addresses)"`
+	BrokerAddr        []string  `env:"KAFKA_BROKER_ADDR" flag:"broker-addr" flagDesc:"Kafka broker address (Comma separated list if there is more than one address"`
 	SchemaRegistryURL string    `env:"SCHEMA_REGISTRY_URL" flag:"schema-registry-url" flagDesc:"URL for Kafka Schema Registry"`
 	OfficerDeltaTopic string 	`env:"OFFICER_DELTA_TOPIC" flag:"officer-delta-topic" flagDesc:"Topic for officer deltas"`
 	OpenApiSpec		  string    `env:"OPEN_API_SPEC" flag:"open-api-spec" flagDesc:"OpenAPI schema location"`
