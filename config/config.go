@@ -3,8 +3,8 @@ package config
 
 import (
 	"errors"
+	"github.com/companieshouse/chs.go/log"
 	"github.com/companieshouse/gofigure"
-	"log"
 	"sync"
 )
 
@@ -38,27 +38,27 @@ func Get() (*Config, error) {
 	}
 
 	if cfg.BindAddr == "" {
-		log.Printf("BIND_ADDR not set in environment")
+		log.Info("BIND_ADDR not set in environment")
 		mandatoryElementMissing = true
 	}
 
 	if len(cfg.BrokerAddr) == 0 {
-		log.Printf("KAFKA_BROKER_ADDR not set in environment")
+		log.Info("KAFKA_BROKER_ADDR not set in environment")
 		mandatoryElementMissing = true
 	}
 
 	if cfg.SchemaRegistryURL == "" {
-		log.Printf("SCHEMA_REGISTRY_URL not set in environment")
+		log.Info("SCHEMA_REGISTRY_URL not set in environment")
 		mandatoryElementMissing = true
 	}
 
 	if cfg.OfficerDeltaTopic == "" {
-		log.Printf("OFFICER_DELTA_TOPIC not set in environment")
+		log.Info("OFFICER_DELTA_TOPIC not set in environment")
 		mandatoryElementMissing = true
 	}
 
 	if cfg.OpenApiSpec == "" {
-		log.Printf("OPEN_API_SPEC not set in environment")
+		log.Info("OPEN_API_SPEC not set in environment")
 		mandatoryElementMissing = true
 	}
 
