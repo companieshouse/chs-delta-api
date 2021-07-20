@@ -1,6 +1,18 @@
 # chs-delta-api
 Service to send delta events from CHIPS on the correct kafka topic
 
+Environment Variables
+-----------------
+
+|  Variable                         |  Example                          |  Description                                       |
+| --------------------------------- | --------------------------------- | -------------------------------------------------- |
+| BIND_ADDR                         | 5010                              | Bind Address                                       |
+| KAFKA_BROKER_ADDR                 | chs-kafka:9092                      | Kafka broker address (can be comma separated)    |
+| SCHEMA_REGISTRY_URL               | http://chs-kafka:8081             | Schema registry URL                                |
+| OFFICER_DELTA_TOPIC               | officer-delta                     | Kafka topic to write messages to                   |
+| OPEN_API_SPEC                     | ./schema/officers                 | OpenAPI schema location                            |
+
+
 ## Running Locally with Docker CHS
 Clone Docker CHS Development and follow the steps in the README.
 
