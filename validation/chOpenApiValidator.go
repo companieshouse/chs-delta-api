@@ -11,7 +11,7 @@ import (
 	"path/filepath"
 )
 
-func ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec string) []byte {
+func ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec string) ([]byte, error) {
 
 	// Get the Open API 3 validation schema location.
 	ctx := context.Background()
@@ -19,30 +19,33 @@ func ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec string
 	abs, err := filepath.Abs(openApiSpec)
 	if err != nil {
 		log.Error(fmt.Errorf("error occured while retrieving absolute path of validation schema file: %s", err))
-		return nil
+		return nil, err
 	}
 	log.Info(fmt.Sprintf("Retrieved absolute path of validation schema: %s", abs))
 
 	// Load the validation schema.
-	doc, _ := loader.LoadFromFile(abs)
-	if doc != nil {
+	doc, err := loader.LoadFromFile(abs)
+	if err != nil {
+		log.Error(fmt.Errorf("unable to open Open API spec: %s", openApiSpec), nil)
+		return nil, err
+	} else {
 		if err := doc.Validate(ctx); err != nil {
 			log.Error(fmt.Errorf("error occured while trying to call kin-openAPI validation method: %s", err))
-			return nil
+			return nil, err
 		}
 
 		// Initialise router to later retrieve routes to validate against.
 		r, err := router.NewRouter(doc)
 		if err != nil {
 			log.Error(fmt.Errorf("error occured while initialising router for validation: %s", err))
-			return nil
+			return nil, err
 		}
 
 		// Find routes using the given http request.
 		route, pathParams, err := r.FindRoute(httpReq)
 		if err != nil {
 			log.Error(fmt.Errorf("error occured while finding routes for given http request: %s", err))
-			return nil
+			return nil, err
 		}
 
 		// Enable MultiError's to be returned so that if more than one error is found, it will return them all.
@@ -62,11 +65,10 @@ func ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec string
 		log.Info("Validating request...", nil)
 		if err := openapi3filter.ValidateRequest(ctx, requestValidationInput); err != nil {
 			// If errors are found in the request format them and return them.
-			return FormatError(err)
+			return FormatError(err), nil
 		}
-	} else {
-		log.Error(fmt.Errorf("unable to open Open API spec: %s", openApiSpec), nil)
-	}
 
-	return nil
+		// If we reach this point, then no validation errors were found.
+		return nil, nil
+	}
 }

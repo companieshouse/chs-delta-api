@@ -55,7 +55,12 @@ func FormatError(err error) []byte {
 		}
 	}
 
-	// Format the array into a JSON object for better viewing.
+	// If no errors were found then we can return nil here.
+	if len(errorsArr) == 0 {
+		return nil
+	}
+
+	// If errors do exist, format the array into a JSON object for better viewing.
 	mr, err := json.Marshal(errorsArr)
 	if err != nil {
 		log.Error(fmt.Errorf("error occured while formatting CHError array into JSON object: %s", err))

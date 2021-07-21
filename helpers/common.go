@@ -32,7 +32,7 @@ func (h Impl) GetDataFromRequest(r *http.Request) (string, error) {
 	// Retrieve the request body.
 	data, err := callReadAll(r.Body)
 	if err != nil {
-		log.Error(fmt.Errorf("error retrieve the Body from a given request and convert it into a string : %s", err), nil)
+		log.Error(fmt.Errorf("error while retrieving the Body from a given request and converting it into a string : %s", err), nil)
 		return "", err
 	}
 
