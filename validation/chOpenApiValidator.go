@@ -14,6 +14,13 @@ import (
 	"strings"
 )
 
+// Used for unit testing and mocking calls to external functions/methods.
+var (
+	callFilepathAbs = filepath.Abs
+	callNewRouter = router.NewRouter
+	callOpenApiFilterValidateRequest = openapi3filter.ValidateRequest
+)
+
 // CHValidator provides an interface to interact with the CH Validator.
 type CHValidator interface {
 	ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec string) ([]byte, error)
@@ -36,7 +43,7 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 	// Get the Open API 3 validation schema location.
 	ctx := context.Background()
 	loader := &openapi3.Loader{Context: ctx, IsExternalRefsAllowed: true}
-	abs, err := filepath.Abs(openApiSpec)
+	abs, err := callFilepathAbs(openApiSpec)
 	if err != nil {
 		log.Error(fmt.Errorf("error occured while retrieving absolute path of validation schema file: %s", err))
 		return nil, err
@@ -55,7 +62,7 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 		}
 
 		// Initialise router to later retrieve routes to validate against.
-		r, err := router.NewRouter(doc)
+		r, err := callNewRouter(doc)
 		if err != nil {
 			log.Error(fmt.Errorf("error occured while initialising router for validation: %s", err))
 			return nil, err
@@ -83,7 +90,7 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 		openapi3.SchemaErrorDetailsDisabled = true
 
 		log.Info("Validating request...", nil)
-		if err := openapi3filter.ValidateRequest(ctx, requestValidationInput); err != nil {
+		if err := callOpenApiFilterValidateRequest(ctx, requestValidationInput); err != nil {
 			// If errors are found in the request format them and return them.
 			return chv.formatError(err), nil
 		}
