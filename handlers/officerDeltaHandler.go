@@ -14,12 +14,13 @@ import (
 type OfficerDeltaHandler struct {
 	kSvc services.KafkaService
 	h    helpers.Helper
+	chv validation.CHValidator
 	cfg  *config.Config
 }
 
 // NewOfficerDeltaHandler returns an OfficerDeltaHandler.
-func NewOfficerDeltaHandler(kSvc services.KafkaService, h helpers.Helper, cfg *config.Config) *OfficerDeltaHandler {
-	return &OfficerDeltaHandler{kSvc: kSvc, h: h, cfg: cfg}
+func NewOfficerDeltaHandler(kSvc services.KafkaService, h helpers.Helper, chv validation.CHValidator, cfg *config.Config) *OfficerDeltaHandler {
+	return &OfficerDeltaHandler{kSvc: kSvc, h: h, chv: chv, cfg: cfg}
 }
 
 // ServeHTTP accepts an incoming OfficerDelta request via a POST method, validates it
@@ -30,7 +31,7 @@ func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request)
 	log.Info(fmt.Sprintf("Open API spec to use: %s", kp.cfg.OpenApiSpec), nil)
 
 	// Validate against the open API 3 spec before progressing any further.
-	errValidation, err := validation.ValidateRequestAgainstOpenApiSpec(r, kp.cfg.OpenApiSpec)
+	errValidation, err := kp.chv.ValidateRequestAgainstOpenApiSpec(r, kp.cfg.OpenApiSpec)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Error(fmt.Errorf("error occured while trying to validate request: %s", err))
@@ -41,6 +42,8 @@ func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request)
 		if err != nil {
 			log.Error(fmt.Errorf("error occured while trying to write response: %s", err))
 		}
+
+		return
 	}
 
 	// Get request body and marshal into a string, ready for publishing.

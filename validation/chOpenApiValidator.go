@@ -2,16 +2,36 @@ package validation
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"github.com/companieshouse/chs-delta-api/models"
 	"github.com/companieshouse/chs.go/log"
 	"github.com/getkin/kin-openapi/openapi3"
 	"github.com/getkin/kin-openapi/openapi3filter"
 	router "github.com/getkin/kin-openapi/routers/gorillamux"
 	"net/http"
 	"path/filepath"
+	"strings"
 )
 
-func ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec string) ([]byte, error) {
+// CHValidator provides an interface to interact with the CH Validator.
+type CHValidator interface {
+	ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec string) ([]byte, error)
+}
+
+// CHValidatorImpl is a concrete implementation of the CHValidator interface.
+type CHValidatorImpl struct {
+}
+
+// NewCHValidator returns a new CHValidator implementation.
+func NewCHValidator() CHValidator {
+	return CHValidatorImpl{}
+}
+
+// ValidateRequestAgainstOpenApiSpec takes a request and an openAPI spec location (string relative path) and uses the
+// spec to validate the provided request. If any validation errors are found, then they are formatted and returned to the
+// caller. If any errors are encountered while attempting to validate, they are handled and also returned to the caller.
+func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec string) ([]byte, error) {
 
 	// Get the Open API 3 validation schema location.
 	ctx := context.Background()
@@ -65,10 +85,63 @@ func ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec string
 		log.Info("Validating request...", nil)
 		if err := openapi3filter.ValidateRequest(ctx, requestValidationInput); err != nil {
 			// If errors are found in the request format them and return them.
-			return FormatError(err), nil
+			return chv.formatError(err), nil
 		}
 
 		// If we reach this point, then no validation errors were found.
 		return nil, nil
 	}
+}
+
+func (chv CHValidatorImpl) formatError(err error) []byte {
+	var errorsArr []models.CHError
+
+	// Range over every MultiError to pull all RequestErrors.
+	for _, me := range err.(openapi3.MultiError) {
+
+		// Retrieve RequestErrors and range over them to grab their inner MultiErrors, as these contain the SchemaErrors.
+		re := me.(*openapi3filter.RequestError)
+		for _, me := range re.Err.(openapi3.MultiError) {
+
+			// Cast to SchemaError so that we can pull out all of the necessary data to build our CH Errors response.
+			schemaError := me.(*openapi3.SchemaError)
+			reason := strings.Replace(schemaError.Reason, "\"", "'", -1)
+			jsonPath := strings.Join(schemaError.JSONPointer(), ".")
+			fieldName := schemaError.JSONPointer()[len(schemaError.JSONPointer())-1]
+
+			// Switch over validation error for fieldValue to replace required with an empty string. Without this the
+			// error simply returns nothing when a required error is found, as it returns what the user gave (nothing).
+			fieldValue := ""
+			switch schemaError.SchemaField {
+			case "required":
+				fieldValue = ""
+			default:
+				fieldValue = fmt.Sprintf("%v", schemaError.Value)
+			}
+
+			// Construct a CHError and append it to the previously created CHError slice.
+			err := models.CHError{
+				Error:        reason,
+				ErrorValues:  map[string]interface{}{fieldName: fieldValue},
+				Location:     jsonPath,
+				LocationType: "json-path",
+				Type:         "ch:validation",
+			}
+			errorsArr = append(errorsArr, err)
+		}
+	}
+
+	// If no errors were found then we can return nil here.
+	if len(errorsArr) == 0 {
+		return nil
+	}
+
+	// If errors do exist, format the array into a JSON object for better viewing.
+	mr, err := json.Marshal(errorsArr)
+	if err != nil {
+		log.Error(fmt.Errorf("error occured while formatting CHError array into JSON object: %s", err))
+		return nil
+	}
+
+	return mr
 }
