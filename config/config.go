@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	cfg *Config
-	mtx sync.Mutex
+	cfg                *Config
+	mtx                sync.Mutex
 	CallValidateConfig = validateConfigs
 )
 

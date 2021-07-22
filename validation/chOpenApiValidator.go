@@ -16,9 +16,10 @@ import (
 
 // Used for unit testing and mocking calls to external functions/methods.
 var (
-	callFilepathAbs = filepath.Abs
-	callNewRouter = router.NewRouter
+	callFilepathAbs                  = filepath.Abs
+	callNewRouter                    = router.NewRouter
 	callOpenApiFilterValidateRequest = openapi3filter.ValidateRequest
+	callFormatError                  = formatError
 )
 
 // CHValidator provides an interface to interact with the CH Validator.
@@ -92,7 +93,7 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 		log.Info("Validating request...", nil)
 		if err := callOpenApiFilterValidateRequest(ctx, requestValidationInput); err != nil {
 			// If errors are found in the request format them and return them.
-			return chv.formatError(err), nil
+			return callFormatError(err), nil
 		}
 
 		// If we reach this point, then no validation errors were found.
@@ -100,7 +101,7 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 	}
 }
 
-func (chv CHValidatorImpl) formatError(err error) []byte {
+func formatError(err error) []byte {
 	var errorsArr []models.CHError
 
 	// Range over every MultiError to pull all RequestErrors.

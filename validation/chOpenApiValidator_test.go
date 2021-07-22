@@ -90,7 +90,7 @@ func TestNewCHValidator(t *testing.T) {
 	Convey("When I call to get a new CHValidator", t, func() {
 		chv := NewCHValidator()
 
-		Convey("Then I am given a new ChValidator", func(){
+		Convey("Then I am given a new ChValidator", func() {
 			So(chv, ShouldNotBeNil)
 		})
 	})
@@ -185,6 +185,35 @@ func TestValidateRequestAgainstOpenApiSpecNoErrors(t *testing.T) {
 
 		Convey("Then the failure to get the ABS path to spec is handled correctly", func() {
 			So(valErrs, ShouldBeNil)
+			So(err, ShouldBeNil)
+		})
+	})
+}
+
+// TestValidateRequestAgainstOpenApiSpecFindsValErrors asserts that when kin-openAPI finds validation errors, they are
+// returned as a formatted byte array.
+func TestValidateRequestAgainstOpenApiSpecFindsValErrors(t *testing.T) {
+	Convey("When I call to validate a request", t, func() {
+		chv := NewCHValidator()
+
+		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(requestBody)))
+
+		callFilepathAbs = func(path string) (string, error) {
+			return apiSpecLocation, nil
+		}
+
+		callNewRouter = router.NewRouter
+
+		callOpenApiFilterValidateRequest = openapi3filter.ValidateRequest
+
+		callFormatError = func(err error) []byte {
+			return []byte("error while validating")
+		}
+
+		valErrs, err := chv.ValidateRequestAgainstOpenApiSpec(req, apiSpecLocation)
+
+		Convey("Then the failure to get the ABS path to spec is handled correctly", func() {
+			So(valErrs, ShouldNotBeNil)
 			So(err, ShouldBeNil)
 		})
 	})

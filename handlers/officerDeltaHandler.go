@@ -14,7 +14,7 @@ import (
 type OfficerDeltaHandler struct {
 	kSvc services.KafkaService
 	h    helpers.Helper
-	chv validation.CHValidator
+	chv  validation.CHValidator
 	cfg  *config.Config
 }
 
