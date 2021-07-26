@@ -3,6 +3,7 @@ package validation
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/companieshouse/chs-delta-api/models"
 	"github.com/companieshouse/chs.go/log"
@@ -76,8 +77,13 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 			return nil, err
 		}
 
-		// Enable MultiError's to be returned so that if more than one error is found, it will return them all.
-		opts := &openapi3filter.Options{MultiError: true}
+		// Define a set of Options for the request validator to use. Enable MultiError's to be returned so that all
+		// found errors are returned at once.
+		opts := &openapi3filter.Options{
+			MultiError: true,
+			// Set AuthenticationFunc to a Noop function as ERIC will handle missing / malformed security elements.
+			AuthenticationFunc: openapi3filter.NoopAuthenticationFunc,
+		}
 
 		// Validate request parameters
 		requestValidationInput := &openapi3filter.RequestValidationInput{
@@ -93,49 +99,31 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 		log.Info("Validating request...", nil)
 		if err := callOpenApiFilterValidateRequest(ctx, requestValidationInput); err != nil {
 			// If errors are found in the request format them and return them.
+			log.Info("Request validated. Errors found.", nil)
 			return callFormatError(err), nil
 		}
 
 		// If we reach this point, then no validation errors were found.
+		log.Info("Request validated. No errors were found.", nil)
 		return nil, nil
 	}
 }
 
 func formatError(err error) []byte {
+
 	var errorsArr []models.CHError
 
 	// Range over every MultiError to pull all RequestErrors.
 	for _, me := range err.(openapi3.MultiError) {
 
 		// Retrieve RequestErrors and range over them to grab their inner MultiErrors, as these contain the SchemaErrors.
-		re := me.(*openapi3filter.RequestError)
-		for _, me := range re.Err.(openapi3.MultiError) {
-
-			// Cast to SchemaError so that we can pull out all of the necessary data to build our CH Errors response.
-			schemaError := me.(*openapi3.SchemaError)
-			reason := strings.Replace(schemaError.Reason, "\"", "'", -1)
-			jsonPath := strings.Join(schemaError.JSONPointer(), ".")
-			fieldName := schemaError.JSONPointer()[len(schemaError.JSONPointer())-1]
-
-			// Switch over validation error for fieldValue to replace required with an empty string. Without this the
-			// error simply returns nothing when a required error is found, as it returns what the user gave (nothing).
-			fieldValue := ""
-			switch schemaError.SchemaField {
-			case "required":
-				fieldValue = ""
-			default:
-				fieldValue = fmt.Sprintf("%v", schemaError.Value)
-			}
-
-			// Construct a CHError and append it to the previously created CHError slice.
-			err := models.CHError{
-				Error:        reason,
-				ErrorValues:  map[string]interface{}{fieldName: fieldValue},
-				Location:     jsonPath,
-				LocationType: "json-path",
-				Type:         "ch:validation",
-			}
-			errorsArr = append(errorsArr, err)
+		switch e := me.(type) {
+		case *openapi3filter.RequestError:
+			errorsArr = append(errorsArr, extractRequestError(e))
+		default:
+			// Can't match, what do we do?
+			err := errors.New("error when trying to match error type returned")
+			log.Error(err)
 		}
 	}
 
@@ -152,4 +140,40 @@ func formatError(err error) []byte {
 	}
 
 	return mr
+}
+
+func extractRequestError(re *openapi3filter.RequestError) models.CHError {
+
+	for _, me := range re.Err.(openapi3.MultiError) {
+
+		// Cast to SchemaError so that we can pull out all of the necessary data to build our CH Errors response.
+		schemaError := me.(*openapi3.SchemaError)
+		reason := strings.Replace(schemaError.Reason, "\"", "'", -1)
+		jsonPath := strings.Join(schemaError.JSONPointer(), ".")
+		fieldName := schemaError.JSONPointer()[len(schemaError.JSONPointer())-1]
+
+		// Switch over validation error for fieldValue to replace required with an empty string. Without this the
+		// error simply returns nothing when a required error is found, as it returns what the user gave (nothing).
+		fieldValue := ""
+		switch schemaError.SchemaField {
+		case "required":
+			fieldValue = ""
+		default:
+			fieldValue = fmt.Sprintf("%v", schemaError.Value)
+		}
+
+		// Construct a CHError and append it to the previously created CHError slice.
+		err := models.CHError{
+			Error:        reason,
+			ErrorValues:  map[string]interface{}{fieldName: fieldValue},
+			Location:     jsonPath,
+			LocationType: "json-path",
+			Type:         "ch:validation",
+		}
+
+		return err
+	}
+
+	// We should never reach this return statement.
+	return models.CHError{}
 }
