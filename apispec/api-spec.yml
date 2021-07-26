@@ -12,7 +12,7 @@ components:
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
-      name: X-API-KEY
+      name: Eric-Access-Token
       in: header
 
 security:
