@@ -6,3 +6,4 @@ type ChsDelta struct {
 	Attempt   int32  `avro:"attempt"`
 	ContextId string `avro:"context_id"`
 }
+
