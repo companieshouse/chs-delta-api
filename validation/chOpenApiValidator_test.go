@@ -9,6 +9,7 @@ import (
 	"github.com/getkin/kin-openapi/routers"
 	router "github.com/getkin/kin-openapi/routers/gorillamux"
 	. "github.com/smartystreets/goconvey/convey"
+	"net/http"
 	"net/http/httptest"
 	"testing"
 )
@@ -102,14 +103,17 @@ func TestValidateRequestAgainstOpenApiSpecNoErrors(t *testing.T) {
 	Convey("When I call to validate a request", t, func() {
 		chv := NewCHValidator()
 
-		// Provide an actual url target to allow Router to correctly be initialised for further unit testing.
-		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(requestBody)))
+		req := httptest.NewRequest("POST", "/dummy/target", bytes.NewBuffer([]byte(requestBody)))
 
 		callFilepathAbs = func(path string) (string, error) {
 			return apiSpecLocation, nil
 		}
 
 		callNewRouter = router.NewRouter
+
+		callFindRoute = func(r routers.Router, req *http.Request) (route *routers.Route, pathParams map[string]string, err error) {
+			return &routers.Route{}, make(map[string]string, 1), nil
+		}
 
 		callOpenApiFilterValidateRequest = func(ctx context.Context, input *openapi3filter.RequestValidationInput) error {
 			return nil
@@ -130,8 +134,7 @@ func TestValidateRequestAgainstOpenApiSpecFindsValErrors(t *testing.T) {
 	Convey("When I call to validate a request", t, func() {
 		chv := NewCHValidator()
 
-		// Provide an actual url target to allow Router to correctly be initialised for further unit testing.
-		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(requestBody)))
+		req := httptest.NewRequest("POST", "/dummy/delta", bytes.NewBuffer([]byte(requestBody)))
 
 		callFilepathAbs = func(path string) (string, error) {
 			return apiSpecLocation, nil
@@ -139,7 +142,13 @@ func TestValidateRequestAgainstOpenApiSpecFindsValErrors(t *testing.T) {
 
 		callNewRouter = router.NewRouter
 
-		callOpenApiFilterValidateRequest = openapi3filter.ValidateRequest
+		callFindRoute = func(r routers.Router, req *http.Request) (route *routers.Route, pathParams map[string]string, err error) {
+			return &routers.Route{}, make(map[string]string, 1), nil
+		}
+
+		callOpenApiFilterValidateRequest = func(ctx context.Context, input *openapi3filter.RequestValidationInput) error {
+			return errors.New("validation error")
+		}
 
 		callFormatError = func(err error) []byte {
 			return []byte("error while validating")
