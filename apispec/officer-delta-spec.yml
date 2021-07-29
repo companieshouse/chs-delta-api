@@ -52,8 +52,8 @@ components:
         corporate_ind:
           type: string
           enum:
-            - Y
-            - N
+            - "Y"
+            - "N"
         surname:
           type: string
           maximum: 160
@@ -68,8 +68,8 @@ components:
         service_address_same_as_registered_address:
           type: string
           enum:
-            - Y
-            - N
+            - "Y"
+            - "N"
         nationality:
           type: string
           maximum: 50
@@ -82,8 +82,8 @@ components:
         secure_director:
           type: string
           enum:
-            - Y
-            - N
+            - "Y"
+            - "N"
         officer_detail_id:
           type: string
           maximum: 10

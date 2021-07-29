@@ -5,6 +5,7 @@ import (
 	"github.com/companieshouse/chs-delta-api/config"
 	"github.com/companieshouse/chs-delta-api/helpers"
 	"github.com/companieshouse/chs-delta-api/services"
+	"github.com/companieshouse/chs-delta-api/validation"
 	"github.com/companieshouse/chs.go/log"
 	"net/http"
 )
@@ -13,12 +14,13 @@ import (
 type OfficerDeltaHandler struct {
 	kSvc services.KafkaService
 	h    helpers.Helper
+	chv  validation.CHValidator
 	cfg  *config.Config
 }
 
 // NewOfficerDeltaHandler returns an OfficerDeltaHandler.
-func NewOfficerDeltaHandler(kSvc services.KafkaService, h helpers.Helper, cfg *config.Config) *OfficerDeltaHandler {
-	return &OfficerDeltaHandler{kSvc: kSvc, h: h, cfg: cfg}
+func NewOfficerDeltaHandler(kSvc services.KafkaService, h helpers.Helper, chv validation.CHValidator, cfg *config.Config) *OfficerDeltaHandler {
+	return &OfficerDeltaHandler{kSvc: kSvc, h: h, chv: chv, cfg: cfg}
 }
 
 // ServeHTTP accepts an incoming OfficerDelta request via a POST method, validates it
@@ -26,17 +28,36 @@ func NewOfficerDeltaHandler(kSvc services.KafkaService, h helpers.Helper, cfg *c
 // encountered then they will be returned via the ResponseWriter.
 func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
-	// Get request body.
+	log.Info(fmt.Sprintf("Open API spec to use: %s", kp.cfg.OpenApiSpec), nil)
+
+	// Validate against the open API 3 spec before progressing any further.
+	errValidation, err := kp.chv.ValidateRequestAgainstOpenApiSpec(r, kp.cfg.OpenApiSpec)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Error(fmt.Errorf("error occured while trying to validate request: %s", err))
+		return
+	} else if errValidation != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		_, err = w.Write(errValidation)
+		if err != nil {
+			log.Error(fmt.Errorf("error occured while trying to write response: %s", err))
+		}
+
+		return
+	}
+
+	// Get request body and marshal into a string, ready for publishing.
 	data, err := kp.h.GetDataFromRequest(r)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
-	// Send message to Kafka service for publishing.
+	// Send data string to Kafka service for publishing.
 	if err := kp.kSvc.SendMessage(kp.cfg.OfficerDeltaTopic, data); err != nil {
 		log.Error(fmt.Errorf("error sending the message to the given kafka topic %s: %s", kp.cfg.OfficerDeltaTopic, err), nil)
 		w.WriteHeader(http.StatusInternalServerError)
+
 		return
 	}
 

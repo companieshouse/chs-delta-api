@@ -8,8 +8,11 @@ import (
 	"sync"
 )
 
-var cfg *Config
-var mtx sync.Mutex
+var (
+	cfg                *Config
+	mtx                sync.Mutex
+	CallValidateConfig = validateConfigs
+)
 
 // Config defines the configuration options for this service.
 type Config struct {
@@ -36,7 +39,7 @@ func Get() (*Config, error) {
 		return nil, err
 	}
 
-	err = validateConfigs(cfg)
+	err = CallValidateConfig(cfg)
 	if err != nil {
 		return nil, err
 	}
