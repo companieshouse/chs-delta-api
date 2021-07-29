@@ -14,74 +14,7 @@ import (
 )
 
 const (
-	requestBody = `{
-  "officers": [{
-    "company_number": "09876543",
-    "changed_at": "20176543171003950844",
-    "kind": "DIR",
-    "internal_id": "3002598737",
-    "appointment_date": "20111103",
-    "title": "Mr",
-    "corporate_ind": "N",
-    "surname": "SMITH",
-    "forename": "JOHN",
-    "middle_name": "Peter",
-    "date_of_birth": "19850630",
-    "service_address_same_as_registered_address": "Y",
-    "usual_residential_address_same_as_registered_address": "Y",
-    "secure_director" : "Y",
-    "nationality": "British",
-    "officer_id" : "1234567890",
-    "occupation": "Lawyer",
-    "secure": "243",
-    "officer_detail_id": "3456251385",
-    "officer_role": "Director",
-    "usual_residential_country": "United Kingdom",
-    "previous_name_array": {
-      "previous_surname": "BURCH",
-      "previous_forename": "VALERIE JEAN",
-      "previous_timestamp": "20091101072217613702"
-    },
-    "identification": {
-      "EEA": {
-        "place_registered": "United Kingdom",
-        "registration_number": "38298",
-        "legal_authority": "Chapter 32",
-        "legal_form": "Hong Kong"
-      }
-    },
-
-    "service_address": {
-      "premise": "2pm 0",
-      "address_line_1": "tall Passage",
-      "address_line_2": "......",
-      "locality": "Cardiff",
-      "care_of": "",
-      "region": "",
-      "po_box": "",
-      "supplied_company_name": "",
-      "country": "United Kingdom",
-      "postal_code": "CF2 1B6",
-      "usual_country_of_residence": "United Kingdom"
-    },
-    "usual_residential_address": {
-      "premise": "2pm 0",
-      "address_line_1": "tall Passage",
-      "address_line_2": "",
-      "locality": "Cardiff",
-      "care_of": "",
-      "region": "",
-      "po_box": "",
-      "supplied_company_name": "",
-      "country": "United Kingdom",
-      "postal_code": "CF2 1B6",
-      "usual_country_of_residence": "United Kingdom"
-    }
-  }],
-  "CreatedTime": "21-JUL-21 11.20.00.000000",
-  "delta_at": "20140925171003950844"
-}`
-
+	requestBody     = `{"dummy" : "request"}`
 	apiSpecLocation = "../apispec/api-spec.yml"
 )
 
