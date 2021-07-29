@@ -34,7 +34,7 @@ func TestValidateRequestAgainstOpenApiSpecFailsAbs(t *testing.T) {
 	Convey("When I call to validate a request", t, func() {
 		chv := NewCHValidator()
 
-		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(requestBody)))
+		req := httptest.NewRequest("POST", "/dummy/target", bytes.NewBuffer([]byte(requestBody)))
 
 		errReturned := errors.New("error getting ABS path")
 		callFilepathAbs = func(path string) (string, error) {
@@ -57,7 +57,7 @@ func TestValidateRequestAgainstOpenApiSpecFailsFileOpen(t *testing.T) {
 	Convey("When I call to validate a request", t, func() {
 		chv := NewCHValidator()
 
-		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(requestBody)))
+		req := httptest.NewRequest("POST", "/dummy/target", bytes.NewBuffer([]byte(requestBody)))
 
 		callFilepathAbs = func(path string) (string, error) {
 			return "wrongLocation/toSpec", nil
@@ -78,7 +78,7 @@ func TestValidateRequestAgainstOpenApiSpecFailsToCreateRouter(t *testing.T) {
 	Convey("When I call to validate a request", t, func() {
 		chv := NewCHValidator()
 
-		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(requestBody)))
+		req := httptest.NewRequest("POST", "/dummy/target", bytes.NewBuffer([]byte(requestBody)))
 
 		callFilepathAbs = func(path string) (string, error) {
 			return apiSpecLocation, nil
@@ -102,6 +102,7 @@ func TestValidateRequestAgainstOpenApiSpecNoErrors(t *testing.T) {
 	Convey("When I call to validate a request", t, func() {
 		chv := NewCHValidator()
 
+		// Provide an actual url target to allow Router to correctly be initialised for further unit testing.
 		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(requestBody)))
 
 		callFilepathAbs = func(path string) (string, error) {
@@ -129,6 +130,7 @@ func TestValidateRequestAgainstOpenApiSpecFindsValErrors(t *testing.T) {
 	Convey("When I call to validate a request", t, func() {
 		chv := NewCHValidator()
 
+		// Provide an actual url target to allow Router to correctly be initialised for further unit testing.
 		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(requestBody)))
 
 		callFilepathAbs = func(path string) (string, error) {
