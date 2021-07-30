@@ -95,7 +95,7 @@ func (kSvc *KafkaServiceImpl) SendMessage(topic, data, contextId string) error {
 
 	// Construct a chs-delta using provided data.
 	deltaData := models.ChsDelta{
-		ContextId: contextId, // TODO: Use ERIC-Request-Id header and change logs to use C versions. Also add Request-Id to response.
+		ContextId: contextId,
 		Data:      data,
 	}
 

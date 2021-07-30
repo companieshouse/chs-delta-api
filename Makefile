@@ -46,7 +46,8 @@ package:
 	cp ./$(bin) $(tmpdir)
 	cp ./routes.yaml $(tmpdir)
 	cp ./start.sh $(tmpdir)
-	cd $(tmpdir) && zip -r ../$(bin)-$(version).zip $(bin) start.sh routes.yaml
+	cp -R ./apispec $(tmpdir)
+	cd $(tmpdir) && zip -r ../$(bin)-$(version).zip $(bin) start.sh routes.yaml ./apispec
 	rm -rf $(tmpdir)
 
 .PHONY: dist

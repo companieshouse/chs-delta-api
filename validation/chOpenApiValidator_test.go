@@ -9,79 +9,13 @@ import (
 	"github.com/getkin/kin-openapi/routers"
 	router "github.com/getkin/kin-openapi/routers/gorillamux"
 	. "github.com/smartystreets/goconvey/convey"
+	"net/http"
 	"net/http/httptest"
 	"testing"
 )
 
 const (
-	requestBody = `{
-  "officers": [{
-    "company_number": "09876543",
-    "changed_at": "20176543171003950844",
-    "kind": "DIR",
-    "internal_id": "3002598737",
-    "appointment_date": "20111103",
-    "title": "Mr",
-    "corporate_ind": "N",
-    "surname": "SMITH",
-    "forename": "JOHN",
-    "middle_name": "Peter",
-    "date_of_birth": "19850630",
-    "service_address_same_as_registered_address": "Y",
-    "usual_residential_address_same_as_registered_address": "Y",
-    "secure_director" : "Y",
-    "nationality": "British",
-    "officer_id" : "1234567890",
-    "occupation": "Lawyer",
-    "secure": "243",
-    "officer_detail_id": "3456251385",
-    "officer_role": "Director",
-    "usual_residential_country": "United Kingdom",
-    "previous_name_array": {
-      "previous_surname": "BURCH",
-      "previous_forename": "VALERIE JEAN",
-      "previous_timestamp": "20091101072217613702"
-    },
-    "identification": {
-      "EEA": {
-        "place_registered": "United Kingdom",
-        "registration_number": "38298",
-        "legal_authority": "Chapter 32",
-        "legal_form": "Hong Kong"
-      }
-    },
-
-    "service_address": {
-      "premise": "2pm 0",
-      "address_line_1": "tall Passage",
-      "address_line_2": "......",
-      "locality": "Cardiff",
-      "care_of": "",
-      "region": "",
-      "po_box": "",
-      "supplied_company_name": "",
-      "country": "United Kingdom",
-      "postal_code": "CF2 1B6",
-      "usual_country_of_residence": "United Kingdom"
-    },
-    "usual_residential_address": {
-      "premise": "2pm 0",
-      "address_line_1": "tall Passage",
-      "address_line_2": "",
-      "locality": "Cardiff",
-      "care_of": "",
-      "region": "",
-      "po_box": "",
-      "supplied_company_name": "",
-      "country": "United Kingdom",
-      "postal_code": "CF2 1B6",
-      "usual_country_of_residence": "United Kingdom"
-    }
-  }],
-  "CreatedTime": "21-JUL-21 11.20.00.000000",
-  "delta_at": "20140925171003950844"
-}`
-
+	requestBody     = `{"dummy" : "request"}`
 	apiSpecLocation = "../apispec/api-spec.yml"
 )
 
@@ -101,7 +35,7 @@ func TestValidateRequestAgainstOpenApiSpecFailsAbs(t *testing.T) {
 	Convey("When I call to validate a request", t, func() {
 		chv := NewCHValidator()
 
-		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(requestBody)))
+		req := httptest.NewRequest("POST", "/dummy/target", bytes.NewBuffer([]byte(requestBody)))
 
 		errReturned := errors.New("error getting ABS path")
 		callFilepathAbs = func(path string) (string, error) {
@@ -124,7 +58,7 @@ func TestValidateRequestAgainstOpenApiSpecFailsFileOpen(t *testing.T) {
 	Convey("When I call to validate a request", t, func() {
 		chv := NewCHValidator()
 
-		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(requestBody)))
+		req := httptest.NewRequest("POST", "/dummy/target", bytes.NewBuffer([]byte(requestBody)))
 
 		callFilepathAbs = func(path string) (string, error) {
 			return "wrongLocation/toSpec", nil
@@ -145,7 +79,7 @@ func TestValidateRequestAgainstOpenApiSpecFailsToCreateRouter(t *testing.T) {
 	Convey("When I call to validate a request", t, func() {
 		chv := NewCHValidator()
 
-		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(requestBody)))
+		req := httptest.NewRequest("POST", "/dummy/target", bytes.NewBuffer([]byte(requestBody)))
 
 		callFilepathAbs = func(path string) (string, error) {
 			return apiSpecLocation, nil
@@ -169,13 +103,17 @@ func TestValidateRequestAgainstOpenApiSpecNoErrors(t *testing.T) {
 	Convey("When I call to validate a request", t, func() {
 		chv := NewCHValidator()
 
-		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(requestBody)))
+		req := httptest.NewRequest("POST", "/dummy/target", bytes.NewBuffer([]byte(requestBody)))
 
 		callFilepathAbs = func(path string) (string, error) {
 			return apiSpecLocation, nil
 		}
 
 		callNewRouter = router.NewRouter
+
+		callFindRoute = func(r routers.Router, req *http.Request) (route *routers.Route, pathParams map[string]string, err error) {
+			return &routers.Route{}, make(map[string]string, 1), nil
+		}
 
 		callOpenApiFilterValidateRequest = func(ctx context.Context, input *openapi3filter.RequestValidationInput) error {
 			return nil
@@ -196,7 +134,7 @@ func TestValidateRequestAgainstOpenApiSpecFindsValErrors(t *testing.T) {
 	Convey("When I call to validate a request", t, func() {
 		chv := NewCHValidator()
 
-		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(requestBody)))
+		req := httptest.NewRequest("POST", "/dummy/delta", bytes.NewBuffer([]byte(requestBody)))
 
 		callFilepathAbs = func(path string) (string, error) {
 			return apiSpecLocation, nil
@@ -204,7 +142,13 @@ func TestValidateRequestAgainstOpenApiSpecFindsValErrors(t *testing.T) {
 
 		callNewRouter = router.NewRouter
 
-		callOpenApiFilterValidateRequest = openapi3filter.ValidateRequest
+		callFindRoute = func(r routers.Router, req *http.Request) (route *routers.Route, pathParams map[string]string, err error) {
+			return &routers.Route{}, make(map[string]string, 1), nil
+		}
+
+		callOpenApiFilterValidateRequest = func(ctx context.Context, input *openapi3filter.RequestValidationInput) error {
+			return errors.New("validation error")
+		}
 
 		callFormatError = func(err error) []byte {
 			return []byte("error while validating")

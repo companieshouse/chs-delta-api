@@ -16,32 +16,7 @@ import (
 )
 
 const (
-	requestBody = `{
-        "officers" : [
-			{
-				"company_number" : "99999999",
-				"company_name" : "Test company 1",
-				"forename" : "Test forename 1",
-				"middle_name" : "Test middle name 1",
-				"surname" : "Test surname 1",
-				"age" : 25
-			},
-			{
-				"company_number" : "55555555",
-				"company_name" : "Test company 2",
-				"forename" : "Test forename 2",
-				"middle_name" : "Test middle name 2",
-				"surname" : "Test surname 2",
-				"age" : 39
-			}
-    	],
-    	"CreatedTime" : "07-JUN-21 15.26.17.000000",
-    	"delta_at" : "20140925171003950844"
-	}`
-
-	topic       = "officers-delta"
-	openApiSpec = "./api-spec/api-spec.yml"
-
+	requestBody = `{"dummy" : "request"}`
 )
 
 // TestNewOfficerDeltaHandler asserts that the constructor for the OfficerDeltaHandler returns a fully configured handler.
@@ -197,7 +172,8 @@ func TestOfficerDeltaHandlerFailsSend(t *testing.T) {
 	})
 }
 
-// TestOfficerDeltaHandlerErrorsCallingValidation asserts that the officerDeltaHandler returns an internal error status when validation fails
+// TestOfficerDeltaHandlerErrorsCallingValidation asserts that the officerDeltaHandler returns an internal error status when
+// call to validate the request fails (internal failure such as failure to open schema, not a user validation failure).
 func TestOfficerDeltaHandlerErrorsCallingValidation(t *testing.T) {
 
 	mockCtrl := gomock.NewController(t)
@@ -265,7 +241,7 @@ func TestOfficerDeltaHandlerFailsValidation(t *testing.T) {
 
 			handler.ServeHTTP(resp, req)
 
-			Convey("Then the response should be 500 and an error returned", func() {
+			Convey("Then the response should be 400 and an error returned", func() {
 				So(resp.Code, ShouldEqual, http.StatusBadRequest)
 			})
 
