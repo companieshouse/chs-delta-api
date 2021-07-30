@@ -95,7 +95,7 @@ func (kSvc *KafkaServiceImpl) SendMessage(topic, data string) error {
 
 	// Construct a chs-delta using provided data.
 	deltaData := models.ChsDelta{
-		ContextId: "uu-aa-dd", // TODO: Use ERIC-Request-Id header and change logs to use C versions. Also add Request-Id to response.
+		ContextId: "uu-aa-dd",
 		Data:      data,
 	}
 
@@ -115,7 +115,7 @@ func (kSvc *KafkaServiceImpl) SendMessage(topic, data string) error {
 	// Finally try to send the message.
 	partition, offset, err := callSend(kSvc, producerMessage)
 	log.Info("Sending message", log.Data{"topic": producerMessage.Topic, "partition": partition, "offset": offset})
-	log.Trace("Sending message", log.Data{"message source": deltaData}) // TODO: Don't log entire data blob
+	log.Trace("Sending message", log.Data{"message source": deltaData})
 	return err
 }
 

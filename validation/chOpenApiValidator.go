@@ -9,6 +9,7 @@ import (
 	"github.com/companieshouse/chs.go/log"
 	"github.com/getkin/kin-openapi/openapi3"
 	"github.com/getkin/kin-openapi/openapi3filter"
+	"github.com/getkin/kin-openapi/routers"
 	router "github.com/getkin/kin-openapi/routers/gorillamux"
 	"net/http"
 	"path/filepath"
@@ -21,6 +22,7 @@ var (
 	callNewRouter                    = router.NewRouter
 	callOpenApiFilterValidateRequest = openapi3filter.ValidateRequest
 	callFormatError                  = formatError
+	callFindRoute                    = findRoute
 )
 
 // CHValidator provides an interface to interact with the CH Validator.
@@ -71,7 +73,7 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 		}
 
 		// Find routes using the given http request.
-		route, pathParams, err := r.FindRoute(httpReq)
+		route, pathParams, err := callFindRoute(r, httpReq)
 		if err != nil {
 			log.Error(fmt.Errorf("error occured while finding routes for given http request: %s", err))
 			return nil, err
@@ -176,4 +178,9 @@ func extractRequestError(re *openapi3filter.RequestError) models.CHError {
 
 	// We should never reach this return statement.
 	return models.CHError{}
+}
+
+// findRoute is used to add an abstraction layer for unit testing. Allowing us to mock the returns for external methods.
+func findRoute(r routers.Router, req *http.Request) (route *routers.Route, pathParams map[string]string, err error) {
+	return r.FindRoute(req)
 }
