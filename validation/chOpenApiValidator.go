@@ -113,7 +113,7 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 
 func formatError(contextId string, err error) []byte {
 
-	var errorsArr []models.CHError
+	errorsArr := make([]models.CHError, 0)
 
 	// Range over every MultiError to pull all RequestErrors.
 	for _, me := range err.(openapi3.MultiError) {
@@ -121,7 +121,7 @@ func formatError(contextId string, err error) []byte {
 		// Retrieve RequestErrors and range over them to grab their inner MultiErrors, as these contain the SchemaErrors.
 		switch e := me.(type) {
 		case *openapi3filter.RequestError:
-			errorsArr = append(errorsArr, extractRequestError(e))
+			errorsArr = extractRequestError(e, errorsArr)
 		default:
 			// Can't match, what do we do?
 			err := errors.New("error when trying to match error type returned")
@@ -144,7 +144,7 @@ func formatError(contextId string, err error) []byte {
 	return mr
 }
 
-func extractRequestError(re *openapi3filter.RequestError) models.CHError {
+func extractRequestError(re *openapi3filter.RequestError, errsArray []models.CHError) []models.CHError {
 
 	for _, me := range re.Err.(openapi3.MultiError) {
 
@@ -173,11 +173,11 @@ func extractRequestError(re *openapi3filter.RequestError) models.CHError {
 			Type:         "ch:validation",
 		}
 
-		return err
+		errsArray = append(errsArray, err)
 	}
 
-	// We should never reach this return statement.
-	return models.CHError{}
+	// Return populated errsArray with new errors added.
+	return errsArray
 }
 
 // findRoute is used to add an abstraction layer for unit testing. Allowing us to mock the returns for external methods.
