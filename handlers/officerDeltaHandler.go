@@ -28,19 +28,21 @@ func NewOfficerDeltaHandler(kSvc services.KafkaService, h helpers.Helper, chv va
 // encountered then they will be returned via the ResponseWriter.
 func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
-	log.Info(fmt.Sprintf("Open API spec to use: %s", kp.cfg.OpenApiSpec), nil)
+	contextId := r.Context().Value(helpers.XRequestId).(string)
+
+	log.InfoC(contextId, fmt.Sprintf("Open API spec to use: %s", kp.cfg.OpenApiSpec), nil)
 
 	// Validate against the open API 3 spec before progressing any further.
 	errValidation, err := kp.chv.ValidateRequestAgainstOpenApiSpec(r, kp.cfg.OpenApiSpec)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		log.Error(fmt.Errorf("error occured while trying to validate request: %s", err))
+		log.ErrorC(contextId, fmt.Errorf("error occured while trying to validate request: %s", err))
 		return
 	} else if errValidation != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		_, err = w.Write(errValidation)
 		if err != nil {
-			log.Error(fmt.Errorf("error occured while trying to write response: %s", err))
+			log.ErrorC(contextId, fmt.Errorf("error occured while trying to write response: %s", err))
 		}
 
 		return
@@ -54,8 +56,8 @@ func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request)
 	}
 
 	// Send data string to Kafka service for publishing.
-	if err := kp.kSvc.SendMessage(kp.cfg.OfficerDeltaTopic, data); err != nil {
-		log.Error(fmt.Errorf("error sending the message to the given kafka topic %s: %s", kp.cfg.OfficerDeltaTopic, err), nil)
+	if err := kp.kSvc.SendMessage(kp.cfg.OfficerDeltaTopic, data, contextId); err != nil {
+		log.ErrorC(contextId, fmt.Errorf("error sending the message to the given kafka topic %s: %s", kp.cfg.OfficerDeltaTopic, err), nil)
 		w.WriteHeader(http.StatusInternalServerError)
 
 		return

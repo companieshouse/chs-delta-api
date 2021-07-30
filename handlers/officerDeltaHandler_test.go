@@ -41,6 +41,7 @@ const (
 
 	topic       = "officers-delta"
 	openApiSpec = "./api-spec/api-spec.yml"
+
 )
 
 // TestNewOfficerDeltaHandler asserts that the constructor for the OfficerDeltaHandler returns a fully configured handler.
@@ -142,7 +143,7 @@ func TestOfficerDeltaHandlerSuccessfullySends(t *testing.T) {
 
 			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec).Return(nil, nil)
 			h.EXPECT().GetDataFromRequest(req).Return(requestBody, nil)
-			svc.EXPECT().SendMessage(handler.cfg.OfficerDeltaTopic, requestBody).Return(nil)
+			svc.EXPECT().SendMessage(handler.cfg.OfficerDeltaTopic, requestBody, "").Return(nil)
 
 			handler.ServeHTTP(resp, req)
 

@@ -113,7 +113,7 @@ func TestSendMessageSuccessfully(t *testing.T) {
 				return int32(0), int64(0), nil
 			}
 
-			err := k.SendMessage(Topic, Data)
+			err := k.SendMessage(Topic, Data,"")
 
 			Convey("Then there are no errors", func() {
 				So(err, ShouldBeNil)
@@ -130,7 +130,7 @@ func TestSendMessageFailsSchemaMarshalling(t *testing.T) {
 
 		Convey("When I call to send a message via the producer", func() {
 
-			err := k.SendMessage(Topic, Data)
+			err := k.SendMessage(Topic, Data, "")
 
 			Convey("Then there are errors returned", func() {
 				So(err, ShouldNotBeNil)
@@ -150,7 +150,7 @@ func TestSendMessageFailsWithError(t *testing.T) {
 				return int32(0), int64(0), errors.New("error sending to kafka producer")
 			}
 
-			err := k.SendMessage(Topic, Data)
+			err := k.SendMessage(Topic, Data, "")
 
 			Convey("Then there are errors returned", func() {
 				So(err, ShouldNotBeNil)
