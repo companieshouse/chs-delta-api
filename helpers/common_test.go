@@ -12,7 +12,7 @@ import (
 
 const (
 	requestExample = `{"test": "example"}`
-	contextId = "contextId"
+	contextId      = "contextId"
 )
 
 // TestGetDataFromRequestSuccess asserts that a data string is returned with no errors when given a valid request.

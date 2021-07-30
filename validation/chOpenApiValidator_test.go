@@ -17,7 +17,7 @@ import (
 const (
 	requestBody     = `{"dummy" : "request"}`
 	apiSpecLocation = "../apispec/api-spec.yml"
-	contextId = "contextId"
+	contextId       = "contextId"
 )
 
 // TestNewCHValidator asserts that the CHValidator constructor correctly returns a CHValidator.

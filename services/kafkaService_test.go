@@ -113,7 +113,7 @@ func TestSendMessageSuccessfully(t *testing.T) {
 				return int32(0), int64(0), nil
 			}
 
-			err := k.SendMessage(Topic, Data,"")
+			err := k.SendMessage(Topic, Data, "")
 
 			Convey("Then there are no errors", func() {
 				So(err, ShouldBeNil)

@@ -17,7 +17,7 @@ import (
 
 const (
 	requestBody = `{"dummy" : "request"}`
-	contextId = "contextId"
+	contextId   = "contextId"
 )
 
 // TestNewOfficerDeltaHandler asserts that the constructor for the OfficerDeltaHandler returns a fully configured handler.

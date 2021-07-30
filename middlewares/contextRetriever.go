@@ -6,12 +6,14 @@ import (
 	"github.com/companieshouse/chs.go/log"
 	"net/http"
 )
+
 var (
 	callGetRequestFromHeader = getRequestIdFromHeader
 )
+
 const XRequestId = "X-Request-Id"
 
-func  WithContextID(next http.Handler) http.Handler {
+func WithContextID(next http.Handler) http.Handler {
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
