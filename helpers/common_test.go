@@ -12,6 +12,7 @@ import (
 
 const (
 	requestExample = `{"test": "example"}`
+	contextId = "contextId"
 )
 
 // TestGetDataFromRequestSuccess asserts that a data string is returned with no errors when given a valid request.
@@ -20,7 +21,7 @@ func TestGetDataFromRequestSuccess(t *testing.T) {
 	Convey("Given I pass a request into the GetDataFromRequest function", t, func() {
 		h := NewHelper()
 		reqBody := http.Request{Body: ioutil.NopCloser(bytes.NewReader([]byte(requestExample)))}
-		data, err := h.GetDataFromRequest(&reqBody)
+		data, err := h.GetDataFromRequest(&reqBody, contextId)
 
 		Convey("Then I am given a string version of my request back with no error", func() {
 			So(data, ShouldNotBeNil)
@@ -41,7 +42,7 @@ func TestGetDataFromRequestError(t *testing.T) {
 		reqBody := http.Request{Body: ioutil.NopCloser(bytes.NewReader([]byte(requestExample)))}
 
 		h := NewHelper()
-		data, err := h.GetDataFromRequest(&reqBody)
+		data, err := h.GetDataFromRequest(&reqBody, contextId)
 
 		Convey("Then I am given a an error", func() {
 

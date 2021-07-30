@@ -4,6 +4,7 @@ package handlers
 import (
 	"github.com/companieshouse/chs-delta-api/config"
 	"github.com/companieshouse/chs-delta-api/helpers"
+	"github.com/companieshouse/chs-delta-api/middlewares"
 	"github.com/companieshouse/chs-delta-api/services"
 	"github.com/companieshouse/chs-delta-api/validation"
 	"github.com/companieshouse/chs.go/authentication"
@@ -35,7 +36,7 @@ func Register(mainRouter *mux.Router, cfg *config.Config, kSvc services.KafkaSer
 	appRouter := mainRouter.PathPrefix("").Subrouter()
 	appRouter.HandleFunc("/delta/officers", NewOfficerDeltaHandler(kSvc, h, chv, cfg).ServeHTTP).Methods(http.MethodPost).Name("officer-delta")
 	appRouter.Use(userAuthInterceptor.UserAuthenticationIntercept)
-	appRouter.Use(h.WithContextID)
+	appRouter.Use(middlewares.WithContextID)
 
 	return nil
 }

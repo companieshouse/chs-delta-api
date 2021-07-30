@@ -35,30 +35,16 @@ func (m *MockHelper) EXPECT() *MockHelperMockRecorder {
 }
 
 // GetDataFromRequest mocks base method.
-func (m *MockHelper) GetDataFromRequest(r *http.Request) (string, error) {
+func (m *MockHelper) GetDataFromRequest(r *http.Request, contextId string) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetDataFromRequest", r)
+	ret := m.ctrl.Call(m, "GetDataFromRequest", r, contextId)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetDataFromRequest indicates an expected call of GetDataFromRequest.
-func (mr *MockHelperMockRecorder) GetDataFromRequest(r interface{}) *gomock.Call {
+func (mr *MockHelperMockRecorder) GetDataFromRequest(r, contextId interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDataFromRequest", reflect.TypeOf((*MockHelper)(nil).GetDataFromRequest), r)
-}
-
-// WithContextID mocks base method.
-func (m *MockHelper) WithContextID(next http.Handler) http.Handler {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WithContextID", next)
-	ret0, _ := ret[0].(http.Handler)
-	return ret0
-}
-
-// WithContextID indicates an expected call of WithContextID.
-func (mr *MockHelperMockRecorder) WithContextID(next interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WithContextID", reflect.TypeOf((*MockHelper)(nil).WithContextID), next)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDataFromRequest", reflect.TypeOf((*MockHelper)(nil).GetDataFromRequest), r, contextId)
 }

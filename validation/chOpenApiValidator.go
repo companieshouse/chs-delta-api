@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/companieshouse/chs-delta-api/helpers"
 	"github.com/companieshouse/chs-delta-api/models"
 	"github.com/companieshouse/chs.go/log"
 	"github.com/getkin/kin-openapi/openapi3"
@@ -28,7 +27,7 @@ var (
 
 // CHValidator provides an interface to interact with the CH Validator.
 type CHValidator interface {
-	ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec string) ([]byte, error)
+	ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec, contextId string) ([]byte, error)
 }
 
 // CHValidatorImpl is a concrete implementation of the CHValidator interface.
@@ -43,9 +42,7 @@ func NewCHValidator() CHValidator {
 // ValidateRequestAgainstOpenApiSpec takes a request and an openAPI spec location (string relative path) and uses the
 // spec to validate the provided request. If any validation errors are found, then they are formatted and returned to the
 // caller. If any errors are encountered while attempting to validate, they are handled and also returned to the caller.
-func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec string) ([]byte, error) {
-
-	contextId := httpReq.Context().Value(helpers.XRequestId).(string)
+func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec, contextId string) ([]byte, error) {
 
 	// Get the Open API 3 validation schema location.
 	ctx := context.Background()

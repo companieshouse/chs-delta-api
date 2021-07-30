@@ -33,7 +33,7 @@ func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request)
 	log.InfoC(contextId, fmt.Sprintf("Open API spec to use: %s", kp.cfg.OpenApiSpec), nil)
 
 	// Validate against the open API 3 spec before progressing any further.
-	errValidation, err := kp.chv.ValidateRequestAgainstOpenApiSpec(r, kp.cfg.OpenApiSpec)
+	errValidation, err := kp.chv.ValidateRequestAgainstOpenApiSpec(r, kp.cfg.OpenApiSpec, contextId)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.ErrorC(contextId, fmt.Errorf("error occured while trying to validate request: %s", err))
@@ -49,7 +49,7 @@ func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request)
 	}
 
 	// Get request body and marshal into a string, ready for publishing.
-	data, err := kp.h.GetDataFromRequest(r)
+	data, err := kp.h.GetDataFromRequest(r,  contextId)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return

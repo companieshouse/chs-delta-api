@@ -17,6 +17,7 @@ import (
 
 const (
 	requestBody = `{"dummy" : "request"}`
+	contextId = "contextId"
 )
 
 // TestNewOfficerDeltaHandler asserts that the constructor for the OfficerDeltaHandler returns a fully configured handler.
@@ -77,8 +78,8 @@ func TestOfficerDeltaHandlerFailsRequestBodyRetrieval(t *testing.T) {
 
 			handler := NewOfficerDeltaHandler(svc, h, chv, cfg)
 
-			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec).Return(nil, nil)
-			h.EXPECT().GetDataFromRequest(req).Return("", errors.New("error converting request body"))
+			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec, contextId).Return(nil, nil)
+			h.EXPECT().GetDataFromRequest(req, contextId).Return("", errors.New("error converting request body"))
 
 			handler.ServeHTTP(resp, req)
 
@@ -116,9 +117,9 @@ func TestOfficerDeltaHandlerSuccessfullySends(t *testing.T) {
 
 			handler := NewOfficerDeltaHandler(svc, h, chv, cfg)
 
-			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec).Return(nil, nil)
-			h.EXPECT().GetDataFromRequest(req).Return(requestBody, nil)
-			svc.EXPECT().SendMessage(handler.cfg.OfficerDeltaTopic, requestBody, "").Return(nil)
+			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec, contextId).Return(nil, nil)
+			h.EXPECT().GetDataFromRequest(req, contextId).Return(requestBody, nil)
+			svc.EXPECT().SendMessage(handler.cfg.OfficerDeltaTopic, requestBody, contextId).Return(nil)
 
 			handler.ServeHTTP(resp, req)
 
@@ -157,9 +158,9 @@ func TestOfficerDeltaHandlerFailsSend(t *testing.T) {
 
 			handler := NewOfficerDeltaHandler(svc, h, chv, cfg)
 
-			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec).Return(nil, nil)
-			h.EXPECT().GetDataFromRequest(req).Return(requestBody, nil)
-			svc.EXPECT().SendMessage(handler.cfg.OfficerDeltaTopic, requestBody).Return(errors.New("error sending message"))
+			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec, contextId).Return(nil, nil)
+			h.EXPECT().GetDataFromRequest(req, contextId).Return(requestBody, nil)
+			svc.EXPECT().SendMessage(handler.cfg.OfficerDeltaTopic, requestBody, contextId).Return(errors.New("error sending message"))
 
 			handler.ServeHTTP(resp, req)
 
@@ -198,7 +199,7 @@ func TestOfficerDeltaHandlerErrorsCallingValidation(t *testing.T) {
 
 			handler := NewOfficerDeltaHandler(svc, h, chv, cfg)
 
-			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec).Return(nil, errors.New("error"))
+			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec, contextId).Return(nil, errors.New("error"))
 
 			handler.ServeHTTP(resp, req)
 
@@ -237,7 +238,7 @@ func TestOfficerDeltaHandlerFailsValidation(t *testing.T) {
 			handler := NewOfficerDeltaHandler(svc, h, chv, cfg)
 
 			errBytes := []byte("error string")
-			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec).Return(errBytes, nil)
+			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec, contextId).Return(errBytes, nil)
 
 			handler.ServeHTTP(resp, req)
 
