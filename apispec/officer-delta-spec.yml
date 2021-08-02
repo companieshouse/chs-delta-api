@@ -89,7 +89,7 @@ components:
           maximum: 10
         officer_role:
           type: string
-        ususal_residential_country:
+        usual_residential_country:
           type: string
           maximum: 160
         previous_name_array:

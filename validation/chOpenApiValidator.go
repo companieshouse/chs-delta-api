@@ -163,9 +163,9 @@ func handleMultiError(mea *openapi3.MultiError, errsArray []models.CHError) []mo
 func handleRequestError(re *openapi3filter.RequestError, errsArray []models.CHError) []models.CHError {
 
 	// It is possible that the RequestError contains a MultiError if more than 1 error has been retuned inside of it.
-	var mea openapi3.MultiError
+	var mea *openapi3.MultiError
 	if ok := errors.As(re.Err, &mea); ok {
-		return handleMultiError(&mea, errsArray)
+		return handleMultiError(mea, errsArray)
 	}
 
 	// If it isn't a MultiError then we can begin the extract the error contents straight away.
@@ -180,7 +180,16 @@ func handleRequestError(re *openapi3filter.RequestError, errsArray []models.CHEr
 		errsArray = handleParseError(pe, errsArray)
 	}
 
-	// ErrInvalidRequired use errors.Is()
+	// The error could be that we are missing the request body entirely, so account for this too.
+	if ok := errors.Is(re.Err, openapi3filter.ErrInvalidRequired); ok {
+		errsArray = append(errsArray, models.CHError{
+			Error:        re.Err.Error(),
+			ErrorValues:  nil,
+			Location:     "request-body",
+			LocationType: "json-path",
+			Type:         "ch:validation",
+		})
+	}
 
 	// Return populated errsArray with new errors added.
 	return errsArray
