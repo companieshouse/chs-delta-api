@@ -30,7 +30,7 @@ func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request)
 
 	contextId := r.Context().Value(helpers.XRequestId).(string)
 
-	log.InfoC(contextId, fmt.Sprintf("Open API spec to use: %s", kp.cfg.OpenApiSpec), nil)
+	log.InfoC(contextId, fmt.Sprintf("Using the open api spec: "), log.Data{"OPEN_API_SPEC" : kp.cfg.OpenApiSpec})
 
 	// Validate against the open API 3 spec before progressing any further.
 	errValidation, err := kp.chv.ValidateRequestAgainstOpenApiSpec(r, kp.cfg.OpenApiSpec, contextId)
