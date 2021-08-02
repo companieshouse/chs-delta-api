@@ -49,7 +49,7 @@ func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request)
 	}
 
 	// Get request body and marshal into a string, ready for publishing.
-	data, err := kp.h.GetDataFromRequest(r,  contextId)
+	data, err := kp.h.GetDataFromRequest(r, contextId)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
