@@ -48,3 +48,18 @@ func (mr *MockHelperMockRecorder) GetDataFromRequest(r, contextId interface{}) *
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDataFromRequest", reflect.TypeOf((*MockHelper)(nil).GetDataFromRequest), r, contextId)
 }
+
+// GetRequestIdFromHeader mocks base method.
+func (m *MockHelper) GetRequestIdFromHeader(r *http.Request) (string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetRequestIdFromHeader", r)
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetRequestIdFromHeader indicates an expected call of GetRequestIdFromHeader.
+func (mr *MockHelperMockRecorder) GetRequestIdFromHeader(r interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRequestIdFromHeader", reflect.TypeOf((*MockHelper)(nil).GetRequestIdFromHeader), r)
+}

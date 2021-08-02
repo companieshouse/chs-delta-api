@@ -12,9 +12,12 @@ var (
 	callReadAll = ioutil.ReadAll
 )
 
+const xRequestId = "X-Request-Id"
+
 // Helper contains a list of all common functions.
 type Helper interface {
 	GetDataFromRequest(r *http.Request, contextId string) (string, error)
+	GetRequestIdFromHeader(r *http.Request) (string, error)
 }
 
 // Impl directly implements the Helper interface.
@@ -39,4 +42,13 @@ func (h Impl) GetDataFromRequest(r *http.Request, contextId string) (string, err
 	// Convert the request body into a string and pass it to the Kafka Service for publishing.
 	strData := string(data)
 	return strData, nil
+}
+
+//GetRequestIdFromHeader gets X-Request-Id from header and use it as a context id for logging
+func (h Impl) GetRequestIdFromHeader(r *http.Request) (string, error) {
+	requestID := r.Header.Get(xRequestId)
+	if requestID == "" {
+		return "Context ID not found", fmt.Errorf("unable to extract request ID")
+	}
+	return requestID, nil
 }

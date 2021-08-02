@@ -18,8 +18,6 @@ type OfficerDeltaHandler struct {
 	cfg  *config.Config
 }
 
-const xRequestId = "X-Request-Id"
-
 // NewOfficerDeltaHandler returns an OfficerDeltaHandler.
 func NewOfficerDeltaHandler(kSvc services.KafkaService, h helpers.Helper, chv validation.CHValidator, cfg *config.Config) *OfficerDeltaHandler {
 	return &OfficerDeltaHandler{kSvc: kSvc, h: h, chv: chv, cfg: cfg}
@@ -30,7 +28,10 @@ func NewOfficerDeltaHandler(kSvc services.KafkaService, h helpers.Helper, chv va
 // encountered then they will be returned via the ResponseWriter.
 func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
-	contextId := r.Context().Value(xRequestId).(string)
+	contextId, err := kp.h.GetRequestIdFromHeader(r)
+	if err != nil {
+		log.Error(err)
+	}
 
 	log.InfoC(contextId, fmt.Sprintf("Using the open api spec: "), log.Data{"OPEN_API_SPEC" : kp.cfg.OpenApiSpec})
 
