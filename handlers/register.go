@@ -6,6 +6,7 @@ import (
 	"github.com/companieshouse/chs-delta-api/helpers"
 	"github.com/companieshouse/chs-delta-api/services"
 	"github.com/companieshouse/chs-delta-api/validation"
+	"github.com/companieshouse/chs.go/authentication"
 	"net/http"
 
 	"github.com/companieshouse/chs.go/log"
@@ -22,10 +23,18 @@ func Register(mainRouter *mux.Router, cfg *config.Config, kSvc services.KafkaSer
 		return err
 	}
 
+	userAuthInterceptor := &authentication.UserAuthenticationInterceptor{
+		AllowAPIKeyUser:                true,
+		RequireElevatedAPIKeyPrivilege: true,
+	}
+
 	// Register endpoints for service.
 	mainRouter.HandleFunc("/delta/healthcheck", healthCheck).Methods(http.MethodGet).Name("healthcheck")
-	mainRouter.HandleFunc("/delta/officers", NewOfficerDeltaHandler(kSvc, h, chv, cfg).ServeHTTP).Methods(http.MethodPost).Name("officer-delta")
 	mainRouter.Use(log.Handler)
+
+	appRouter := mainRouter.PathPrefix("").Subrouter()
+	appRouter.HandleFunc("/delta/officers", NewOfficerDeltaHandler(kSvc, h, chv, cfg).ServeHTTP).Methods(http.MethodPost).Name("officer-delta")
+	appRouter.Use(userAuthInterceptor.UserAuthenticationIntercept)
 
 	return nil
 }
