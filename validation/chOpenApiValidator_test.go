@@ -151,7 +151,7 @@ func TestValidateRequestAgainstOpenApiSpecFindsValErrors(t *testing.T) {
 			return errors.New("validation error")
 		}
 
-		callFormatError = func(contextId string, err error) []byte {
+		callGetCHErrors = func(contextId string, err error) []byte {
 			return []byte("error while validating")
 		}
 
