@@ -12,8 +12,6 @@ var (
 	callReadAll = ioutil.ReadAll
 )
 
-const XRequestId = "X-Request-Id"
-
 // Helper contains a list of all common functions.
 type Helper interface {
 	GetDataFromRequest(r *http.Request, contextId string) (string, error)
