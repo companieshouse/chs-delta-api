@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/companieshouse/chs-delta-api/config"
 	"github.com/companieshouse/chs-delta-api/models"
 	"github.com/companieshouse/chs.go/log"
 	"github.com/getkin/kin-openapi/openapi3"
@@ -52,12 +53,12 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 		log.ErrorC(contextId, fmt.Errorf("error occured while retrieving absolute path of validation schema file: %s", err))
 		return nil, err
 	}
-	log.InfoC(contextId, fmt.Sprintf("Retrieved absolute path of validation schema: %s", abs))
+	log.InfoC(contextId, fmt.Sprintf("Retrieved absolute path of validation schema "), log.Data{config.SchemaAbsolutePath : abs})
 
 	// Load the validation schema.
 	doc, err := loader.LoadFromFile(abs)
 	if err != nil {
-		log.ErrorC(contextId, fmt.Errorf("unable to open Open API spec: %s", openApiSpec), nil)
+		log.ErrorC(contextId, fmt.Errorf("unable to open Open API spec "), log.Data{config.OpenApiSpec : openApiSpec})
 		return nil, err
 	} else {
 		if err := doc.Validate(ctx); err != nil {

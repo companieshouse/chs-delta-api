@@ -33,7 +33,7 @@ func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request)
 		log.Error(err)
 	}
 
-	log.InfoC(contextId, fmt.Sprintf("Using the open api spec: "), log.Data{"OPEN_API_SPEC" : kp.cfg.OpenApiSpec})
+	log.InfoC(contextId, fmt.Sprintf("Using the open api spec: "), log.Data{config.OpenApiSpec : kp.cfg.OpenApiSpec})
 
 	// Validate against the open API 3 spec before progressing any further.
 	errValidation, err := kp.chv.ValidateRequestAgainstOpenApiSpec(r, kp.cfg.OpenApiSpec, contextId)
@@ -60,7 +60,7 @@ func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request)
 
 	// Send data string to Kafka service for publishing.
 	if err := kp.kSvc.SendMessage(kp.cfg.OfficerDeltaTopic, data, contextId); err != nil {
-		log.ErrorC(contextId, fmt.Errorf("error sending the message to the given kafka topic %s: %s", kp.cfg.OfficerDeltaTopic, err), nil)
+		log.ErrorC(contextId, fmt.Errorf("error sending the message to the given kafka topic  %s", err), log.Data{config.OfficerDeltaTopic : kp.cfg.OfficerDeltaTopic})
 		w.WriteHeader(http.StatusInternalServerError)
 
 		return
