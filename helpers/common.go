@@ -48,7 +48,7 @@ func (h Impl) GetDataFromRequest(r *http.Request, contextId string) (string, err
 func (h Impl) GetRequestIdFromHeader(r *http.Request) (string, error) {
 	requestID := r.Header.Get(xRequestId)
 	if requestID == "" {
-		return "Context ID not found", fmt.Errorf("unable to extract request ID")
+		return "contextId", fmt.Errorf("unable to extract request ID")
 	}
 	return requestID, nil
 }

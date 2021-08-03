@@ -99,7 +99,7 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 		// Switch off the addition of schema error details to the returned error. This stops the OpenApi schema being added to errors.
 		openapi3.SchemaErrorDetailsDisabled = true
 
-		log.InfoC(contextId, "Validating request...", nil)
+		log.InfoC(contextId, "Validating request using: ", log.Data{config.OpenApiSpec : openApiSpec})
 		if err := callOpenApiFilterValidateRequest(ctx, requestValidationInput); err != nil {
 			// If errors are found in the request format them and return them.
 			log.InfoC(contextId, "Request validated. Errors found.", nil)
