@@ -49,6 +49,7 @@ func (h Impl) GetRequestIdFromHeader(r *http.Request) string {
 	requestID := r.Header.Get(xRequestId)
 	if requestID == "" {
 		log.Error(fmt.Errorf("unable to extract request ID"))
+		return "contextId"
 	}
 	return requestID
 }
