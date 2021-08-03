@@ -60,13 +60,11 @@ func TestGetRequestIdFromHeaderError(t *testing.T) {
 		reqBody := http.Request{Body: ioutil.NopCloser(bytes.NewReader([]byte(requestExample)))}
 
 		h := NewHelper()
-		data, err := h.GetRequestIdFromHeader(&reqBody)
+		data:= h.GetRequestIdFromHeader(&reqBody)
 
 		Convey("Then I am given an error", func() {
 
-			So(data, ShouldEqual, contextId)
-			So(err, ShouldNotBeNil)
-			So(err.Error(), ShouldEqual, "unable to extract request ID")
+			So(data, ShouldEqual, "")
 		})
 	})
 }
@@ -80,12 +78,13 @@ func TestGetRequestIdFromHeaderSuccess(t *testing.T) {
 		reqBody.Header.Set(xRequestId, contextId)
 
 		h := NewHelper()
-		data, err := h.GetRequestIdFromHeader(reqBody)
+		data := h.GetRequestIdFromHeader(reqBody)
 
 		Convey("Then I am given a request id", func() {
 
+			So(data, ShouldNotBeNil)
 			So(data, ShouldEqual, contextId)
-			So(err, ShouldBeNil)
+
 		})
 	})
 }

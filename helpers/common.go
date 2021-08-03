@@ -17,7 +17,7 @@ const xRequestId = "X-Request-Id"
 // Helper contains a list of all common functions.
 type Helper interface {
 	GetDataFromRequest(r *http.Request, contextId string) (string, error)
-	GetRequestIdFromHeader(r *http.Request) (string, error)
+	GetRequestIdFromHeader(r *http.Request) string
 }
 
 // Impl directly implements the Helper interface.
@@ -45,10 +45,10 @@ func (h Impl) GetDataFromRequest(r *http.Request, contextId string) (string, err
 }
 
 //GetRequestIdFromHeader gets X-Request-Id from header and use it as a context id for logging
-func (h Impl) GetRequestIdFromHeader(r *http.Request) (string, error) {
+func (h Impl) GetRequestIdFromHeader(r *http.Request) string {
 	requestID := r.Header.Get(xRequestId)
 	if requestID == "" {
-		return "contextId", fmt.Errorf("unable to extract request ID")
+		log.Error(fmt.Errorf("unable to extract request ID"))
 	}
-	return requestID, nil
+	return requestID
 }

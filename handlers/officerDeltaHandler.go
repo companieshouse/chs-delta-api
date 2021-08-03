@@ -28,10 +28,7 @@ func NewOfficerDeltaHandler(kSvc services.KafkaService, h helpers.Helper, chv va
 // encountered then they will be returned via the ResponseWriter.
 func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
-	contextId, err := kp.h.GetRequestIdFromHeader(r)
-	if err != nil {
-		log.Error(err)
-	}
+	contextId := kp.h.GetRequestIdFromHeader(r)
 
 	log.InfoC(contextId, fmt.Sprintf("Using the open api spec: "), log.Data{config.OpenApiSpec : kp.cfg.OpenApiSpec})
 
