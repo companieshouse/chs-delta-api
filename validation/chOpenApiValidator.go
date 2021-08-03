@@ -103,7 +103,7 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 		log.InfoC(contextId, "Validating request using: ", log.Data{config.OpenApiSpecKey: openApiSpec})
 		if err := callOpenApiFilterValidateRequest(ctx, requestValidationInput); err != nil {
 			// If errors are found in the request format them and return them.
-			log.InfoC(contextId, "Request validated. Errors found.", nil)
+			log.ErrorC(contextId, err, log.Data{config.MessageKey : "Request validated. Errors found."})
 			return callFormatError(contextId, err), nil
 		}
 

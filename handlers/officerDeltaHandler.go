@@ -57,7 +57,7 @@ func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request)
 
 	// Send data string to Kafka service for publishing.
 	if err := kp.kSvc.SendMessage(kp.cfg.OfficerDeltaTopic, data, contextId); err != nil {
-		log.ErrorC(contextId, err, log.Data{config.OfficerDeltaTopicKey: kp.cfg.OfficerDeltaTopic, config.MessageKey : "error sending the message to the given kafka topic"})
+		log.ErrorC(contextId, err, log.Data{config.TopicKey: kp.cfg.OfficerDeltaTopic, config.MessageKey : "error sending the message to the given kafka topic"})
 		w.WriteHeader(http.StatusInternalServerError)
 
 		return
