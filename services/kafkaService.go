@@ -115,7 +115,6 @@ func (kSvc *KafkaServiceImpl) SendMessage(topic, data, contextId string) error {
 	// Finally try to send the message.
 	partition, offset, err := callSend(kSvc, producerMessage)
 	log.InfoC(contextId, "Sending message", log.Data{"topic": producerMessage.Topic, "partition": partition, "offset": offset})
-	log.TraceC(contextId, "Message is about to be sent to Kafka")
 	return err
 }
 

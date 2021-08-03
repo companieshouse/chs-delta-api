@@ -51,3 +51,41 @@ func TestGetDataFromRequestError(t *testing.T) {
 		})
 	})
 }
+
+// TestGetRequestIdFromHeaderError asserts that request id is not set.
+func TestGetRequestIdFromHeaderError(t *testing.T) {
+
+	Convey("Given I try to get the request id from header and X-Request-Id is not provided", t, func() {
+
+		reqBody := http.Request{Body: ioutil.NopCloser(bytes.NewReader([]byte(requestExample)))}
+
+		h := NewHelper()
+		data, err := h.GetRequestIdFromHeader(&reqBody)
+
+		Convey("Then I am given an error", func() {
+
+			So(data, ShouldEqual, contextId)
+			So(err, ShouldNotBeNil)
+			So(err.Error(), ShouldEqual, "unable to extract request ID")
+		})
+	})
+}
+
+// TestGetRequestIdFromHeaderSuccess asserts that request id is set and is successfully extracted.
+func TestGetRequestIdFromHeaderSuccess(t *testing.T) {
+
+	Convey("Given I try to get the request id from header and X-Request-Id is provided", t, func() {
+
+		reqBody, _ := http.NewRequest(http.MethodGet, "http://www.companieshouse.gov.uk", nil)
+		reqBody.Header.Set(xRequestId, contextId)
+
+		h := NewHelper()
+		data, err := h.GetRequestIdFromHeader(reqBody)
+
+		Convey("Then I am given a request id", func() {
+
+			So(data, ShouldEqual, contextId)
+			So(err, ShouldBeNil)
+		})
+	})
+}
