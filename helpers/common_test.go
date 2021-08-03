@@ -64,7 +64,8 @@ func TestGetRequestIdFromHeaderError(t *testing.T) {
 
 		Convey("Then I am given an error", func() {
 
-			So(data, ShouldEqual, contextId)
+			So(data, ShouldNotBeNil)
+			So(data, ShouldNotEqual, contextId)
 		})
 	})
 }
