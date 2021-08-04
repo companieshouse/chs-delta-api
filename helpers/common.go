@@ -38,7 +38,7 @@ func (h Impl) GetDataFromRequest(r *http.Request, contextId string) (string, err
 	// Retrieve the request body.
 	data, err := callReadAll(r.Body)
 	if err != nil {
-		log.ErrorC(contextId, err, log.Data{config.MessageKey : "error while retrieving the Body from a given request and converting it into a string"})
+		log.ErrorC(contextId, err, log.Data{config.MessageKey: "error while retrieving the Body from a given request and converting it into a string"})
 
 		return "", err
 	}

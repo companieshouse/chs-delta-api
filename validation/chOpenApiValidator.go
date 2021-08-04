@@ -50,7 +50,7 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 	loader := &openapi3.Loader{Context: ctx, IsExternalRefsAllowed: true}
 	abs, err := callFilepathAbs(openApiSpec)
 	if err != nil {
-		log.ErrorC(contextId, err, log.Data{config.MessageKey : "error occurred while retrieving absolute path of validation schema file"})
+		log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while retrieving absolute path of validation schema file"})
 		return nil, err
 	}
 	log.InfoC(contextId, fmt.Sprintf("Retrieved absolute path of validation schema "), log.Data{config.SchemaAbsolutePathKey: abs})
@@ -58,11 +58,11 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 	// Load the validation schema.
 	doc, err := loader.LoadFromFile(abs)
 	if err != nil {
-		log.ErrorC(contextId, err, log.Data{config.OpenApiSpecKey: openApiSpec, config.MessageKey : "unable to open Open API spec"})
+		log.ErrorC(contextId, err, log.Data{config.OpenApiSpecKey: openApiSpec, config.MessageKey: "unable to open Open API spec"})
 		return nil, err
 	} else {
 		if err := doc.Validate(ctx); err != nil {
-			log.ErrorC(contextId, err, log.Data{config.MessageKey : "error occurred while trying to call kin-openAPI validation method"})
+			log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while trying to call kin-openAPI validation method"})
 
 			return nil, err
 		}
@@ -70,14 +70,14 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 		// Initialise router to later retrieve routes to validate against.
 		r, err := callNewRouter(doc)
 		if err != nil {
-			log.ErrorC(contextId, err, log.Data{config.MessageKey : "error occurred while initialising router for validation"})
+			log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while initialising router for validation"})
 			return nil, err
 		}
 
 		// Find routes using the given http request.
 		route, pathParams, err := callFindRoute(r, httpReq)
 		if err != nil {
-			log.ErrorC(contextId, err, log.Data{config.MessageKey : "error occurred while finding routes for given http request"})
+			log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while finding routes for given http request"})
 			return nil, err
 		}
 
@@ -115,7 +115,7 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 
 func formatError(contextId string, err error) []byte {
 
-	var errorsArr []models.CHError
+	errorsArr := make([]models.CHError, 0)
 
 	// Range over every MultiError to pull all RequestErrors.
 	for _, me := range err.(openapi3.MultiError) {
@@ -123,7 +123,7 @@ func formatError(contextId string, err error) []byte {
 		// Retrieve RequestErrors and range over them to grab their inner MultiErrors, as these contain the SchemaErrors.
 		switch e := me.(type) {
 		case *openapi3filter.RequestError:
-			errorsArr = append(errorsArr, extractRequestError(e))
+			errorsArr = extractRequestError(e, errorsArr)
 		default:
 			// Can't match, what do we do?
 			err := errors.New("error when trying to match error type returned")
@@ -139,14 +139,14 @@ func formatError(contextId string, err error) []byte {
 	// If errors do exist, format the array into a JSON object for better viewing.
 	mr, err := json.Marshal(errorsArr)
 	if err != nil {
-		log.ErrorC(contextId, err, log.Data{config.MessageKey : "error occurred while formatting CHError array into JSON object"})
+		log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while formatting CHError array into JSON object"})
 		return nil
 	}
 
 	return mr
 }
 
-func extractRequestError(re *openapi3filter.RequestError) models.CHError {
+func extractRequestError(re *openapi3filter.RequestError, errsArray []models.CHError) []models.CHError {
 
 	for _, me := range re.Err.(openapi3.MultiError) {
 
@@ -175,11 +175,11 @@ func extractRequestError(re *openapi3filter.RequestError) models.CHError {
 			Type:         "ch:validation",
 		}
 
-		return err
+		errsArray = append(errsArray, err)
 	}
 
-	// We should never reach this return statement.
-	return models.CHError{}
+	// Return populated errsArray with new errors added.
+	return errsArray
 }
 
 // findRoute is used to add an abstraction layer for unit testing. Allowing us to mock the returns for external methods.

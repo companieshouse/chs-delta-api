@@ -1,0 +1,65 @@
+[
+    {
+        "error": "property 'corporate_ind' is missing",
+        "error_values": {
+            "corporate_ind": ""
+        },
+        "location": "officers.0.corporate_ind",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "property 'appointment_date' is missing",
+        "error_values": {
+            "appointment_date": ""
+        },
+        "location": "officers.0.appointment_date",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "property 'service_address_same_as_registered_address' is missing",
+        "error_values": {
+            "service_address_same_as_registered_address": ""
+        },
+        "location": "officers.0.service_address_same_as_registered_address",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "property 'officer_id' is missing",
+        "error_values": {
+            "officer_id": ""
+        },
+        "location": "officers.0.officer_id",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "property 'officer_detail_id' is missing",
+        "error_values": {
+            "officer_detail_id": ""
+        },
+        "location": "officers.0.officer_detail_id",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "property 'secure_director' is missing",
+        "error_values": {
+            "secure_director": ""
+        },
+        "location": "officers.0.secure_director",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "property 'CreatedTime' is missing",
+        "error_values": {
+            "CreatedTime": ""
+        },
+        "location": "CreatedTime",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    }
+]

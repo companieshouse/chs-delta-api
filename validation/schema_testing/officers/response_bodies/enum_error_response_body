@@ -1,0 +1,29 @@
+[
+    {
+        "error": "value is not one of the allowed values",
+        "error_values": {
+            "secure_director": "wrong"
+        },
+        "location": "officers.0.secure_director",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "value is not one of the allowed values",
+        "error_values": {
+            "corporate_ind": "wrong"
+        },
+        "location": "officers.0.corporate_ind",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "value is not one of the allowed values",
+        "error_values": {
+            "service_address_same_as_registered_address": "wrong"
+        },
+        "location": "officers.0.service_address_same_as_registered_address",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    }
+]

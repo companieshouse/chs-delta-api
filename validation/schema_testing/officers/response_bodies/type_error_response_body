@@ -1,0 +1,398 @@
+[
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "kind": "number, integer"
+        },
+        "location": "officers.0.kind",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "internal_id": "number, integer"
+        },
+        "location": "officers.0.internal_id",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "title": "number, integer"
+        },
+        "location": "officers.0.title",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "surname": "number, integer"
+        },
+        "location": "officers.0.surname",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "nationality": "number, integer"
+        },
+        "location": "officers.0.nationality",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "occupation": "number, integer"
+        },
+        "location": "officers.0.occupation",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "previous_surname": "number, integer"
+        },
+        "location": "officers.0.previous_name_array.previous_surname",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "previous_forename": "number, integer"
+        },
+        "location": "officers.0.previous_name_array.previous_forename",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "previous_timestamp": "number, integer"
+        },
+        "location": "officers.0.previous_name_array.previous_timestamp",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "postal_code": "number, integer"
+        },
+        "location": "officers.0.service_address.postal_code",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "premise": "number, integer"
+        },
+        "location": "officers.0.service_address.premise",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "address_line_1": "number, integer"
+        },
+        "location": "officers.0.service_address.address_line_1",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "address_line_2": "number, integer"
+        },
+        "location": "officers.0.service_address.address_line_2",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "care_of": "number, integer"
+        },
+        "location": "officers.0.service_address.care_of",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "country": "number, integer"
+        },
+        "location": "officers.0.service_address.country",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "locality": "number, integer"
+        },
+        "location": "officers.0.service_address.locality",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "region": "number, integer"
+        },
+        "location": "officers.0.service_address.region",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "po_box": "number, integer"
+        },
+        "location": "officers.0.service_address.po_box",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "supplied_company_name": "number, integer"
+        },
+        "location": "officers.0.service_address.supplied_company_name",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "usual_country_of_residence": "number, integer"
+        },
+        "location": "officers.0.service_address.usual_country_of_residence",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "company_number": "number, integer"
+        },
+        "location": "officers.0.company_number",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "forename": "number, integer"
+        },
+        "location": "officers.0.forename",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "date_of_birth": "number, integer"
+        },
+        "location": "officers.0.date_of_birth",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "officer_role": "number, integer"
+        },
+        "location": "officers.0.officer_role",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "officer_detail_id": "number, integer"
+        },
+        "location": "officers.0.officer_detail_id",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "",
+        "error_values": {
+            "identification": "map[EEA:map[legal_authority:123 legal_form:123 place_registered:123 registration_number:123] UK_limited_company:map[legal_authority:123 legal_form:123 place_registered:123 registration_number:123] non_eea:map[legal_authority:123 legal_form:123 place_registered:123 registration_number:123] other_corporate_body_or_firm:map[legal_authority:123 legal_form:123 place_registered:123 registration_number:123]]"
+        },
+        "location": "officers.0.identification",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "changed_at": "number, integer"
+        },
+        "location": "officers.0.changed_at",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "appointment_date": "number, integer"
+        },
+        "location": "officers.0.appointment_date",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "middle_name": "number, integer"
+        },
+        "location": "officers.0.middle_name",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "officer_id": "number, integer"
+        },
+        "location": "officers.0.officer_id",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "usual_residential_country": "number, integer"
+        },
+        "location": "officers.0.usual_residential_country",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "region": "number, integer"
+        },
+        "location": "officers.0.usual_residential_address.region",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "po_box": "number, integer"
+        },
+        "location": "officers.0.usual_residential_address.po_box",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "supplied_company_name": "number, integer"
+        },
+        "location": "officers.0.usual_residential_address.supplied_company_name",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "country": "number, integer"
+        },
+        "location": "officers.0.usual_residential_address.country",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "postal_code": "number, integer"
+        },
+        "location": "officers.0.usual_residential_address.postal_code",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "address_line_1": "number, integer"
+        },
+        "location": "officers.0.usual_residential_address.address_line_1",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "care_of": "number, integer"
+        },
+        "location": "officers.0.usual_residential_address.care_of",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "locality": "number, integer"
+        },
+        "location": "officers.0.usual_residential_address.locality",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "usual_country_of_residence": "number, integer"
+        },
+        "location": "officers.0.usual_residential_address.usual_country_of_residence",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "premise": "number, integer"
+        },
+        "location": "officers.0.usual_residential_address.premise",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "address_line_2": "number, integer"
+        },
+        "location": "officers.0.usual_residential_address.address_line_2",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "CreatedTime": "number, integer"
+        },
+        "location": "CreatedTime",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "delta_at": "number, integer"
+        },
+        "location": "delta_at",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    }
+]

@@ -60,7 +60,7 @@ func TestGetRequestIdFromHeaderError(t *testing.T) {
 		reqBody := http.Request{Body: ioutil.NopCloser(bytes.NewReader([]byte(requestExample)))}
 
 		h := NewHelper()
-		data:= h.GetRequestIdFromHeader(&reqBody)
+		data := h.GetRequestIdFromHeader(&reqBody)
 
 		Convey("Then I am given an error", func() {
 
