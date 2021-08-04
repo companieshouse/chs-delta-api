@@ -114,8 +114,7 @@ func (kSvc *KafkaServiceImpl) SendMessage(topic, data, contextId string) error {
 
 	// Finally try to send the message.
 	partition, offset, err := callSend(kSvc, producerMessage)
-	log.InfoC(contextId, "Sending message", log.Data{"topic": producerMessage.Topic, "partition": partition, "offset": offset})
-	log.TraceC(contextId, "Sending message", log.Data{"message source": deltaData}) // TODO: Don't log entire data blob
+	log.InfoC(contextId, "Sending message", log.Data{config.TopicKey: producerMessage.Topic, config.PartitionKey: partition, config.OffsetKey: offset})
 	return err
 }
 
