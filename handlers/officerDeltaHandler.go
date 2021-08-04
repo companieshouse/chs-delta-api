@@ -28,34 +28,36 @@ func NewOfficerDeltaHandler(kSvc services.KafkaService, h helpers.Helper, chv va
 // encountered then they will be returned via the ResponseWriter.
 func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
-	log.Info(fmt.Sprintf("Open API spec to use: %s", kp.cfg.OpenApiSpec), nil)
+	contextId := kp.h.GetRequestIdFromHeader(r)
+
+	log.InfoC(contextId, fmt.Sprintf("Using the open api spec: "), log.Data{config.OpenApiSpecKey: kp.cfg.OpenApiSpec})
 
 	// Validate against the open API 3 spec before progressing any further.
-	errValidation, err := kp.chv.ValidateRequestAgainstOpenApiSpec(r, kp.cfg.OpenApiSpec)
+	errValidation, err := kp.chv.ValidateRequestAgainstOpenApiSpec(r, kp.cfg.OpenApiSpec, contextId)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		log.Error(fmt.Errorf("error occured while trying to validate request: %s", err))
+		log.ErrorC(contextId, err, log.Data{config.MessageKey : "error occurred while trying to validate request"})
 		return
 	} else if errValidation != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		_, err = w.Write(errValidation)
 		if err != nil {
-			log.Error(fmt.Errorf("error occured while trying to write response: %s", err))
+			log.ErrorC(contextId, err, log.Data{config.MessageKey : "error occurred while trying to write response"})
 		}
 
 		return
 	}
 
 	// Get request body and marshal into a string, ready for publishing.
-	data, err := kp.h.GetDataFromRequest(r)
+	data, err := kp.h.GetDataFromRequest(r, contextId)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	// Send data string to Kafka service for publishing.
-	if err := kp.kSvc.SendMessage(kp.cfg.OfficerDeltaTopic, data); err != nil {
-		log.Error(fmt.Errorf("error sending the message to the given kafka topic %s: %s", kp.cfg.OfficerDeltaTopic, err), nil)
+	if err := kp.kSvc.SendMessage(kp.cfg.OfficerDeltaTopic, data, contextId); err != nil {
+		log.ErrorC(contextId, err, log.Data{config.TopicKey: kp.cfg.OfficerDeltaTopic, config.MessageKey : "error sending the message to the given kafka topic"})
 		w.WriteHeader(http.StatusInternalServerError)
 
 		return

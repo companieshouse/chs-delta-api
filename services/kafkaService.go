@@ -26,7 +26,7 @@ var (
 // KafkaService defines all Methods needed to successfully send a message onto a Kafka topic.
 type KafkaService interface {
 	Init(cfg *config.Config) error
-	SendMessage(topic, data string) error
+	SendMessage(topic, data, contextId string) error
 }
 
 // KafkaServiceImpl is a concrete implementation of the KafkaService interface.
@@ -86,7 +86,7 @@ func initProducer(cfg *config.Config) (*producer.Producer, error) {
 }
 
 // SendMessage publishes a given data string retrieved from a REST request onto a chosen Kafka topic.
-func (kSvc *KafkaServiceImpl) SendMessage(topic, data string) error {
+func (kSvc *KafkaServiceImpl) SendMessage(topic, data, contextId string) error {
 
 	// Retrieve our chs-delta avro schema using the chs go avro package.
 	chsDeltaAvro := &avro.Schema{
@@ -95,7 +95,7 @@ func (kSvc *KafkaServiceImpl) SendMessage(topic, data string) error {
 
 	// Construct a chs-delta using provided data.
 	deltaData := models.ChsDelta{
-		ContextId: "uu-aa-dd",
+		ContextId: contextId,
 		Data:      data,
 	}
 
@@ -114,8 +114,7 @@ func (kSvc *KafkaServiceImpl) SendMessage(topic, data string) error {
 
 	// Finally try to send the message.
 	partition, offset, err := callSend(kSvc, producerMessage)
-	log.Info("Sending message", log.Data{"topic": producerMessage.Topic, "partition": partition, "offset": offset})
-	log.Trace("Sending message", log.Data{"message source": deltaData})
+	log.InfoC(contextId, "Sending message", log.Data{config.TopicKey: producerMessage.Topic, config.PartitionKey: partition, config.OffsetKey: offset})
 	return err
 }
 

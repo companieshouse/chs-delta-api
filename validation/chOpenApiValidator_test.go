@@ -17,6 +17,7 @@ import (
 const (
 	requestBody     = `{"dummy" : "request"}`
 	apiSpecLocation = "../apispec/api-spec.yml"
+	contextId       = "contextId"
 )
 
 // TestNewCHValidator asserts that the CHValidator constructor correctly returns a CHValidator.
@@ -42,7 +43,7 @@ func TestValidateRequestAgainstOpenApiSpecFailsAbs(t *testing.T) {
 			return "", errReturned
 		}
 
-		valErrs, err := chv.ValidateRequestAgainstOpenApiSpec(req, apiSpecLocation)
+		valErrs, err := chv.ValidateRequestAgainstOpenApiSpec(req, apiSpecLocation, contextId)
 
 		Convey("Then the failure to get the ABS path to spec is handled correctly", func() {
 			So(valErrs, ShouldBeNil)
@@ -64,7 +65,7 @@ func TestValidateRequestAgainstOpenApiSpecFailsFileOpen(t *testing.T) {
 			return "wrongLocation/toSpec", nil
 		}
 
-		valErrs, err := chv.ValidateRequestAgainstOpenApiSpec(req, apiSpecLocation)
+		valErrs, err := chv.ValidateRequestAgainstOpenApiSpec(req, apiSpecLocation, contextId)
 
 		Convey("Then the failure to get the ABS path to spec is handled correctly", func() {
 			So(valErrs, ShouldBeNil)
@@ -89,7 +90,7 @@ func TestValidateRequestAgainstOpenApiSpecFailsToCreateRouter(t *testing.T) {
 			return nil, errors.New("error creating router")
 		}
 
-		valErrs, err := chv.ValidateRequestAgainstOpenApiSpec(req, apiSpecLocation)
+		valErrs, err := chv.ValidateRequestAgainstOpenApiSpec(req, apiSpecLocation, contextId)
 
 		Convey("Then the failure to get the ABS path to spec is handled correctly", func() {
 			So(valErrs, ShouldBeNil)
@@ -119,7 +120,7 @@ func TestValidateRequestAgainstOpenApiSpecNoErrors(t *testing.T) {
 			return nil
 		}
 
-		valErrs, err := chv.ValidateRequestAgainstOpenApiSpec(req, apiSpecLocation)
+		valErrs, err := chv.ValidateRequestAgainstOpenApiSpec(req, apiSpecLocation, contextId)
 
 		Convey("Then the failure to get the ABS path to spec is handled correctly", func() {
 			So(valErrs, ShouldBeNil)
@@ -150,11 +151,11 @@ func TestValidateRequestAgainstOpenApiSpecFindsValErrors(t *testing.T) {
 			return errors.New("validation error")
 		}
 
-		callFormatError = func(err error) []byte {
+		callFormatError = func(contextId string, err error) []byte {
 			return []byte("error while validating")
 		}
 
-		valErrs, err := chv.ValidateRequestAgainstOpenApiSpec(req, apiSpecLocation)
+		valErrs, err := chv.ValidateRequestAgainstOpenApiSpec(req, apiSpecLocation, contextId)
 
 		Convey("Then the failure to get the ABS path to spec is handled correctly", func() {
 			So(valErrs, ShouldNotBeNil)
