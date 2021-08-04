@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/companieshouse/chs-delta-api/config"
 	"github.com/companieshouse/chs-delta-api/models"
 	"github.com/companieshouse/chs.go/log"
 	"github.com/getkin/kin-openapi/openapi3"
@@ -49,33 +50,34 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 	loader := &openapi3.Loader{Context: ctx, IsExternalRefsAllowed: true}
 	abs, err := callFilepathAbs(openApiSpec)
 	if err != nil {
-		log.ErrorC(contextId, fmt.Errorf("error occured while retrieving absolute path of validation schema file: %s", err))
+		log.ErrorC(contextId, err, log.Data{config.MessageKey : "error occurred while retrieving absolute path of validation schema file"})
 		return nil, err
 	}
-	log.InfoC(contextId, fmt.Sprintf("Retrieved absolute path of validation schema: %s", abs))
+	log.InfoC(contextId, fmt.Sprintf("Retrieved absolute path of validation schema "), log.Data{config.SchemaAbsolutePathKey: abs})
 
 	// Load the validation schema.
 	doc, err := loader.LoadFromFile(abs)
 	if err != nil {
-		log.ErrorC(contextId, fmt.Errorf("unable to open Open API spec: %s", openApiSpec), nil)
+		log.ErrorC(contextId, err, log.Data{config.OpenApiSpecKey: openApiSpec, config.MessageKey : "unable to open Open API spec"})
 		return nil, err
 	} else {
 		if err := doc.Validate(ctx); err != nil {
-			log.ErrorC(contextId, fmt.Errorf("error occured while trying to call kin-openAPI validation method: %s", err))
+			log.ErrorC(contextId, err, log.Data{config.MessageKey : "error occurred while trying to call kin-openAPI validation method"})
+
 			return nil, err
 		}
 
 		// Initialise router to later retrieve routes to validate against.
 		r, err := callNewRouter(doc)
 		if err != nil {
-			log.ErrorC(contextId, fmt.Errorf("error occured while initialising router for validation: %s", err))
+			log.ErrorC(contextId, err, log.Data{config.MessageKey : "error occurred while initialising router for validation"})
 			return nil, err
 		}
 
 		// Find routes using the given http request.
 		route, pathParams, err := callFindRoute(r, httpReq)
 		if err != nil {
-			log.ErrorC(contextId, fmt.Errorf("error occured while finding routes for given http request: %s", err))
+			log.ErrorC(contextId, err, log.Data{config.MessageKey : "error occurred while finding routes for given http request"})
 			return nil, err
 		}
 
@@ -98,7 +100,7 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 		// Switch off the addition of schema error details to the returned error. This stops the OpenApi schema being added to errors.
 		openapi3.SchemaErrorDetailsDisabled = true
 
-		log.InfoC(contextId, "Validating request...", nil)
+		log.InfoC(contextId, "Validating request using: ", log.Data{config.OpenApiSpecKey: openApiSpec})
 		if err := callOpenApiFilterValidateRequest(ctx, requestValidationInput); err != nil {
 			// If errors are found in the request format them and return them.
 			log.InfoC(contextId, "Request validated. Errors found.", nil)
@@ -137,7 +139,7 @@ func formatError(contextId string, err error) []byte {
 	// If errors do exist, format the array into a JSON object for better viewing.
 	mr, err := json.Marshal(errorsArr)
 	if err != nil {
-		log.ErrorC(contextId, fmt.Errorf("error occured while formatting CHError array into JSON object: %s", err))
+		log.ErrorC(contextId, err, log.Data{config.MessageKey : "error occurred while formatting CHError array into JSON object"})
 		return nil
 	}
 
