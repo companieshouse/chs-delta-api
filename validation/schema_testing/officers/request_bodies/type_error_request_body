@@ -19,7 +19,7 @@
       "secure_director": "Y",
       "officer_detail_id": 123,
       "officer_role": 123,
-      "ususal_residential_country": 123,
+      "usual_residential_country": 123,
       "previous_name_array": {
         "previous_surname": 123,
         "previous_forename": 123,

@@ -48,7 +48,7 @@ components:
           type: string
         title:
           type: string
-          maximum: 50
+          maxLength: 50
         corporate_ind:
           type: string
           enum:
@@ -56,13 +56,13 @@ components:
             - "N"
         surname:
           type: string
-          maximum: 160
+          maxLength: 160
         forename:
           type: string
-          maximum: 50
+          maxLength: 50
         middle_name:
           type: string
-          maximum: 50
+          maxLength: 50
         date_of_birth:
           type: string
         service_address_same_as_registered_address:
@@ -72,13 +72,13 @@ components:
             - "N"
         nationality:
           type: string
-          maximum: 50
+          maxLength: 50
         occupation:
           type: string
-          maximum: 100
+          maxLength: 100
         officer_id:
           type: string
-          maximum: 10
+          maxLength: 10
         secure_director:
           type: string
           enum:
@@ -86,12 +86,12 @@ components:
             - "N"
         officer_detail_id:
           type: string
-          maximum: 10
+          maxLength: 10
         officer_role:
           type: string
         usual_residential_country:
           type: string
-          maximum: 160
+          maxLength: 160
         previous_name_array:
           $ref: '#/components/schemas/Previous_name_array'
         identification:
@@ -136,16 +136,16 @@ components:
       properties:
         place_registered:
           type: string
-          maximum: 160
+          maxLength: 160
         registration_number:
           type: string
-          maximum: 160
+          maxLength: 160
         legal_authority:
           type: string
-          maximum: 160
+          maxLength: 160
         legal_form:
           type: string
-          maximum: 160
+          maxLength: 160
 
     Address:
       type: object
@@ -154,7 +154,7 @@ components:
           type: string
         address_line_1:
           type: string
-          maximum: 250
+          maxLength: 250
         address_line_2:
           type: string
         locality:
@@ -171,6 +171,6 @@ components:
           type: string
         postal_code:
           type: string
-          maximum: 20
+          maxLength: 20
         usual_country_of_residence:
           type: string

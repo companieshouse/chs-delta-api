@@ -50,7 +50,7 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 	loader := &openapi3.Loader{Context: ctx, IsExternalRefsAllowed: true}
 	abs, err := callFilepathAbs(openApiSpec)
 	if err != nil {
-		log.ErrorC(contextId, err, log.Data{config.MessageKey : "error occurred while retrieving absolute path of validation schema file"})
+		log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while retrieving absolute path of validation schema file"})
 		return nil, err
 	}
 	log.InfoC(contextId, fmt.Sprintf("Retrieved absolute path of validation schema "), log.Data{config.SchemaAbsolutePathKey: abs})
@@ -58,11 +58,11 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 	// Load the validation schema.
 	doc, err := loader.LoadFromFile(abs)
 	if err != nil {
-		log.ErrorC(contextId, err, log.Data{config.OpenApiSpecKey: openApiSpec, config.MessageKey : "unable to open Open API spec"})
+		log.ErrorC(contextId, err, log.Data{config.OpenApiSpecKey: openApiSpec, config.MessageKey: "unable to open Open API spec"})
 		return nil, err
 	} else {
 		if err := doc.Validate(ctx); err != nil {
-			log.ErrorC(contextId, err, log.Data{config.MessageKey : "error occurred while trying to call kin-openAPI validation method"})
+			log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while trying to call kin-openAPI validation method"})
 
 			return nil, err
 		}
@@ -70,14 +70,14 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 		// Initialise router to later retrieve routes to validate against.
 		r, err := callNewRouter(doc)
 		if err != nil {
-			log.ErrorC(contextId, err, log.Data{config.MessageKey : "error occurred while initialising router for validation"})
+			log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while initialising router for validation"})
 			return nil, err
 		}
 
 		// Find routes using the given http request.
 		route, pathParams, err := callFindRoute(r, httpReq)
 		if err != nil {
-			log.ErrorC(contextId, err, log.Data{config.MessageKey : "error occurred while finding routes for given http request"})
+			log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while finding routes for given http request"})
 			return nil, err
 		}
 
@@ -129,7 +129,7 @@ func getCHErrors(contextId string, err error) []byte {
 	// Marshal the built up array and return it.
 	mr, err := json.Marshal(errorsArr)
 	if err != nil {
-		log.ErrorC(contextId, err, log.Data{config.MessageKey : "error occurred while formatting CHError array into JSON object"})
+		log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while formatting CHError array into JSON object"})
 		return nil
 	}
 

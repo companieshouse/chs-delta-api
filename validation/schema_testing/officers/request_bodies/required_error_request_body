@@ -13,7 +13,7 @@
       "nationality": "string",
       "occupation": "string",
       "officer_role": "string",
-      "ususal_residential_country": "string",
+      "usual_residential_country": "string",
       "previous_name_array": {
         "previous_surname": "string",
         "previous_forename": "string",
