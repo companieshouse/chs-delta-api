@@ -1,12 +1,13 @@
 package helpers
 
 import (
+	"crypto/rand"
 	"fmt"
 	"github.com/companieshouse/chs-delta-api/config"
 	"github.com/companieshouse/chs.go/log"
 	"io/ioutil"
+	"math/big"
 	"net/http"
-	mrand "math/rand"
 )
 
 // Used for unit testing. Allows for redirecting to stubbed functions to assert correct behaviour.
@@ -52,16 +53,22 @@ func (h Impl) GetRequestIdFromHeader(r *http.Request) string {
 	requestID := r.Header.Get(xRequestId)
 	if requestID == "" {
 		log.Error(fmt.Errorf("unable to extract request ID"))
-		return generateContextId()
+		contextId, _ := generateContextId()
+		return contextId
 	}
 	return requestID
 }
 
-func generateContextId() string {
-	urlbase64 := []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_")
-	b := make([]rune, 28)
-	for i := range b {
-		b[i] = urlbase64[mrand.Intn(len(urlbase64))]
+func generateContextId() (string, error) {
+	const letters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-"
+	const size = 28 // Set size to a constant 28 to match the size of the contextId usually retrieved from ERIC.
+	ret := make([]byte, size)
+	for i := 0; i < size; i++ {
+		num, err := rand.Int(rand.Reader, big.NewInt(int64(len(letters))))
+		if err != nil {
+			return "", err
+		}
+		ret[i] = letters[num.Int64()]
 	}
-	return string(b)
+	return string(ret), nil
 }
