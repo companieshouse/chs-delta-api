@@ -26,6 +26,8 @@ const (
 	officersEndpoint = "/delta/officers"
 	apiSpecLocation  = "../../../apispec/api-spec.yml"
 	contextId        = "contextId"
+
+	xRequestId = "X-Request-Id"
 )
 
 // TestOfficerDeltaSchemaNoErrors asserts that when a valid request body is given which matches the schema, then no
@@ -37,7 +39,7 @@ func TestOfficerDeltaSchemaNoErrors(t *testing.T) {
 		okRequestBody := readRequestBody(okRequestBodyLocation)
 
 		r := httptest.NewRequest("POST", officersEndpoint, bytes.NewBuffer(okRequestBody))
-		r.Header.Set("X-Request-Id", contextId)
+		r.Header.Set(xRequestId, contextId)
 		r.Header.Set("Content-Type", "application/json")
 
 		Convey("When I call to validate the request body, providing a valid request", func() {
@@ -62,7 +64,7 @@ func TestOfficerDeltaSchemaTypeErrors(t *testing.T) {
 		typeErrorRequestBody := readRequestBody(typeErrorRequestBodyLocation)
 
 		r := httptest.NewRequest("POST", officersEndpoint, bytes.NewBuffer(typeErrorRequestBody))
-		r.Header.Set("X-Request-Id", contextId)
+		r.Header.Set(xRequestId, contextId)
 		r.Header.Set("Content-Type", "application/json")
 
 		Convey("When I call to validate the request body, providing an valid request with type errors", func() {
@@ -91,7 +93,7 @@ func TestOfficerDeltaSchemaRequiredErrors(t *testing.T) {
 		mandatoryErrorsRequestBody := readRequestBody(requiredErrorRequestBodyLocation)
 
 		r := httptest.NewRequest("POST", officersEndpoint, bytes.NewBuffer(mandatoryErrorsRequestBody))
-		r.Header.Set("X-Request-Id", contextId)
+		r.Header.Set(xRequestId, contextId)
 		r.Header.Set("Content-Type", "application/json")
 
 		Convey("When I call to validate the request body, providing an valid request with missing mandatory values", func() {
@@ -120,7 +122,7 @@ func TestOfficerDeltaSchemaEnumErrors(t *testing.T) {
 		enumErrorsRequestBody := readRequestBody(enumErrorRequestBodyLocation)
 
 		r := httptest.NewRequest("POST", officersEndpoint, bytes.NewBuffer(enumErrorsRequestBody))
-		r.Header.Set("X-Request-Id", contextId)
+		r.Header.Set(xRequestId, contextId)
 		r.Header.Set("Content-Type", "application/json")
 
 		Convey("When I call to validate the request body, providing an valid request with incorrect ENUM values", func() {
