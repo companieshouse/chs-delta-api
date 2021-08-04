@@ -164,7 +164,7 @@ func readRequestBody(fl string) []byte {
 	return raw
 }
 
-// compareActualToExpected takes an actual and expected byte array and compares them to see if they match. Ordering of response
+// compareActualToExpected takes actual and expected json (as byte arrays) and compares them to see if they match. Ordering of response
 // isn't always guaranteed so using this function to match them without having to worry about the order changing.
 func compareActualToExpected(actual, expected []byte) bool {
 
