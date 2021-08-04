@@ -6,6 +6,7 @@ import (
 	"github.com/companieshouse/chs-delta-api/models"
 	"github.com/companieshouse/chs-delta-api/validation"
 	. "github.com/smartystreets/goconvey/convey"
+	"net/http"
 	"net/http/httptest"
 	"os"
 	"testing"
@@ -25,9 +26,11 @@ const (
 
 	officersEndpoint = "/delta/officers"
 	apiSpecLocation  = "../../../apispec/api-spec.yml"
-	contextId        = "contextId"
 
-	xRequestId = "X-Request-Id"
+	contextId       = "contextId"
+	xRequestId      = "X-Request-Id"
+	contentType     = "Content-Type"
+	applicationJson = "application/json"
 )
 
 // TestOfficerDeltaSchemaNoErrors asserts that when a valid request body is given which matches the schema, then no
@@ -39,8 +42,7 @@ func TestOfficerDeltaSchemaNoErrors(t *testing.T) {
 		okRequestBody := readRequestBody(okRequestBodyLocation)
 
 		r := httptest.NewRequest("POST", officersEndpoint, bytes.NewBuffer(okRequestBody))
-		r.Header.Set(xRequestId, contextId)
-		r.Header.Set("Content-Type", "application/json")
+		r = setHeaders(r)
 
 		Convey("When I call to validate the request body, providing a valid request", func() {
 
@@ -64,8 +66,7 @@ func TestOfficerDeltaSchemaTypeErrors(t *testing.T) {
 		typeErrorRequestBody := readRequestBody(typeErrorRequestBodyLocation)
 
 		r := httptest.NewRequest("POST", officersEndpoint, bytes.NewBuffer(typeErrorRequestBody))
-		r.Header.Set(xRequestId, contextId)
-		r.Header.Set("Content-Type", "application/json")
+		r = setHeaders(r)
 
 		Convey("When I call to validate the request body, providing an valid request with type errors", func() {
 
@@ -93,8 +94,7 @@ func TestOfficerDeltaSchemaRequiredErrors(t *testing.T) {
 		mandatoryErrorsRequestBody := readRequestBody(requiredErrorRequestBodyLocation)
 
 		r := httptest.NewRequest("POST", officersEndpoint, bytes.NewBuffer(mandatoryErrorsRequestBody))
-		r.Header.Set(xRequestId, contextId)
-		r.Header.Set("Content-Type", "application/json")
+		r = setHeaders(r)
 
 		Convey("When I call to validate the request body, providing an valid request with missing mandatory values", func() {
 
@@ -122,8 +122,7 @@ func TestOfficerDeltaSchemaEnumErrors(t *testing.T) {
 		enumErrorsRequestBody := readRequestBody(enumErrorRequestBodyLocation)
 
 		r := httptest.NewRequest("POST", officersEndpoint, bytes.NewBuffer(enumErrorsRequestBody))
-		r.Header.Set(xRequestId, contextId)
-		r.Header.Set("Content-Type", "application/json")
+		r = setHeaders(r)
 
 		Convey("When I call to validate the request body, providing an valid request with incorrect ENUM values", func() {
 
@@ -140,6 +139,14 @@ func TestOfficerDeltaSchemaEnumErrors(t *testing.T) {
 			})
 		})
 	})
+}
+
+// setHeaders sets the required headers for the unit testing to correctly function.
+func setHeaders(r *http.Request) *http.Request {
+	r.Header.Set(xRequestId, contextId)
+	r.Header.Set(contentType, applicationJson)
+
+	return r
 }
 
 // readRequestBody takes a file location in the format of a string relative path and reads in the contents from the file,
