@@ -34,6 +34,13 @@ ExampleDeltaTopic string `env:"EXAMPLE_DELTA_TOPIC" flag:"example-delta-topic" f
 Inside of the `/handlers` directory create a new Go file and name it appropriately (e.g. `exampleHandler.go`). 
 Inside of the new handler file create a struct which implements the Handler interface. Use the following template
 as a guide.
+
+- The KafkaService will be needed to send your data onto a given Kafka topic.
+- The helper struct will be needed to extract the contextId from your request and to marshal your request into a string 
+ready for sending to Kafka.
+- The CHValidator will be used to validate your request against your newly created api-spec.
+- The config struct will be used to load all needed configs.
+
 ```go
 type ExampleHandler struct {
 	kSvc services.KafkaService
