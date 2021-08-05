@@ -5,6 +5,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/http"
+	"path/filepath"
+	"strings"
+
 	"github.com/companieshouse/chs-delta-api/config"
 	"github.com/companieshouse/chs-delta-api/models"
 	"github.com/companieshouse/chs.go/log"
@@ -12,9 +16,6 @@ import (
 	"github.com/getkin/kin-openapi/openapi3filter"
 	"github.com/getkin/kin-openapi/routers"
 	router "github.com/getkin/kin-openapi/routers/gorillamux"
-	"net/http"
-	"path/filepath"
-	"strings"
 )
 
 // Used for unit testing and mocking calls to external functions/methods.
