@@ -19,10 +19,10 @@ const (
 	requiredErrorRequestBodyLocation = requestBodiesLocation + "required_error_request_body"
 	enumErrorRequestBodyLocation     = requestBodiesLocation + "enum_error_request_body"
 
-	responseBodiesLocation            = "./response_bodies/"
-	typeErrorResponseBodyLocation     = responseBodiesLocation + "type_error_response_body"
-	requiredErrorResponseBodyLocation = responseBodiesLocation + "required_error_response_body"
-	enumErrorResponseBodyLocation     = responseBodiesLocation + "enum_error_response_body"
+	responseBodiesLocation                 = "./response_bodies/"
+	typeErrorResponseBodyLocation          = responseBodiesLocation + "type_error_response_body"
+	requiredErrorResponseBodyLocation      = responseBodiesLocation + "required_error_response_body"
+	enumErrorResponseBodyLocation          = responseBodiesLocation + "enum_error_response_body"
 	noRequestBodyErrorResponseBodyLocation = responseBodiesLocation + "no_request_body_error_response_body"
 
 	officersEndpoint = "/delta/officers"

@@ -18,6 +18,11 @@ import (
 	router "github.com/getkin/kin-openapi/routers/gorillamux"
 )
 
+const (
+	jsonPath         = "json-path"
+	chValidationType = "ch:validation"
+)
+
 // Used for unit testing and mocking calls to external functions/methods.
 var (
 	callFilepathAbs                  = filepath.Abs
@@ -190,8 +195,8 @@ func handleRequestError(contextId string, re *openapi3filter.RequestError, errsA
 			Error:        re.Err.Error(),
 			ErrorValues:  nil,
 			Location:     "request-body",
-			LocationType: "json-path",
-			Type:         "ch:validation",
+			LocationType: jsonPath,
+			Type:         chValidationType,
 		})
 	}
 
@@ -220,8 +225,8 @@ func handleSchemaError(se *openapi3.SchemaError, errsArray []models.CHError) []m
 		Error:        reason,
 		ErrorValues:  map[string]interface{}{fieldName: fieldValue},
 		Location:     jsonPath,
-		LocationType: "json-path",
-		Type:         "ch:validation",
+		LocationType: jsonPath,
+		Type:         chValidationType,
 	}
 
 	errsArray = append(errsArray, err)
@@ -236,8 +241,8 @@ func handleParseError(pe *openapi3filter.ParseError, errsArray []models.CHError)
 		Error:        pe.Cause.Error(),
 		ErrorValues:  map[string]interface{}{},
 		Location:     "request-body",
-		LocationType: "json-path",
-		Type:         "ch:validation",
+		LocationType: jsonPath,
+		Type:         chValidationType,
 	}
 
 	errsArray = append(errsArray, err)
