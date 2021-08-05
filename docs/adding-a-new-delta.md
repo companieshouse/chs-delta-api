@@ -10,7 +10,7 @@ new specs functionality (for more details on schema testing, see the schema test
 test to account for your new delta.
 3. Create a handler inside of the `/handlers` directory to handle the route associated with the new delta along with 
 associated unit tests.
-4. Add your new route to the `restiger.go` file inside of the `/handlers` directory.
+4. Add your new route to the `register.go` file inside of the `/handlers` directory.
 
 ## 1. Creating the Open API spec
 Inside of the `/apispec` directory create a new yml file (e.g. `example-delta-spec.yml`). Inside of the new spec file create
