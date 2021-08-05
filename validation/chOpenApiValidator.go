@@ -165,9 +165,9 @@ func handleMultiError(mea *openapi3.MultiError, errsArray []models.CHError) []mo
 func handleRequestError(re *openapi3filter.RequestError, errsArray []models.CHError) []models.CHError {
 
 	// It is possible that the RequestError contains a MultiError if more than 1 error has been retuned inside of it.
-	var mea *openapi3.MultiError
+	var mea openapi3.MultiError
 	if ok := errors.As(re.Err, &mea); ok {
-		return handleMultiError(mea, errsArray)
+		return handleMultiError(&mea, errsArray)
 	}
 
 	// If it isn't a MultiError then we can begin the extract the error contents straight away.
