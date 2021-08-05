@@ -121,10 +121,8 @@ func getCHErrors(contextId string, err error) []byte {
 	// If we are given a MultiError, then range over it to extract the inner errors for further processing.
 	var mea openapi3.MultiError
 	if ok := errors.As(err, &mea); ok {
-		errorsArr = handleMultiError(&mea, errorsArr)
+		errorsArr = handleMultiError(contextId, &mea, errorsArr)
 	}
-
-	// call to do handleSecuritySchemaErrors here...
 
 	// Marshal the built up array and return it.
 	mr, err := json.Marshal(errorsArr)
@@ -136,7 +134,7 @@ func getCHErrors(contextId string, err error) []byte {
 	return mr
 }
 
-func handleMultiError(mea *openapi3.MultiError, errsArray []models.CHError) []models.CHError {
+func handleMultiError(contextId string, mea *openapi3.MultiError, errsArray []models.CHError) []models.CHError {
 
 	// err is a *MultiError, and mea is set to the error's value, so range over it to grab each error.
 	for _, e := range *mea {
@@ -145,7 +143,7 @@ func handleMultiError(mea *openapi3.MultiError, errsArray []models.CHError) []mo
 		// If we have a request error, pass re into the extractRequestError func to get a formatted CHError back.
 		var re *openapi3filter.RequestError
 		if ok := errors.As(e, &re); ok {
-			errsArray = handleRequestError(re, errsArray)
+			errsArray = handleRequestError(contextId, re, errsArray)
 		}
 
 		// If we have a schema error, pass se into the extractSchemaError func to get a formatted CHError back.
@@ -154,20 +152,23 @@ func handleMultiError(mea *openapi3.MultiError, errsArray []models.CHError) []mo
 			errsArray = handleSchemaError(se, errsArray)
 		}
 
-		// More error matching checks here if it is possible that it could be something else?
-		// Default?
+		// Between ERIC and security middleware we should never receive one of these errors
+		var sre *openapi3filter.SecurityRequirementsError
+		if ok := errors.As(e, &sre); ok {
+			log.InfoC(contextId, "Encountered unexpected security error")
+		}
 	}
 
 	// Return the populated errsArray.
 	return errsArray
 }
 
-func handleRequestError(re *openapi3filter.RequestError, errsArray []models.CHError) []models.CHError {
+func handleRequestError(contextId string, re *openapi3filter.RequestError, errsArray []models.CHError) []models.CHError {
 
 	// It is possible that the RequestError contains a MultiError if more than 1 error has been retuned inside of it.
-	var mea *openapi3.MultiError
+	var mea openapi3.MultiError
 	if ok := errors.As(re.Err, &mea); ok {
-		return handleMultiError(mea, errsArray)
+		return handleMultiError(contextId, &mea, errsArray)
 	}
 
 	// If it isn't a MultiError then we can begin the extract the error contents straight away.

@@ -23,6 +23,7 @@ const (
 	typeErrorResponseBodyLocation     = responseBodiesLocation + "type_error_response_body"
 	requiredErrorResponseBodyLocation = responseBodiesLocation + "required_error_response_body"
 	enumErrorResponseBodyLocation     = responseBodiesLocation + "enum_error_response_body"
+	noRequestBodyErrorResponseBodyLocation = responseBodiesLocation + "no_request_body_error_response_body"
 
 	officersEndpoint = "/delta/officers"
 	apiSpecLocation  = "../../../apispec/api-spec.yml"
@@ -133,6 +134,32 @@ func TestOfficerDeltaSchemaEnumErrors(t *testing.T) {
 			Convey("Then I am given an errors array response as validation errors have been found", func() {
 				enumErrorsResponseBody := readRequestBody(enumErrorResponseBodyLocation)
 				match := compareActualToExpected(validationErrs, enumErrorsResponseBody)
+
+				So(validationErrs, ShouldNotBeNil)
+				So(match, ShouldEqual, true)
+			})
+		})
+	})
+}
+
+// TestOfficerDeltaSchemaNoRequestBodyError asserts that when a missing request body is given,
+// then an error is returned, stating that request body is missing.
+func TestOfficerDeltaSchemaNoRequestBodyError(t *testing.T) {
+
+	Convey("Given I want to test the officers-delta API schema to assert validation is working correctly", t, func() {
+
+		r := httptest.NewRequest("POST", officersEndpoint, bytes.NewBuffer(nil))
+		r = setHeaders(r)
+
+		Convey("When I call to validate the request body, providing an empty request body", func() {
+
+			chv := validation.NewCHValidator()
+
+			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, apiSpecLocation, contextId)
+
+			Convey("Then I am given an error saying no request body provided", func() {
+				noRequestBodyErrorsResponseBody := readRequestBody(noRequestBodyErrorResponseBodyLocation)
+				match := compareActualToExpected(validationErrs, noRequestBodyErrorsResponseBody)
 
 				So(validationErrs, ShouldNotBeNil)
 				So(match, ShouldEqual, true)

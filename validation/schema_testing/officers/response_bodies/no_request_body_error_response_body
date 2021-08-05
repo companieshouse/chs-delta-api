@@ -1,0 +1,9 @@
+[
+    {
+        "error": "value is required but missing",
+        "error_values": {},
+        "location": "request-body",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    }
+]
