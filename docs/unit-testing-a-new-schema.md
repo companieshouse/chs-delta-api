@@ -19,35 +19,35 @@ We elected to structure the open API schema unit tests using a `Karate API Scena
 
 All unit tests will follow the same structure:
 
-1. Load in the wanted request body from a text file using the `common.ReadRequestBody()` function
-2. Create a test httpRequest and set its target to your delta's endpoint, and it's request body to the previously read in
-request body, and finally set the requests headers.
-3. Create an instance of the CHValidator and call it's `ValidateRequestAgainstOpenApiSpec` method, passing it your example
+1. Load in the example request body from a text file using the `common.ReadRequestBody()` function
+2. Create a test httpRequest and set its target to your delta's endpoint, and its request's body to the previously read in
+request's body, and finally set the requests headers.
+3. Create an instance of the CHValidator and call its `ValidateRequestAgainstOpenApiSpec` method, passing it your example
 `request`, `open API spec location` and a dummy `contextId`.
 4. The final step of every unit test is to read in your expected response body using the `common.ReadRequstBody()` function
 and using the `common.CompareActualToExpected(actualResponseBody, expectedResponseBody)` to assert that your expected response
 matches the actual response.
 
-Example structure of a unit test
+Example structure of a unit test (Mandatory elements missing unit test)
 ```go
-func TestSchemaExample(t *testing.T) {
+func TestSchemaExampleMissingMandatory(t *testing.T) {
 
-	Convey("Given I want to test the example-delta API schema", t, func() {
+	Convey("Given I want to test that missing mandatory fields in the exampleDelta are correctly reported", t, func() {
 
-		exampleRequestBody := common.ReadRequestBody(exampleRequestBodyLocation)
+		mandatoryMissingRequestBody := common.ReadRequestBody(mandatoryMissingRequestBodyLocation)
 
-		r := httptest.NewRequest("POST", exampleEndpoint, bytes.NewBuffer(exampleRequestBody))
+		r := httptest.NewRequest("POST", exampleEndpoint, bytes.NewBuffer(mandatoryMissingRequestBody))
 		r = common.SetHeaders(r)
 
-		Convey("When I call to validate the request body, providing a request", func() {
+		Convey("When I call to validate the request body, providing a request which is missing mandatory fields", func() {
 
 			chv := validation.NewCHValidator()
 
-			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, apiSpecLocation, contextId)
+			actualResponseBody, _ := chv.ValidateRequestAgainstOpenApiSpec(r, apiSpecLocation, contextId)
 
-			Convey("Then I am given a validation response", func() {
-				exampleErrorResponseBody := common.ReadRequestBody(exampleErrorResponseBodyLocation)
-				match := common.CompareActualToExpected(validationErrs, exampleErrorResponseBody)
+			Convey("Then I am given a validation response stating that mandatory fields are missing", func() {
+				expectedResponseBody := common.ReadRequestBody(mandatoryMissingErrorResponseBodyLocation)
+				match := common.CompareActualToExpected(actualResponseBody, expectedResponseBody)
                 
 				So(validationErrs, ShouldNotBeNil)
 				So(match, ShouldEqual, true)
