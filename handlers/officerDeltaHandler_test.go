@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"github.com/companieshouse/chs-delta-api/config"
+	"github.com/companieshouse/chs-delta-api/handlers/common"
 	hMocks "github.com/companieshouse/chs-delta-api/helpers/mocks"
 	sMocks "github.com/companieshouse/chs-delta-api/services/mocks"
 	chvMocks "github.com/companieshouse/chs-delta-api/validation/mocks"
@@ -11,7 +12,6 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 	"net/http"
 	"net/http/httptest"
-	"os"
 	"testing"
 )
 
@@ -70,7 +70,7 @@ func TestOfficerDeltaHandlerFailsRequestBodyRetrieval(t *testing.T) {
 			svc := sMocks.NewMockKafkaService(mockCtrl)
 			chv := chvMocks.NewMockCHValidator(mockCtrl)
 
-			initEnv()
+			common.InitEnv()
 			config.CallValidateConfig = func(cfg *config.Config) error {
 				return nil
 			}
@@ -80,6 +80,7 @@ func TestOfficerDeltaHandlerFailsRequestBodyRetrieval(t *testing.T) {
 
 			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec, contextId).Return(nil, nil)
 			h.EXPECT().GetDataFromRequest(req, contextId).Return("", errors.New("error converting request body"))
+			h.EXPECT().GetRequestIdFromHeader(req).Return(contextId)
 
 			handler.ServeHTTP(resp, req)
 
@@ -87,7 +88,7 @@ func TestOfficerDeltaHandlerFailsRequestBodyRetrieval(t *testing.T) {
 				So(resp.Code, ShouldEqual, http.StatusInternalServerError)
 			})
 
-			destroyEnv()
+			common.DestroyEnv()
 		})
 	})
 }
@@ -109,7 +110,7 @@ func TestOfficerDeltaHandlerSuccessfullySends(t *testing.T) {
 			svc := sMocks.NewMockKafkaService(mockCtrl)
 			chv := chvMocks.NewMockCHValidator(mockCtrl)
 
-			initEnv()
+			common.InitEnv()
 			config.CallValidateConfig = func(cfg *config.Config) error {
 				return nil
 			}
@@ -119,6 +120,7 @@ func TestOfficerDeltaHandlerSuccessfullySends(t *testing.T) {
 
 			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec, contextId).Return(nil, nil)
 			h.EXPECT().GetDataFromRequest(req, contextId).Return(requestBody, nil)
+			h.EXPECT().GetRequestIdFromHeader(req).Return(contextId)
 			svc.EXPECT().SendMessage(handler.cfg.OfficerDeltaTopic, requestBody, contextId).Return(nil)
 
 			handler.ServeHTTP(resp, req)
@@ -127,8 +129,7 @@ func TestOfficerDeltaHandlerSuccessfullySends(t *testing.T) {
 				So(resp.Code, ShouldEqual, http.StatusOK)
 			})
 
-			destroyEnv()
-
+			common.DestroyEnv()
 		})
 	})
 }
@@ -150,7 +151,7 @@ func TestOfficerDeltaHandlerFailsSend(t *testing.T) {
 			svc := sMocks.NewMockKafkaService(mockCtrl)
 			chv := chvMocks.NewMockCHValidator(mockCtrl)
 
-			initEnv()
+			common.InitEnv()
 			config.CallValidateConfig = func(cfg *config.Config) error {
 				return nil
 			}
@@ -160,6 +161,7 @@ func TestOfficerDeltaHandlerFailsSend(t *testing.T) {
 
 			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec, contextId).Return(nil, nil)
 			h.EXPECT().GetDataFromRequest(req, contextId).Return(requestBody, nil)
+			h.EXPECT().GetRequestIdFromHeader(req).Return(contextId)
 			svc.EXPECT().SendMessage(handler.cfg.OfficerDeltaTopic, requestBody, contextId).Return(errors.New("error sending message"))
 
 			handler.ServeHTTP(resp, req)
@@ -168,7 +170,7 @@ func TestOfficerDeltaHandlerFailsSend(t *testing.T) {
 				So(resp.Code, ShouldEqual, http.StatusInternalServerError)
 			})
 
-			destroyEnv()
+			common.DestroyEnv()
 		})
 	})
 }
@@ -191,7 +193,7 @@ func TestOfficerDeltaHandlerErrorsCallingValidation(t *testing.T) {
 			svc := sMocks.NewMockKafkaService(mockCtrl)
 			chv := chvMocks.NewMockCHValidator(mockCtrl)
 
-			initEnv()
+			common.InitEnv()
 			config.CallValidateConfig = func(cfg *config.Config) error {
 				return nil
 			}
@@ -200,6 +202,7 @@ func TestOfficerDeltaHandlerErrorsCallingValidation(t *testing.T) {
 			handler := NewOfficerDeltaHandler(svc, h, chv, cfg)
 
 			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec, contextId).Return(nil, errors.New("error"))
+			h.EXPECT().GetRequestIdFromHeader(req).Return(contextId)
 
 			handler.ServeHTTP(resp, req)
 
@@ -207,7 +210,7 @@ func TestOfficerDeltaHandlerErrorsCallingValidation(t *testing.T) {
 				So(resp.Code, ShouldEqual, http.StatusInternalServerError)
 			})
 
-			destroyEnv()
+			common.DestroyEnv()
 		})
 	})
 }
@@ -223,13 +226,13 @@ func TestOfficerDeltaHandlerFailsValidation(t *testing.T) {
 		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(requestBody)))
 		resp := httptest.NewRecorder()
 
-		Convey("When the request is handled by the router, but the kafka service fails to send", func() {
+		Convey("When the request is handled by the router, but the request body fails validation", func() {
 
 			h := hMocks.NewMockHelper(mockCtrl)
 			svc := sMocks.NewMockKafkaService(mockCtrl)
 			chv := chvMocks.NewMockCHValidator(mockCtrl)
 
-			initEnv()
+			common.InitEnv()
 			config.CallValidateConfig = func(cfg *config.Config) error {
 				return nil
 			}
@@ -239,6 +242,7 @@ func TestOfficerDeltaHandlerFailsValidation(t *testing.T) {
 
 			errBytes := []byte("error string")
 			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec, contextId).Return(errBytes, nil)
+			h.EXPECT().GetRequestIdFromHeader(req).Return(contextId)
 
 			handler.ServeHTTP(resp, req)
 
@@ -246,19 +250,7 @@ func TestOfficerDeltaHandlerFailsValidation(t *testing.T) {
 				So(resp.Code, ShouldEqual, http.StatusBadRequest)
 			})
 
-			destroyEnv()
+			common.DestroyEnv()
 		})
 	})
-}
-
-func initEnv() {
-	_ = os.Setenv("BIND_ADDR", "bind_addr")
-	_ = os.Setenv("KAFKA_BROKER_ADDR", "kafka_broker_addr,kafka_broker_addr")
-	_ = os.Setenv("SCHEMA_REGISTRY_URL", "schema_registry_url")
-	_ = os.Setenv("OFFICER_DELTA_TOPIC", "officer_delta_topic")
-	_ = os.Setenv("OPEN_API_SPEC", "open_api_spec")
-}
-
-func destroyEnv() {
-	os.Clearenv()
 }
