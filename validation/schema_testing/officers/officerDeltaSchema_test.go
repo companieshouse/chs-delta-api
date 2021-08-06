@@ -2,13 +2,10 @@ package officers
 
 import (
 	"bytes"
-	"encoding/json"
-	"github.com/companieshouse/chs-delta-api/models"
 	"github.com/companieshouse/chs-delta-api/validation"
+	"github.com/companieshouse/chs-delta-api/validation/schema_testing/common"
 	. "github.com/smartystreets/goconvey/convey"
-	"net/http"
 	"net/http/httptest"
-	"os"
 	"testing"
 )
 
@@ -27,11 +24,7 @@ const (
 
 	officersEndpoint = "/delta/officers"
 	apiSpecLocation  = "../../../apispec/api-spec.yml"
-
-	contextId       = "contextId"
-	xRequestId      = "X-Request-Id"
-	contentType     = "Content-Type"
-	applicationJson = "application/json"
+	contextId        = "contextId"
 )
 
 // TestOfficerDeltaSchemaNoErrors asserts that when a valid request body is given which matches the schema, then no
@@ -40,10 +33,10 @@ func TestOfficerDeltaSchemaNoErrors(t *testing.T) {
 
 	Convey("Given I want to test the officers-delta API schema", t, func() {
 
-		okRequestBody := readRequestBody(okRequestBodyLocation)
+		okRequestBody := common.ReadRequestBody(okRequestBodyLocation)
 
 		r := httptest.NewRequest("POST", officersEndpoint, bytes.NewBuffer(okRequestBody))
-		r = setHeaders(r)
+		r = common.SetHeaders(r)
 
 		Convey("When I call to validate the request body, providing a valid request", func() {
 
@@ -64,10 +57,10 @@ func TestOfficerDeltaSchemaTypeErrors(t *testing.T) {
 
 	Convey("Given I want to test the officers-delta API schema for type assertions", t, func() {
 
-		typeErrorRequestBody := readRequestBody(typeErrorRequestBodyLocation)
+		typeErrorRequestBody := common.ReadRequestBody(typeErrorRequestBodyLocation)
 
 		r := httptest.NewRequest("POST", officersEndpoint, bytes.NewBuffer(typeErrorRequestBody))
-		r = setHeaders(r)
+		r = common.SetHeaders(r)
 
 		Convey("When I call to validate the request body, providing an valid request with type errors", func() {
 
@@ -76,8 +69,8 @@ func TestOfficerDeltaSchemaTypeErrors(t *testing.T) {
 			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, apiSpecLocation, contextId)
 
 			Convey("Then I am given an errors array response as validation errors have been found", func() {
-				typeErrorResponseBody := readRequestBody(typeErrorResponseBodyLocation)
-				match := compareActualToExpected(validationErrs, typeErrorResponseBody)
+				typeErrorResponseBody := common.ReadRequestBody(typeErrorResponseBodyLocation)
+				match := common.CompareActualToExpected(validationErrs, typeErrorResponseBody)
 
 				So(validationErrs, ShouldNotBeNil)
 				So(match, ShouldEqual, true)
@@ -92,10 +85,10 @@ func TestOfficerDeltaSchemaRequiredErrors(t *testing.T) {
 
 	Convey("Given I want to test the officers-delta API schema to assert mandatory validation is working correctly", t, func() {
 
-		mandatoryErrorsRequestBody := readRequestBody(requiredErrorRequestBodyLocation)
+		mandatoryErrorsRequestBody := common.ReadRequestBody(requiredErrorRequestBodyLocation)
 
 		r := httptest.NewRequest("POST", officersEndpoint, bytes.NewBuffer(mandatoryErrorsRequestBody))
-		r = setHeaders(r)
+		r = common.SetHeaders(r)
 
 		Convey("When I call to validate the request body, providing an valid request with missing mandatory values", func() {
 
@@ -104,8 +97,8 @@ func TestOfficerDeltaSchemaRequiredErrors(t *testing.T) {
 			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, apiSpecLocation, contextId)
 
 			Convey("Then I am given an errors array response as validation errors have been found", func() {
-				mandatoryErrorsResponseBody := readRequestBody(requiredErrorResponseBodyLocation)
-				match := compareActualToExpected(validationErrs, mandatoryErrorsResponseBody)
+				mandatoryErrorsResponseBody := common.ReadRequestBody(requiredErrorResponseBodyLocation)
+				match := common.CompareActualToExpected(validationErrs, mandatoryErrorsResponseBody)
 
 				So(validationErrs, ShouldNotBeNil)
 				So(match, ShouldEqual, true)
@@ -120,10 +113,10 @@ func TestOfficerDeltaSchemaEnumErrors(t *testing.T) {
 
 	Convey("Given I want to test the officers-delta API schema to assert ENUM validation is working correctly", t, func() {
 
-		enumErrorsRequestBody := readRequestBody(enumErrorRequestBodyLocation)
+		enumErrorsRequestBody := common.ReadRequestBody(enumErrorRequestBodyLocation)
 
 		r := httptest.NewRequest("POST", officersEndpoint, bytes.NewBuffer(enumErrorsRequestBody))
-		r = setHeaders(r)
+		r = common.SetHeaders(r)
 
 		Convey("When I call to validate the request body, providing an valid request with incorrect ENUM values", func() {
 
@@ -132,8 +125,8 @@ func TestOfficerDeltaSchemaEnumErrors(t *testing.T) {
 			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, apiSpecLocation, contextId)
 
 			Convey("Then I am given an errors array response as validation errors have been found", func() {
-				enumErrorsResponseBody := readRequestBody(enumErrorResponseBodyLocation)
-				match := compareActualToExpected(validationErrs, enumErrorsResponseBody)
+				enumErrorsResponseBody := common.ReadRequestBody(enumErrorResponseBodyLocation)
+				match := common.CompareActualToExpected(validationErrs, enumErrorsResponseBody)
 
 				So(validationErrs, ShouldNotBeNil)
 				So(match, ShouldEqual, true)
@@ -149,7 +142,7 @@ func TestOfficerDeltaSchemaNoRequestBodyError(t *testing.T) {
 	Convey("Given I want to test the officers-delta API schema to assert validation is working correctly", t, func() {
 
 		r := httptest.NewRequest("POST", officersEndpoint, bytes.NewBuffer(nil))
-		r = setHeaders(r)
+		r = common.SetHeaders(r)
 
 		Convey("When I call to validate the request body, providing an empty request body", func() {
 
@@ -158,77 +151,12 @@ func TestOfficerDeltaSchemaNoRequestBodyError(t *testing.T) {
 			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, apiSpecLocation, contextId)
 
 			Convey("Then I am given an error saying no request body provided", func() {
-				noRequestBodyErrorsResponseBody := readRequestBody(noRequestBodyErrorResponseBodyLocation)
-				match := compareActualToExpected(validationErrs, noRequestBodyErrorsResponseBody)
+				noRequestBodyErrorsResponseBody := common.ReadRequestBody(noRequestBodyErrorResponseBodyLocation)
+				match := common.CompareActualToExpected(validationErrs, noRequestBodyErrorsResponseBody)
 
 				So(validationErrs, ShouldNotBeNil)
 				So(match, ShouldEqual, true)
 			})
 		})
 	})
-}
-
-// setHeaders sets the required headers for the unit testing to correctly function.
-func setHeaders(r *http.Request) *http.Request {
-	r.Header.Set(xRequestId, contextId)
-	r.Header.Set(contentType, applicationJson)
-
-	return r
-}
-
-// readRequestBody takes a file location in the format of a string relative path and reads in the contents from the file,
-// removing any extra tabs, spaces and special characters using json.Compact. Returns a []byte version of the formatted file read in.
-func readRequestBody(fl string) []byte {
-
-	// Read in contents and covert it to a string for further processing.
-	raw, _ := os.ReadFile(fl)
-
-	buffer := new(bytes.Buffer)
-	_ = json.Compact(buffer, raw)
-
-	raw = buffer.Bytes()
-	// Convert back to an []byte and return.
-	return raw
-}
-
-// compareActualToExpected takes actual and expected json (as byte arrays) and compares them to see if they match. Ordering of response
-// isn't always guaranteed so using this function to match them without having to worry about the order changing.
-func compareActualToExpected(actual, expected []byte) bool {
-
-	// Define 2 model CHError arrays to hold actual and expected responses.
-	var actualErrArr *[]models.CHError
-	var expectedErrArr *[]models.CHError
-
-	// Convert responses to JSON object arrays.
-	_ = json.Unmarshal(actual, &actualErrArr)
-	_ = json.Unmarshal(expected, &expectedErrArr)
-
-	// If the arrays don't match in length, they can't be a complete match so return false.
-	if len(*actualErrArr) != len(*expectedErrArr) {
-		return false
-	}
-
-	// create a map of CHError.Location (string) -> int to compare if both arrays are completely equal.
-	diff := make(map[string]int, len(*expectedErrArr))
-
-	// Range over the expected response array and add them to the newly created map.
-	for _, ee := range *expectedErrArr {
-		// 0 value for int is 0, so just increment a counter for the string
-		diff[ee.Location]++
-	}
-
-	// Finally range over the actual response array errors and check that they exist in the expected errors map.
-	for _, ae := range *actualErrArr {
-		// If the error is not in diff bail out early as they can't be a match.
-		if _, ok := diff[ae.Location]; !ok {
-			return false
-		}
-		diff[ae.Location] -= 1
-		if diff[ae.Location] == 0 {
-			delete(diff, ae.Location)
-		}
-	}
-
-	// Return if length of remaining map values is equal to 0. If it is, we have a match.
-	return len(diff) == 0
 }
