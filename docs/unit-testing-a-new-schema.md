@@ -3,7 +3,7 @@
 ## Overview
 As the chs-delta-api uses a 3rd party library (See `/docs` directory for documentation on the kin-openAPI3 library) to 
 validate its requests, there is no way to directly unit test the code. This document will guide you through creating 
-unit tests which assert that your open API schema is working correctly.
+unit tests which assert that your openAPI schema is working correctly.
 
 ## 1. Where to add your unit tests
 Move into the `/validation/schema_testing` directory and create a new directory to contain your unit tests. Inside of your
@@ -14,7 +14,7 @@ Finally, create a new Go file ending in `_test` (e.g. `exampleDeltaSchema_test.g
 tests used to test the schema.
 
 ## 2. Unit test structure
-We elected to structure the open API schema unit tests using a `Karate API Scenario` layout. Each unit test will have a 
+We elected to structure the openAPI schema unit tests using a `Karate API Scenario` layout. Each unit test will have a 
 `Given`, `When`, `Then` stage and will use sample request bodies and response bodies to test the schema.
 
 All unit tests will follow the same structure:
@@ -23,7 +23,7 @@ All unit tests will follow the same structure:
 2. Create a test httpRequest and set its target to your delta's endpoint, and its request's body to the previously read in
 request's body, and finally set the requests headers.
 3. Create an instance of the CHValidator and call its `ValidateRequestAgainstOpenApiSpec` method, passing it your example
-`request`, `open API spec location` and a dummy `contextId`.
+`request`, `openAPI spec location` and a dummy `contextId`.
 4. The final step of every unit test is to read in your expected response body using the `common.ReadRequstBody()` function
 and using the `common.CompareActualToExpected(actualResponseBody, expectedResponseBody)` to assert that your expected response
 matches the actual response.
