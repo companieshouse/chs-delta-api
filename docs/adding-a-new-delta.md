@@ -3,8 +3,8 @@
 ## Overview
 
 To add a new delta to the chs-delta-api you need to complete the following steps:
-1. Create the Open API 3 spec for the new delta inside of the `/apispec` directory and add its route to the main
-`api-spec.yml` file. Also remembering to add unit tests inside of the `/validation/schema_testing` directory to cover your 
+1. Create the openAPI 3 spec for the new delta inside of the `/apispec` directory and add its route to the main
+`api-spec.yml` file. Also, remembering to add unit tests inside of the `/validation/schema_testing` directory to cover your 
 new specs functionality (for more details on schema testing, see the schema testing documentation in the `/docs` directory).
 2. Add the new delta to the `Config` struct inside of the `/config/Config.go` file. Also update the `/config/config_test.go` 
 test to account for your new delta.
@@ -12,11 +12,11 @@ test to account for your new delta.
 associated unit tests.
 4. Add your new route to the `register.go` file inside of the `/handlers` directory.
 
-## 1. Creating the Open API spec
+## 1. Creating the OpenAPI spec
 Inside of the `/apispec` directory create a new yml file (e.g. `example-delta-spec.yml`). Inside of the new spec file create
 your delta spec.
 
-Finally, associate the new delta-spec.yml file with a route by adding it to the `api-sepc.yml` file under the paths section.
+Finally, associate the new delta-spec.yml file with a route by adding it to the `api-spec.yml` file under the paths section.
 ```yaml
 paths:
   /delta/example-delta:
@@ -57,9 +57,9 @@ func NewExampleDeltaHandler(kSvc services.KafkaService, h helpers.Helper, chv va
 func (eh *ExampleDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	contextId := eh.h.GetRequestIdFromHeader(r)
     
-    log.InfoC(contextId, fmt.Sprintf("Using the open api spec: "), log.Data{config.OpenApiSpecKey: eh.cfg.OpenApiSpec})
+    log.InfoC(contextId, fmt.Sprintf("Using the openAPI spec: "), log.Data{config.OpenApiSpecKey: eh.cfg.OpenApiSpec})
 
-    // Validate against the open API 3 spec before progressing any further.
+    // Validate against the openAPI 3 spec before progressing any further.
     errValidation, err := eh.chv.ValidateRequestAgainstOpenApiSpec(r, eh.cfg.OpenApiSpec, contextId)
     if err != nil {
         w.WriteHeader(http.StatusInternalServerError)
