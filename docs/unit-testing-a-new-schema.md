@@ -22,8 +22,8 @@ All unit tests will follow the same structure:
 1. Load in the example request body from a text file using the `common.ReadRequestBody()` function
 2. Create and populate a test httpRequest 
     1. Set its target to your delta's endpoint
-    2. Set it's body to that previously loaded in step 1
-    3. Set the request's headers using the provided `SetHeaders` function in `/validation/schema_testing/common/schemaUnitTesting.go`
+    2. Set its body to that previously loaded in step 1
+    3. Set its headers using the provided `SetHeaders` function in `/validation/schema_testing/common/schemaUnitTesting.go`
 3. Create an instance of the CHValidator and call its `ValidateRequestAgainstOpenApiSpec` method, passing it your example
 `request`, `openAPI spec location` and a dummy `contextId`.
 4. The final step of every unit test is to read in your expected response body using the `common.ReadRequstBody()` function
