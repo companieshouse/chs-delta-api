@@ -19,6 +19,11 @@ import (
 	router "github.com/getkin/kin-openapi/routers/gorillamux"
 )
 
+const (
+	jsonPath         = "json-path"
+	chValidationType = "ch:validation"
+)
+
 // Used for unit testing and mocking calls to external functions/methods.
 var (
 	callFilepathAbs                  = filepath.Abs
@@ -128,19 +133,19 @@ func handleMultiError(contextId string, mea *openapi3.MultiError, errsArray []mo
 	for _, e := range *mea {
 		// Begin comparing the retrieved error (e) to possible returned error types.
 
-		// If we have a request error, pass re into the extractRequestError func to get a formatted CHError back.
+		// If we have a request error, pass re into the handleRequestError func to get a formatted CHError back.
 		var re *openapi3filter.RequestError
 		if ok := errors.As(e, &re); ok {
 			errsArray = handleRequestError(contextId, re, errsArray)
 		}
 
-		// If we have a schema error, pass se into the extractSchemaError func to get a formatted CHError back.
+		// If we have a schema error, pass se into the handleSchemaError func to get a formatted CHError back.
 		var se *openapi3.SchemaError
 		if ok := errors.As(e, &se); ok {
-			errsArray = handleSchemaError(se, errsArray)
+			errsArray = append(errsArray, handleSchemaError(se))
 		}
 
-		// Between ERIC and security middleware we should never receive one of these errors
+		// Between ERIC and security middleware we should never receive one of these errors.
 		var sre *openapi3filter.SecurityRequirementsError
 		if ok := errors.As(e, &sre); ok {
 			log.InfoC(contextId, "Encountered unexpected security error")
@@ -162,13 +167,13 @@ func handleRequestError(contextId string, re *openapi3filter.RequestError, errsA
 	// If it isn't a MultiError then we can begin the extract the error contents straight away.
 	var se *openapi3.SchemaError
 	if ok := errors.As(re.Err, &se); ok {
-		errsArray = handleSchemaError(se, errsArray)
+		errsArray = append(errsArray, handleSchemaError(se))
 	}
 
 	// If it is neither a MultiError or a SchemaError then check for a ParseError (malformed JSON).
 	var pe *openapi3filter.ParseError
 	if ok := errors.As(re.Err, &pe); ok {
-		errsArray = handleParseError(pe, errsArray)
+		errsArray = append(errsArray, handleParseError(pe))
 	}
 
 	// The error could be that we are missing the request body entirely, so account for this too.
@@ -177,8 +182,8 @@ func handleRequestError(contextId string, re *openapi3filter.RequestError, errsA
 			Error:        re.Err.Error(),
 			ErrorValues:  nil,
 			Location:     "request-body",
-			LocationType: "json-path",
-			Type:         "ch:validation",
+			LocationType: jsonPath,
+			Type:         chValidationType,
 		})
 	}
 
@@ -186,10 +191,10 @@ func handleRequestError(contextId string, re *openapi3filter.RequestError, errsA
 	return errsArray
 }
 
-func handleSchemaError(se *openapi3.SchemaError, errsArray []models.CHError) []models.CHError {
+func handleSchemaError(se *openapi3.SchemaError) models.CHError {
 
 	reason := strings.Replace(se.Reason, "\"", "'", -1)
-	jsonPath := strings.Join(se.JSONPointer(), ".")
+	path := strings.Join(se.JSONPointer(), ".")
 	fieldName := se.JSONPointer()[len(se.JSONPointer())-1]
 
 	// Switch over validation error for fieldValue to replace required with an empty string. Without this the
@@ -202,34 +207,26 @@ func handleSchemaError(se *openapi3.SchemaError, errsArray []models.CHError) []m
 		fieldValue = fmt.Sprintf("%v", se.Value)
 	}
 
-	// Construct a CHError and append it to the previously created CHError slice.
-	err := models.CHError{
+	// Construct and return a CHError using the extracted data.
+	return models.CHError{
 		Error:        reason,
 		ErrorValues:  map[string]interface{}{fieldName: fieldValue},
-		Location:     jsonPath,
-		LocationType: "json-path",
-		Type:         "ch:validation",
+		Location:     path,
+		LocationType: jsonPath,
+		Type:         chValidationType,
 	}
-
-	errsArray = append(errsArray, err)
-
-	return errsArray
 }
 
-func handleParseError(pe *openapi3filter.ParseError, errsArray []models.CHError) []models.CHError {
+func handleParseError(pe *openapi3filter.ParseError) models.CHError {
 
-	// Construct a CHError and append it to the previously created CHError slice.
-	err := models.CHError{
+	// Construct and return a CHError to handle a ParseError.
+	return models.CHError{
 		Error:        pe.Cause.Error(),
 		ErrorValues:  map[string]interface{}{},
 		Location:     "request-body",
-		LocationType: "json-path",
-		Type:         "ch:validation",
+		LocationType: jsonPath,
+		Type:         chValidationType,
 	}
-
-	errsArray = append(errsArray, err)
-
-	return errsArray
 }
 
 // findRoute is used to add an abstraction layer for unit testing. Allowing us to mock the returns for external methods.
