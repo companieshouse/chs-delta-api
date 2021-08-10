@@ -207,7 +207,7 @@ func handleRequestError(contextId string, re *openapi3filter.RequestError, errsA
 func handleSchemaError(se *openapi3.SchemaError) models.CHError {
 
 	reason := strings.Replace(se.Reason, "\"", "'", -1)
-	jsonPath := strings.Join(se.JSONPointer(), ".")
+	path := strings.Join(se.JSONPointer(), ".")
 	fieldName := se.JSONPointer()[len(se.JSONPointer())-1]
 
 	// Switch over validation error for fieldValue to replace required with an empty string. Without this the
@@ -224,7 +224,7 @@ func handleSchemaError(se *openapi3.SchemaError) models.CHError {
 	return models.CHError{
 		Error:        reason,
 		ErrorValues:  map[string]interface{}{fieldName: fieldValue},
-		Location:     jsonPath,
+		Location:     path,
 		LocationType: jsonPath,
 		Type:         chValidationType,
 	}
