@@ -34,7 +34,7 @@ func TestRegister(t *testing.T) {
 
 		kSvc.EXPECT().Init(cfg).Return(nil)
 
-		err := Register(router, cfg, kSvc)
+		err := Register(router, cfg)
 		So(router.GetRoute("healthcheck"), ShouldNotBeNil)
 		So(router.GetRoute("officer-delta"), ShouldNotBeNil)
 		So(err, ShouldBeNil)

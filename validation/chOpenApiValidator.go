@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"path/filepath"
 	"strings"
+	"sync"
 
 	"github.com/companieshouse/chs-delta-api/config"
 	"github.com/companieshouse/chs-delta-api/models"
@@ -18,11 +19,6 @@ import (
 	router "github.com/getkin/kin-openapi/routers/gorillamux"
 )
 
-const (
-	jsonPath         = "json-path"
-	chValidationType = "ch:validation"
-)
-
 // Used for unit testing and mocking calls to external functions/methods.
 var (
 	callFilepathAbs                  = filepath.Abs
@@ -30,6 +26,7 @@ var (
 	callOpenApiFilterValidateRequest = openapi3filter.ValidateRequest
 	callGetCHErrors                  = getCHErrors
 	callFindRoute                    = findRoute
+	callOnce	 sync.Once
 )
 
 // CHValidator provides an interface to interact with the CH Validator.
@@ -39,6 +36,7 @@ type CHValidator interface {
 
 // CHValidatorImpl is a concrete implementation of the CHValidator interface.
 type CHValidatorImpl struct {
+	doc 	*openapi3.T
 }
 
 // NewCHValidator returns a new CHValidator implementation.
@@ -53,70 +51,54 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 
 	// Get the Open API 3 validation schema location.
 	ctx := context.Background()
-	loader := &openapi3.Loader{Context: ctx, IsExternalRefsAllowed: true}
-	abs, err := callFilepathAbs(openApiSpec)
-	if err != nil {
-		log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while retrieving absolute path of validation schema file"})
+
+	if err := chv.getSchema(ctx, openApiSpec, contextId); err != nil {
 		return nil, err
 	}
-	log.InfoC(contextId, fmt.Sprintf("Retrieved absolute path of validation schema "), log.Data{config.SchemaAbsolutePathKey: abs})
 
-	// Load the validation schema.
-	doc, err := loader.LoadFromFile(abs)
+	// Initialise router to later retrieve routes to validate against.
+	r, err := callNewRouter(chv.doc)
 	if err != nil {
-		log.ErrorC(contextId, err, log.Data{config.OpenApiSpecKey: openApiSpec, config.MessageKey: "unable to open Open API spec"})
+		log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while initialising router for validation"})
 		return nil, err
-	} else {
-		if err := doc.Validate(ctx); err != nil {
-			log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while trying to call kin-openAPI validation method"})
-
-			return nil, err
-		}
-
-		// Initialise router to later retrieve routes to validate against.
-		r, err := callNewRouter(doc)
-		if err != nil {
-			log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while initialising router for validation"})
-			return nil, err
-		}
-
-		// Find routes using the given http request.
-		route, pathParams, err := callFindRoute(r, httpReq)
-		if err != nil {
-			log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while finding routes for given http request"})
-			return nil, err
-		}
-
-		// Define a set of Options for the request validator to use. Enable MultiError's to be returned so that all
-		// found errors are returned at once.
-		opts := &openapi3filter.Options{
-			MultiError: true,
-			// Set AuthenticationFunc to a Noop function as ERIC will handle missing / malformed security elements.
-			AuthenticationFunc: openapi3filter.NoopAuthenticationFunc,
-		}
-
-		// Validate request parameters
-		requestValidationInput := &openapi3filter.RequestValidationInput{
-			Request:    httpReq,
-			PathParams: pathParams,
-			Route:      route,
-			Options:    opts,
-		}
-
-		// Switch off the addition of schema error details to the returned error. This stops the OpenApi schema being added to errors.
-		openapi3.SchemaErrorDetailsDisabled = true
-
-		log.InfoC(contextId, "Validating request using: ", log.Data{config.OpenApiSpecKey: openApiSpec})
-		if err := callOpenApiFilterValidateRequest(ctx, requestValidationInput); err != nil {
-			// If errors are found in the request format them and return them.
-			log.InfoC(contextId, "Request validated. Errors found.", nil)
-			return callGetCHErrors(contextId, err), nil
-		}
-
-		// If we reach this point, then no validation errors were found.
-		log.InfoC(contextId, "Request validated. No errors were found.", nil)
-		return nil, nil
 	}
+
+	// Find routes using the given http request.
+	route, pathParams, err := callFindRoute(r, httpReq)
+	if err != nil {
+		log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while finding routes for given http request"})
+		return nil, err
+	}
+
+	// Define a set of Options for the request validator to use. Enable MultiError's to be returned so that all
+	// found errors are returned at once.
+	opts := &openapi3filter.Options{
+		MultiError: true,
+		// Set AuthenticationFunc to a Noop function as ERIC will handle missing / malformed security elements.
+		AuthenticationFunc: openapi3filter.NoopAuthenticationFunc,
+	}
+
+	// Validate request parameters
+	requestValidationInput := &openapi3filter.RequestValidationInput{
+		Request:    httpReq,
+		PathParams: pathParams,
+		Route:      route,
+		Options:    opts,
+	}
+
+	// Switch off the addition of schema error details to the returned error. This stops the OpenApi schema being added to errors.
+	openapi3.SchemaErrorDetailsDisabled = true
+
+	log.InfoC(contextId, "Validating request using: ", log.Data{config.OpenApiSpecKey: openApiSpec})
+	if err := callOpenApiFilterValidateRequest(ctx, requestValidationInput); err != nil {
+		// If errors are found in the request format them and return them.
+		log.InfoC(contextId, "Request validated. Errors found.", nil)
+		return callGetCHErrors(contextId, err), nil
+	}
+
+	// If we reach this point, then no validation errors were found.
+	log.InfoC(contextId, "Request validated. No errors were found.", nil)
+	return nil, nil
 }
 
 func getCHErrors(contextId string, err error) []byte {
@@ -146,19 +128,19 @@ func handleMultiError(contextId string, mea *openapi3.MultiError, errsArray []mo
 	for _, e := range *mea {
 		// Begin comparing the retrieved error (e) to possible returned error types.
 
-		// If we have a request error, pass re into the handleRequestError func to get a formatted CHError back.
+		// If we have a request error, pass re into the extractRequestError func to get a formatted CHError back.
 		var re *openapi3filter.RequestError
 		if ok := errors.As(e, &re); ok {
 			errsArray = handleRequestError(contextId, re, errsArray)
 		}
 
-		// If we have a schema error, pass se into the handleSchemaError func to get a formatted CHError back.
+		// If we have a schema error, pass se into the extractSchemaError func to get a formatted CHError back.
 		var se *openapi3.SchemaError
 		if ok := errors.As(e, &se); ok {
-			errsArray = append(errsArray, handleSchemaError(se))
+			errsArray = handleSchemaError(se, errsArray)
 		}
 
-		// Between ERIC and security middleware we should never receive one of these errors.
+		// Between ERIC and security middleware we should never receive one of these errors
 		var sre *openapi3filter.SecurityRequirementsError
 		if ok := errors.As(e, &sre); ok {
 			log.InfoC(contextId, "Encountered unexpected security error")
@@ -180,13 +162,13 @@ func handleRequestError(contextId string, re *openapi3filter.RequestError, errsA
 	// If it isn't a MultiError then we can begin the extract the error contents straight away.
 	var se *openapi3.SchemaError
 	if ok := errors.As(re.Err, &se); ok {
-		errsArray = append(errsArray, handleSchemaError(se))
+		errsArray = handleSchemaError(se, errsArray)
 	}
 
 	// If it is neither a MultiError or a SchemaError then check for a ParseError (malformed JSON).
 	var pe *openapi3filter.ParseError
 	if ok := errors.As(re.Err, &pe); ok {
-		errsArray = append(errsArray, handleParseError(pe))
+		errsArray = handleParseError(pe, errsArray)
 	}
 
 	// The error could be that we are missing the request body entirely, so account for this too.
@@ -195,8 +177,8 @@ func handleRequestError(contextId string, re *openapi3filter.RequestError, errsA
 			Error:        re.Err.Error(),
 			ErrorValues:  nil,
 			Location:     "request-body",
-			LocationType: jsonPath,
-			Type:         chValidationType,
+			LocationType: "json-path",
+			Type:         "ch:validation",
 		})
 	}
 
@@ -204,7 +186,7 @@ func handleRequestError(contextId string, re *openapi3filter.RequestError, errsA
 	return errsArray
 }
 
-func handleSchemaError(se *openapi3.SchemaError) models.CHError {
+func handleSchemaError(se *openapi3.SchemaError, errsArray []models.CHError) []models.CHError {
 
 	reason := strings.Replace(se.Reason, "\"", "'", -1)
 	jsonPath := strings.Join(se.JSONPointer(), ".")
@@ -220,29 +202,71 @@ func handleSchemaError(se *openapi3.SchemaError) models.CHError {
 		fieldValue = fmt.Sprintf("%v", se.Value)
 	}
 
-	// Construct and return a CHError using the extracted data.
-	return models.CHError{
+	// Construct a CHError and append it to the previously created CHError slice.
+	err := models.CHError{
 		Error:        reason,
 		ErrorValues:  map[string]interface{}{fieldName: fieldValue},
 		Location:     jsonPath,
-		LocationType: jsonPath,
-		Type:         chValidationType,
+		LocationType: "json-path",
+		Type:         "ch:validation",
 	}
+
+	errsArray = append(errsArray, err)
+
+	return errsArray
 }
 
-func handleParseError(pe *openapi3filter.ParseError) models.CHError {
+func handleParseError(pe *openapi3filter.ParseError, errsArray []models.CHError) []models.CHError {
 
-	// Construct and return a CHError to handle a ParseError.
-	return models.CHError{
+	// Construct a CHError and append it to the previously created CHError slice.
+	err := models.CHError{
 		Error:        pe.Cause.Error(),
 		ErrorValues:  map[string]interface{}{},
 		Location:     "request-body",
-		LocationType: jsonPath,
-		Type:         chValidationType,
+		LocationType: "json-path",
+		Type:         "ch:validation",
 	}
+
+	errsArray = append(errsArray, err)
+
+	return errsArray
 }
 
 // findRoute is used to add an abstraction layer for unit testing. Allowing us to mock the returns for external methods.
 func findRoute(r routers.Router, req *http.Request) (route *routers.Route, pathParams map[string]string, err error) {
 	return r.FindRoute(req)
+}
+
+func loadSchemaFromFile(ctx context.Context, openApiSpec, contextId string) (*openapi3.T, error){
+	log.Info("This will execute only once")
+	loader := &openapi3.Loader{Context: ctx, IsExternalRefsAllowed: true}
+	abs, err := callFilepathAbs(openApiSpec)
+	if err != nil {
+		log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while retrieving absolute path of validation schema file"})
+		return nil, err
+	}
+	log.InfoC(contextId, fmt.Sprintf("Retrieved absolute path of validation schema "), log.Data{config.SchemaAbsolutePathKey: abs})
+
+	// Load the validation schema.
+	return loader.LoadFromFile(abs)
+}
+
+func (chv CHValidatorImpl) getSchema(ctx context.Context, openApiSpec, contextId string) error {
+
+	var err   error
+	var doc *openapi3.T
+
+	callOnce.Do(func (){
+		doc, err = loadSchemaFromFile(ctx, openApiSpec, contextId)
+		if err != nil {
+			log.ErrorC(contextId, err, log.Data{config.OpenApiSpecKey: openApiSpec, config.MessageKey: "unable to open Open API spec"})
+		} else {
+			if err = doc.Validate(ctx); err != nil {
+				log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while trying to call kin-openAPI validation method"})
+			}
+		}
+	})
+
+	chv.doc = doc
+	return err
 }

@@ -14,9 +14,10 @@ import (
 )
 
 // Register defines all REST endpoints for the API.
-func Register(mainRouter *mux.Router, cfg *config.Config, kSvc services.KafkaService) error {
+func Register(mainRouter *mux.Router, cfg *config.Config) error {
 
 	// Initialise all services and components needed to run chs-delta-api correctly.
+	kSvc := services.NewKafkaService()
 	h := helpers.NewHelper()
 	chv := validation.NewCHValidator()
 	if err := kSvc.Init(cfg); err != nil {
@@ -33,7 +34,7 @@ func Register(mainRouter *mux.Router, cfg *config.Config, kSvc services.KafkaSer
 	mainRouter.Use(log.Handler)
 
 	appRouter := mainRouter.PathPrefix("").Subrouter()
-	appRouter.HandleFunc("/delta/officers", NewOfficerDeltaHandler(kSvc, h, chv, cfg).ServeHTTP).Methods(http.MethodPost).Name("officer-delta")
+	appRouter.HandleFunc("/delta/officers", NewOfficerDeltaHandler(&kSvc, h, chv, cfg).ServeHTTP).Methods(http.MethodPost).Name("officer-delta")
 	appRouter.Use(userAuthInterceptor.UserAuthenticationIntercept)
 
 	return nil

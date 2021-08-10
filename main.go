@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/companieshouse/chs-delta-api/services"
 	"net/http"
 	"os"
 	"os/signal"
@@ -30,8 +29,7 @@ func main() {
 
 	// Create router and register endpoints.
 	mainRouter := mux.NewRouter()
-	kSvc := services.NewKafkaService()
-	if err := handlers.Register(mainRouter, cfg, &kSvc); err != nil {
+	if err := handlers.Register(mainRouter, cfg); err != nil {
 		log.Error(fmt.Errorf("error registering routes: %s. Exiting", err), nil)
 		return
 	}
