@@ -33,7 +33,8 @@ func Register(mainRouter *mux.Router, cfg *config.Config, kSvc services.KafkaSer
 	mainRouter.Use(log.Handler)
 
 	appRouter := mainRouter.PathPrefix("").Subrouter()
-	appRouter.HandleFunc("/delta/officers", NewOfficerDeltaHandler(kSvc, h, chv, cfg).ServeHTTP).Methods(http.MethodPost).Name("officer-delta")
+	appRouter.HandleFunc("/delta/officers", NewOfficerDeltaHandler(kSvc, h, chv, cfg, false).ServeHTTP).Methods(http.MethodPost).Name("officer-delta")
+	appRouter.HandleFunc("/delta/officers/validate", NewOfficerDeltaHandler(kSvc, h, chv, cfg, true).ServeHTTP).Methods(http.MethodPost).Name("officer-delta-validate")
 	appRouter.Use(userAuthInterceptor.UserAuthenticationIntercept)
 
 	return nil

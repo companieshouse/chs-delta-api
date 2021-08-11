@@ -7,6 +7,8 @@ info:
 paths:
   /delta/officers:
     $ref: 'officer-delta-spec.yml'
+  /delta/officers/validate:
+    $ref: 'officer-delta-spec.yml'
 
 components:
   securitySchemes:
