@@ -15,12 +15,14 @@ const (
 	typeErrorRequestBodyLocation     = requestBodiesLocation + "type_error_request_body"
 	requiredErrorRequestBodyLocation = requestBodiesLocation + "required_error_request_body"
 	enumErrorRequestBodyLocation     = requestBodiesLocation + "enum_error_request_body"
+	maxPropertiesRequestBodyLocation = requestBodiesLocation + "max_properties_request_body"
 
 	responseBodiesLocation                 = "./response_bodies/"
 	typeErrorResponseBodyLocation          = responseBodiesLocation + "type_error_response_body"
 	requiredErrorResponseBodyLocation      = responseBodiesLocation + "required_error_response_body"
 	enumErrorResponseBodyLocation          = responseBodiesLocation + "enum_error_response_body"
 	noRequestBodyErrorResponseBodyLocation = responseBodiesLocation + "no_request_body_error_response_body"
+	maxPropertiesResponseBodyLocation      = responseBodiesLocation + "max_properties_response_body"
 
 	officersEndpoint = "/delta/officers"
 	apiSpecLocation  = "../../../apispec/api-spec.yml"
@@ -153,6 +155,34 @@ func TestOfficerDeltaSchemaNoRequestBodyError(t *testing.T) {
 			Convey("Then I am given an error saying no request body provided", func() {
 				noRequestBodyErrorsResponseBody := common.ReadRequestBody(noRequestBodyErrorResponseBodyLocation)
 				match := common.CompareActualToExpected(validationErrs, noRequestBodyErrorsResponseBody)
+
+				So(validationErrs, ShouldNotBeNil)
+				So(match, ShouldEqual, true)
+			})
+		})
+	})
+}
+
+// TestOfficerDeltaSchemaMaxPropertiesError asserts that when an invalid request body is given which breaks the allowed
+// bounds on the maxProperties field for the Identification object, then an errors array is returned.
+func TestOfficerDeltaSchemaMaxPropertiesError(t *testing.T) {
+
+	Convey("Given I want to test the officers-delta API schema for maxProperty constraints", t, func() {
+
+		maxPropertiesErrorRequestBody := common.ReadRequestBody(maxPropertiesRequestBodyLocation)
+
+		r := httptest.NewRequest("POST", officersEndpoint, bytes.NewBuffer(maxPropertiesErrorRequestBody))
+		r = common.SetHeaders(r)
+
+		Convey("When I call to validate the request body, providing an valid request with maxProperty constraint errors", func() {
+
+			chv := validation.NewCHValidator()
+
+			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, apiSpecLocation, contextId)
+
+			Convey("Then I am given an errors array response as validation errors have been found", func() {
+				maxPropertiesErrorResponseBody := common.ReadRequestBody(maxPropertiesResponseBodyLocation)
+				match := common.CompareActualToExpected(validationErrs, maxPropertiesErrorResponseBody)
 
 				So(validationErrs, ShouldNotBeNil)
 				So(match, ShouldEqual, true)

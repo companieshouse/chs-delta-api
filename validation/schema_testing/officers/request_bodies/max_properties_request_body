@@ -1,0 +1,72 @@
+{
+  "officers": [
+    {
+      "company_number": "string",
+      "changed_at": "string",
+      "kind": "string",
+      "internal_id": "string",
+      "appointment_date": "string",
+      "title": "string",
+      "corporate_ind": "Y",
+      "surname": "string",
+      "forename": "string",
+      "middle_name": "string",
+      "date_of_birth": "string",
+      "service_address_same_as_registered_address": "Y",
+      "nationality": "string",
+      "occupation": "string",
+      "officer_id": "string",
+      "secure_director": "Y",
+      "officer_detail_id": "string",
+      "officer_role": "string",
+      "usual_residential_country": "string",
+      "previous_name_array": {
+        "previous_surname": "string",
+        "previous_forename": "string",
+        "previous_timestamp": "string"
+      },
+      "identification": {
+        "EEA": {
+          "place_registered": "string",
+          "registration_number": "string",
+          "legal_authority": "string",
+          "legal_form": "string"
+        },
+        "non-eea": {
+          "place_registered": "string",
+          "registration_number": "string",
+          "legal_authority": "string",
+          "legal_form": "string"
+        }
+      },
+      "service_address": {
+        "premise": "string",
+        "address_line_1": "string",
+        "address_line_2": "string",
+        "locality": "string",
+        "care_of": "string",
+        "region": "string",
+        "po_box": "string",
+        "supplied_company_name": "string",
+        "country": "string",
+        "postal_code": "string",
+        "usual_country_of_residence": "string"
+      },
+      "usual_residential_address": {
+        "premise": "string",
+        "address_line_1": "string",
+        "address_line_2": "string",
+        "locality": "string",
+        "care_of": "string",
+        "region": "string",
+        "po_box": "string",
+        "supplied_company_name": "string",
+        "country": "string",
+        "postal_code": "string",
+        "usual_country_of_residence": "string"
+      }
+    }
+  ],
+  "CreatedTime": "string",
+  "delta_at": "string"
+}

@@ -1,0 +1,11 @@
+[
+    {
+        "error": "there must be at most 1 properties",
+        "error_values": {
+            "identification": "map[EEA:map[legal_authority:string legal_form:string place_registered:string registration_number:string] non-eea:map[legal_authority:string legal_form:string place_registered:string registration_number:string]]"
+        },
+        "location": "officers.0.identification",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    }
+]
