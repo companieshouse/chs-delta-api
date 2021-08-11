@@ -235,20 +235,6 @@ func findRoute(r routers.Router, req *http.Request) (route *routers.Route, pathP
 	return r.FindRoute(req)
 }
 
-func loadSchemaFromFile(ctx context.Context, openApiSpec, contextId string) (*openapi3.T, error){
-	log.Info("This will execute only once")
-	loader := &openapi3.Loader{Context: ctx, IsExternalRefsAllowed: true}
-	abs, err := callFilepathAbs(openApiSpec)
-	if err != nil {
-		log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while retrieving absolute path of validation schema file"})
-		return nil, err
-	}
-	log.InfoC(contextId, fmt.Sprintf("Retrieved absolute path of validation schema "), log.Data{config.SchemaAbsolutePathKey: abs})
-
-	// Load the validation schema.
-	return loader.LoadFromFile(abs)
-}
-
 func (chv *CHValidatorImpl) GetSchema(ctx context.Context, openApiSpec, contextId string) error {
 	var err   error
 
@@ -264,4 +250,17 @@ func (chv *CHValidatorImpl) GetSchema(ctx context.Context, openApiSpec, contextI
 	})
 
 	return err
+}
+
+func loadSchemaFromFile(ctx context.Context, openApiSpec, contextId string) (*openapi3.T, error){
+	loader := &openapi3.Loader{Context: ctx, IsExternalRefsAllowed: true}
+	abs, err := callFilepathAbs(openApiSpec)
+	if err != nil {
+		log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while retrieving absolute path of validation schema file"})
+		return nil, err
+	}
+	log.InfoC(contextId, fmt.Sprintf("Retrieved absolute path of validation schema "), log.Data{config.SchemaAbsolutePathKey: abs})
+
+	// Load the validation schema.
+	return loader.LoadFromFile(abs)
 }
