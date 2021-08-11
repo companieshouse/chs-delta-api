@@ -37,6 +37,7 @@ var (
 // CHValidator provides an interface to interact with the CH Validator.
 type CHValidator interface {
 	ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec, contextId string) ([]byte, error)
+	getSchema(ctx context.Context, openApiSpec, contextId string) error
 }
 
 // CHValidatorImpl is a concrete implementation of the CHValidator interface.
@@ -46,13 +47,13 @@ type CHValidatorImpl struct {
 
 // NewCHValidator returns a new CHValidator implementation.
 func NewCHValidator() CHValidator {
-	return CHValidatorImpl{}
+	return &CHValidatorImpl{}
 }
 
 // ValidateRequestAgainstOpenApiSpec takes a request and an openAPI spec location (string relative path) and uses the
 // spec to validate the provided request. If any validation errors are found, then they are formatted and returned to the
 // caller. If any errors are encountered while attempting to validate, they are handled and also returned to the caller.
-func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec, contextId string) ([]byte, error) {
+func (chv *CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec, contextId string) ([]byte, error) {
 
 	// Get the Open API 3 validation schema location.
 	ctx := context.Background()
@@ -248,22 +249,19 @@ func loadSchemaFromFile(ctx context.Context, openApiSpec, contextId string) (*op
 	return loader.LoadFromFile(abs)
 }
 
-func (chv CHValidatorImpl) getSchema(ctx context.Context, openApiSpec, contextId string) error {
-
+func (chv *CHValidatorImpl) getSchema(ctx context.Context, openApiSpec, contextId string) error {
 	var err   error
-	var doc *openapi3.T
 
 	callOnce.Do(func (){
-		doc, err = loadSchemaFromFile(ctx, openApiSpec, contextId)
+		chv.doc , err = loadSchemaFromFile(ctx, openApiSpec, contextId)
 		if err != nil {
 			log.ErrorC(contextId, err, log.Data{config.OpenApiSpecKey: openApiSpec, config.MessageKey: "unable to open Open API spec"})
 		} else {
-			if err = doc.Validate(ctx); err != nil {
+			if err = chv.doc.Validate(ctx); err != nil {
 				log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while trying to call kin-openAPI validation method"})
 			}
 		}
 	})
 
-	chv.doc = doc
 	return err
 }
