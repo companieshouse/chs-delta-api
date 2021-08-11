@@ -55,9 +55,9 @@ func NewCHValidator() CHValidator {
 // caller. If any errors are encountered while attempting to validate, they are handled and also returned to the caller.
 func (chv *CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec, contextId string) ([]byte, error) {
 
-	// Get the Open API 3 validation schema location.
 	ctx := context.Background()
 
+	// Get the Open API 3 validation schema.
 	err := callGetSchema(ctx, openApiSpec, contextId, chv)
 	if err != nil {
 		return nil, err
@@ -237,7 +237,9 @@ func findRoute(r routers.Router, req *http.Request) (route *routers.Route, pathP
 }
 
 func getSchema(ctx context.Context, openApiSpec, contextId string, chv *CHValidatorImpl) (err error) {
+	//callOnce.Do method insures the code is executed once so that the schema is not repeatedly loaded unnecessarily.
 	callOnce.Do(func (){
+		log.InfoC(contextId, "Retrieving openAPI3 schema")
 		chv.doc , err = loadSchemaFromFile(ctx, openApiSpec, contextId)
 		if err != nil {
 			log.ErrorC(contextId, err, log.Data{config.OpenApiSpecKey: openApiSpec, config.MessageKey: "unable to open Open API spec"})
@@ -260,6 +262,6 @@ func loadSchemaFromFile(ctx context.Context, openApiSpec, contextId string) (*op
 	}
 	log.InfoC(contextId, fmt.Sprintf("Retrieved absolute path of validation schema "), log.Data{config.SchemaAbsolutePathKey: abs})
 
-	// Load the validation schema.
+	// Return the validation schema.
 	return loader.LoadFromFile(abs)
 }

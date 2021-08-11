@@ -80,7 +80,6 @@ func TestOfficerDeltaHandlerFailsRequestBodyRetrieval(t *testing.T) {
 
 			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec, contextId).Return(nil, nil)
 			h.EXPECT().GetDataFromRequest(req, contextId).Return("", errors.New("error converting request body"))
-			h.EXPECT().GetRequestIdFromHeader(req).Return(contextId)
 
 			handler.ServeHTTP(resp, req)
 
@@ -120,7 +119,6 @@ func TestOfficerDeltaHandlerSuccessfullySends(t *testing.T) {
 
 			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec, contextId).Return(nil, nil)
 			h.EXPECT().GetDataFromRequest(req, contextId).Return(requestBody, nil)
-			h.EXPECT().GetRequestIdFromHeader(req).Return(contextId)
 			svc.EXPECT().SendMessage(handler.cfg.OfficerDeltaTopic, requestBody, contextId).Return(nil)
 
 			handler.ServeHTTP(resp, req)
@@ -162,7 +160,6 @@ func TestOfficerDeltaHandlerFailsSend(t *testing.T) {
 
 			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec, contextId).Return(nil, nil)
 			h.EXPECT().GetDataFromRequest(req, contextId).Return(requestBody, nil)
-			h.EXPECT().GetRequestIdFromHeader(req).Return(contextId)
 			svc.EXPECT().SendMessage(handler.cfg.OfficerDeltaTopic, requestBody, contextId).Return(errors.New("error sending message"))
 
 			handler.ServeHTTP(resp, req)
@@ -203,7 +200,6 @@ func TestOfficerDeltaHandlerErrorsCallingValidation(t *testing.T) {
 			handler := NewOfficerDeltaHandler(svc, h, chv, cfg)
 
 			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec, contextId).Return(nil, errors.New("error"))
-			h.EXPECT().GetRequestIdFromHeader(req).Return(contextId)
 
 			handler.ServeHTTP(resp, req)
 
@@ -243,7 +239,6 @@ func TestOfficerDeltaHandlerFailsValidation(t *testing.T) {
 
 			errBytes := []byte("error string")
 			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec, contextId).Return(errBytes, nil)
-			h.EXPECT().GetRequestIdFromHeader(req).Return(contextId)
 
 			handler.ServeHTTP(resp, req)
 

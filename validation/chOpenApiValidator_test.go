@@ -57,6 +57,7 @@ func TestValidateRequestAgainstOpenApiSpecFailsAbs(t *testing.T) {
 
 // TestValidateRequestAgainstOpenApiSpecFailsFileOpen asserts that when calling to load the file using an ABS path fails
 // it is handled correctly.
+//callOnce needs to be reset in order to work with running tests collectively
 func TestValidateRequestAgainstOpenApiSpecFailsFileOpen(t *testing.T) {
 	callOnce = sync.Once{}
 	Convey("When I call to validate a request", t, func() {
@@ -102,6 +103,7 @@ func TestValidateRequestAgainstOpenApiSpecFailsToCreateRouter(t *testing.T) {
 
 // TestValidateRequestAgainstOpenApiSpecNoErrors assets that when no errors occur we get a nil return.
 func TestValidateRequestAgainstOpenApiSpecNoErrors(t *testing.T) {
+	//callOnce needs to be reset in order to work with running tests collectively
 	callOnce = sync.Once{}
 	Convey("When I call to validate a request", t, func() {
 		chv := NewCHValidator()
@@ -133,6 +135,7 @@ func TestValidateRequestAgainstOpenApiSpecNoErrors(t *testing.T) {
 // TestValidateRequestAgainstOpenApiSpecFindsValErrors asserts that when kin-openAPI finds validation errors, they are
 // returned as a formatted byte array.
 func TestValidateRequestAgainstOpenApiSpecFindsValErrors(t *testing.T) {
+	//callOnce needs to be reset in order to work with running tests collectively
 	callOnce = sync.Once{}
 	Convey("When I call to validate a request", t, func() {
 		chv := NewCHValidator()
