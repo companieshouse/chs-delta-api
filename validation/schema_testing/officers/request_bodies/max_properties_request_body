@@ -7,16 +7,16 @@
       "internal_id": "string",
       "appointment_date": "string",
       "title": "string",
-      "corporate_ind": "wrong",
+      "corporate_ind": "Y",
       "surname": "string",
       "forename": "string",
       "middle_name": "string",
       "date_of_birth": "string",
-      "service_address_same_as_registered_address": "wrong",
+      "service_address_same_as_registered_address": "Y",
       "nationality": "string",
       "occupation": "string",
       "officer_id": "string",
-      "secure_director": "wrong",
+      "secure_director": "Y",
       "officer_detail_id": "string",
       "officer_role": "string",
       "usual_residential_country": "string",
@@ -27,6 +27,12 @@
       },
       "identification": {
         "EEA": {
+          "place_registered": "string",
+          "registration_number": "string",
+          "legal_authority": "string",
+          "legal_form": "string"
+        },
+        "non-eea": {
           "place_registered": "string",
           "registration_number": "string",
           "legal_authority": "string",

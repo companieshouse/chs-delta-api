@@ -25,24 +25,6 @@
           "registration_number": "string",
           "legal_authority": "string",
           "legal_form": "string"
-        },
-        "non_eea": {
-          "place_registered": "string",
-          "registration_number": "string",
-          "legal_authority": "string",
-          "legal_form": "string"
-        },
-        "UK_limited_company": {
-          "place_registered": "string",
-          "registration_number": "string",
-          "legal_authority": "string",
-          "legal_form": "string"
-        },
-        "other_corporate_body_or_firm": {
-          "place_registered": "string",
-          "registration_number": "string",
-          "legal_authority": "string",
-          "legal_form": "string"
         }
       },
       "service_address": {
