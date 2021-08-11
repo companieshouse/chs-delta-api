@@ -37,7 +37,7 @@ var (
 // CHValidator provides an interface to interact with the CH Validator.
 type CHValidator interface {
 	ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec, contextId string) ([]byte, error)
-	getSchema(ctx context.Context, openApiSpec, contextId string) error
+	GetSchema(ctx context.Context, openApiSpec, contextId string) error
 }
 
 // CHValidatorImpl is a concrete implementation of the CHValidator interface.
@@ -58,7 +58,7 @@ func (chv *CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Requ
 	// Get the Open API 3 validation schema location.
 	ctx := context.Background()
 
-	if err := chv.getSchema(ctx, openApiSpec, contextId); err != nil {
+	if err := chv.GetSchema(ctx, openApiSpec, contextId); err != nil {
 		return nil, err
 	}
 
@@ -249,7 +249,7 @@ func loadSchemaFromFile(ctx context.Context, openApiSpec, contextId string) (*op
 	return loader.LoadFromFile(abs)
 }
 
-func (chv *CHValidatorImpl) getSchema(ctx context.Context, openApiSpec, contextId string) error {
+func (chv *CHValidatorImpl) GetSchema(ctx context.Context, openApiSpec, contextId string) error {
 	var err   error
 
 	callOnce.Do(func (){
