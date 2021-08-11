@@ -12,15 +12,16 @@ import (
 
 // OfficerDeltaHandler offers a handler by which to publish an office-delta onto the officer-delta kafka topic.
 type OfficerDeltaHandler struct {
-	kSvc services.KafkaService
-	h    helpers.Helper
-	chv  validation.CHValidator
-	cfg  *config.Config
+	kSvc             services.KafkaService
+	h                helpers.Helper
+	chv              validation.CHValidator
+	cfg              *config.Config
+	doValidationOnly bool
 }
 
 // NewOfficerDeltaHandler returns an OfficerDeltaHandler.
-func NewOfficerDeltaHandler(kSvc services.KafkaService, h helpers.Helper, chv validation.CHValidator, cfg *config.Config) *OfficerDeltaHandler {
-	return &OfficerDeltaHandler{kSvc: kSvc, h: h, chv: chv, cfg: cfg}
+func NewOfficerDeltaHandler(kSvc services.KafkaService, h helpers.Helper, chv validation.CHValidator, cfg *config.Config, doValidationOnly bool) *OfficerDeltaHandler {
+	return &OfficerDeltaHandler{kSvc: kSvc, h: h, chv: chv, cfg: cfg, doValidationOnly: doValidationOnly}
 }
 
 // ServeHTTP accepts an incoming OfficerDelta request via a POST method, validates it
@@ -48,19 +49,21 @@ func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	// Get request body and marshal into a string, ready for publishing.
-	data, err := kp.h.GetDataFromRequest(r, contextId)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
+	if !kp.doValidationOnly {
+		// Get request body and marshal into a string, ready for publishing.
+		data, err := kp.h.GetDataFromRequest(r, contextId)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
 
-	// Send data string to Kafka service for publishing.
-	if err := kp.kSvc.SendMessage(kp.cfg.OfficerDeltaTopic, data, contextId); err != nil {
-		log.ErrorC(contextId, err, log.Data{config.TopicKey: kp.cfg.OfficerDeltaTopic, config.MessageKey: "error sending the message to the given kafka topic"})
-		w.WriteHeader(http.StatusInternalServerError)
+		// Send data string to Kafka service for publishing.
+		if err := kp.kSvc.SendMessage(kp.cfg.OfficerDeltaTopic, data, contextId); err != nil {
+			log.ErrorC(contextId, err, log.Data{config.TopicKey: kp.cfg.OfficerDeltaTopic, config.MessageKey: "error sending the message to the given kafka topic"})
+			w.WriteHeader(http.StatusInternalServerError)
 
-		return
+			return
+		}
 	}
 
 	w.WriteHeader(http.StatusOK)
