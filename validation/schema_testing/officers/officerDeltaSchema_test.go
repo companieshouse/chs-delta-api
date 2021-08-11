@@ -27,6 +27,7 @@ const (
 	officersEndpoint = "/delta/officers"
 	apiSpecLocation  = "../../../apispec/api-spec.yml"
 	contextId        = "contextId"
+	methodPost		 = "POST"
 )
 
 // TestOfficerDeltaSchemaNoErrors asserts that when a valid request body is given which matches the schema, then no
@@ -37,7 +38,7 @@ func TestOfficerDeltaSchemaNoErrors(t *testing.T) {
 
 		okRequestBody := common.ReadRequestBody(okRequestBodyLocation)
 
-		r := httptest.NewRequest("POST", officersEndpoint, bytes.NewBuffer(okRequestBody))
+		r := httptest.NewRequest(methodPost, officersEndpoint, bytes.NewBuffer(okRequestBody))
 		r = common.SetHeaders(r)
 
 		Convey("When I call to validate the request body, providing a valid request", func() {
@@ -61,7 +62,7 @@ func TestOfficerDeltaSchemaTypeErrors(t *testing.T) {
 
 		typeErrorRequestBody := common.ReadRequestBody(typeErrorRequestBodyLocation)
 
-		r := httptest.NewRequest("POST", officersEndpoint, bytes.NewBuffer(typeErrorRequestBody))
+		r := httptest.NewRequest(methodPost, officersEndpoint, bytes.NewBuffer(typeErrorRequestBody))
 		r = common.SetHeaders(r)
 
 		Convey("When I call to validate the request body, providing an valid request with type errors", func() {
@@ -89,7 +90,7 @@ func TestOfficerDeltaSchemaRequiredErrors(t *testing.T) {
 
 		mandatoryErrorsRequestBody := common.ReadRequestBody(requiredErrorRequestBodyLocation)
 
-		r := httptest.NewRequest("POST", officersEndpoint, bytes.NewBuffer(mandatoryErrorsRequestBody))
+		r := httptest.NewRequest(methodPost, officersEndpoint, bytes.NewBuffer(mandatoryErrorsRequestBody))
 		r = common.SetHeaders(r)
 
 		Convey("When I call to validate the request body, providing an valid request with missing mandatory values", func() {
@@ -117,7 +118,7 @@ func TestOfficerDeltaSchemaEnumErrors(t *testing.T) {
 
 		enumErrorsRequestBody := common.ReadRequestBody(enumErrorRequestBodyLocation)
 
-		r := httptest.NewRequest("POST", officersEndpoint, bytes.NewBuffer(enumErrorsRequestBody))
+		r := httptest.NewRequest(methodPost, officersEndpoint, bytes.NewBuffer(enumErrorsRequestBody))
 		r = common.SetHeaders(r)
 
 		Convey("When I call to validate the request body, providing an valid request with incorrect ENUM values", func() {
@@ -143,7 +144,7 @@ func TestOfficerDeltaSchemaNoRequestBodyError(t *testing.T) {
 
 	Convey("Given I want to test the officers-delta API schema to assert validation is working correctly", t, func() {
 
-		r := httptest.NewRequest("POST", officersEndpoint, bytes.NewBuffer(nil))
+		r := httptest.NewRequest(methodPost, officersEndpoint, bytes.NewBuffer(nil))
 		r = common.SetHeaders(r)
 
 		Convey("When I call to validate the request body, providing an empty request body", func() {
@@ -171,7 +172,7 @@ func TestOfficerDeltaSchemaMaxPropertiesError(t *testing.T) {
 
 		maxPropertiesErrorRequestBody := common.ReadRequestBody(maxPropertiesRequestBodyLocation)
 
-		r := httptest.NewRequest("POST", officersEndpoint, bytes.NewBuffer(maxPropertiesErrorRequestBody))
+		r := httptest.NewRequest(methodPost, officersEndpoint, bytes.NewBuffer(maxPropertiesErrorRequestBody))
 		r = common.SetHeaders(r)
 
 		Convey("When I call to validate the request body, providing an valid request with maxProperty constraint errors", func() {
