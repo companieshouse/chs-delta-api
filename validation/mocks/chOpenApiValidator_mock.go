@@ -5,7 +5,6 @@
 package mocks
 
 import (
-	context "context"
 	http "net/http"
 	reflect "reflect"
 
@@ -33,20 +32,6 @@ func NewMockCHValidator(ctrl *gomock.Controller) *MockCHValidator {
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockCHValidator) EXPECT() *MockCHValidatorMockRecorder {
 	return m.recorder
-}
-
-// GetSchema mocks base method.
-func (m *MockCHValidator) GetSchema(ctx context.Context, openApiSpec, contextId string) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetSchema", ctx, openApiSpec, contextId)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// GetSchema indicates an expected call of GetSchema.
-func (mr *MockCHValidatorMockRecorder) GetSchema(ctx, openApiSpec, contextId interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSchema", reflect.TypeOf((*MockCHValidator)(nil).GetSchema), ctx, openApiSpec, contextId)
 }
 
 // ValidateRequestAgainstOpenApiSpec mocks base method.

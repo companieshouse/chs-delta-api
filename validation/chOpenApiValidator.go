@@ -31,13 +31,13 @@ var (
 	callOpenApiFilterValidateRequest = openapi3filter.ValidateRequest
 	callGetCHErrors                  = getCHErrors
 	callFindRoute                    = findRoute
+	callGetSchema					 = getSchema
 	callOnce	 sync.Once
 )
 
 // CHValidator provides an interface to interact with the CH Validator.
 type CHValidator interface {
 	ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec, contextId string) ([]byte, error)
-	GetSchema(ctx context.Context, openApiSpec, contextId string) error
 }
 
 // CHValidatorImpl is a concrete implementation of the CHValidator interface.
@@ -57,8 +57,9 @@ func (chv *CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Requ
 
 	// Get the Open API 3 validation schema location.
 	ctx := context.Background()
-
-	if err := chv.GetSchema(ctx, openApiSpec, contextId); err != nil {
+	var err error
+	chv.doc, err = callGetSchema(ctx, openApiSpec, contextId)
+	if err != nil {
 		return nil, err
 	}
 
@@ -235,21 +236,19 @@ func findRoute(r routers.Router, req *http.Request) (route *routers.Route, pathP
 	return r.FindRoute(req)
 }
 
-func (chv *CHValidatorImpl) GetSchema(ctx context.Context, openApiSpec, contextId string) error {
-	var err   error
-
+func getSchema(ctx context.Context, openApiSpec, contextId string) (doc *openapi3.T, err error) {
 	callOnce.Do(func (){
-		chv.doc , err = loadSchemaFromFile(ctx, openApiSpec, contextId)
+		doc , err = loadSchemaFromFile(ctx, openApiSpec, contextId)
 		if err != nil {
 			log.ErrorC(contextId, err, log.Data{config.OpenApiSpecKey: openApiSpec, config.MessageKey: "unable to open Open API spec"})
 		} else {
-			if err = chv.doc.Validate(ctx); err != nil {
+			if err = doc.Validate(ctx); err != nil {
 				log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while trying to call kin-openAPI validation method"})
 			}
 		}
 	})
 
-	return err
+	return doc, err
 }
 
 func loadSchemaFromFile(ctx context.Context, openApiSpec, contextId string) (*openapi3.T, error){
