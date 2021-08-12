@@ -53,7 +53,7 @@ func NewCHValidator(openApiSpec string) (CHValidator, error) {
 	}
 
 	// Successfully created a CHValidator so return the fully constructed object.
-	return &CHValidatorImpl{
+	return CHValidatorImpl{
 		doc: doc,
 	}, nil
 }
@@ -61,7 +61,7 @@ func NewCHValidator(openApiSpec string) (CHValidator, error) {
 // ValidateRequestAgainstOpenApiSpec takes a request and an openAPI spec location (string relative path) and uses the
 // spec to validate the provided request. If any validation errors are found, then they are formatted and returned to the
 // caller. If any errors are encountered while attempting to validate, they are handled and also returned to the caller.
-func (chv *CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec, contextId string) ([]byte, error) {
+func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec, contextId string) ([]byte, error) {
 
 	ctx := context.Background()
 
