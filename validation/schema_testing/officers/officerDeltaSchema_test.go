@@ -27,7 +27,7 @@ const (
 	officersEndpoint = "/delta/officers"
 	apiSpecLocation  = "../../../apispec/api-spec.yml"
 	contextId        = "contextId"
-	methodPost		 = "POST"
+	methodPost       = "POST"
 )
 
 // TestUnitOfficerDeltaSchemaNoErrors asserts that when a valid request body is given which matches the schema, then no
@@ -43,7 +43,7 @@ func TestUnitOfficerDeltaSchemaNoErrors(t *testing.T) {
 
 		Convey("When I call to validate the request body, providing a valid request", func() {
 
-			chv := validation.NewCHValidator()
+			chv, _ := validation.NewCHValidator(apiSpecLocation)
 
 			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, apiSpecLocation, contextId)
 
@@ -67,7 +67,7 @@ func TestUnitOfficerDeltaSchemaTypeErrors(t *testing.T) {
 
 		Convey("When I call to validate the request body, providing an valid request with type errors", func() {
 
-			chv := validation.NewCHValidator()
+			chv, _ := validation.NewCHValidator(apiSpecLocation)
 
 			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, apiSpecLocation, contextId)
 
@@ -95,7 +95,7 @@ func TestUnitOfficerDeltaSchemaRequiredErrors(t *testing.T) {
 
 		Convey("When I call to validate the request body, providing an valid request with missing mandatory values", func() {
 
-			chv := validation.NewCHValidator()
+			chv, _ := validation.NewCHValidator(apiSpecLocation)
 
 			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, apiSpecLocation, contextId)
 
@@ -123,7 +123,7 @@ func TestUnitOfficerDeltaSchemaEnumErrors(t *testing.T) {
 
 		Convey("When I call to validate the request body, providing an valid request with incorrect ENUM values", func() {
 
-			chv := validation.NewCHValidator()
+			chv, _ := validation.NewCHValidator(apiSpecLocation)
 
 			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, apiSpecLocation, contextId)
 
@@ -149,7 +149,7 @@ func TestUnitOfficerDeltaSchemaNoRequestBodyError(t *testing.T) {
 
 		Convey("When I call to validate the request body, providing an empty request body", func() {
 
-			chv := validation.NewCHValidator()
+			chv, _ := validation.NewCHValidator(apiSpecLocation)
 
 			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, apiSpecLocation, contextId)
 
@@ -166,7 +166,7 @@ func TestUnitOfficerDeltaSchemaNoRequestBodyError(t *testing.T) {
 
 // TestOfficerDeltaSchemaMaxPropertiesError asserts that when an invalid request body is given which breaks the allowed
 // bounds on the maxProperties field for the Identification object, then an errors array is returned.
-func TestOfficerDeltaSchemaMaxPropertiesError(t *testing.T) {
+func TestUnitOfficerDeltaSchemaMaxPropertiesError(t *testing.T) {
 
 	Convey("Given I want to test the officers-delta API schema for maxProperty constraints", t, func() {
 
@@ -177,7 +177,7 @@ func TestOfficerDeltaSchemaMaxPropertiesError(t *testing.T) {
 
 		Convey("When I call to validate the request body, providing an valid request with maxProperty constraint errors", func() {
 
-			chv := validation.NewCHValidator()
+			chv, _ := validation.NewCHValidator(apiSpecLocation)
 
 			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, apiSpecLocation, contextId)
 

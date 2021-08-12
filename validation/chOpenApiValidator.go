@@ -5,11 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"net/http"
-	"path/filepath"
-	"strings"
-	"sync"
-
 	"github.com/companieshouse/chs-delta-api/config"
 	"github.com/companieshouse/chs-delta-api/models"
 	"github.com/companieshouse/chs.go/log"
@@ -17,6 +12,9 @@ import (
 	"github.com/getkin/kin-openapi/openapi3filter"
 	"github.com/getkin/kin-openapi/routers"
 	router "github.com/getkin/kin-openapi/routers/gorillamux"
+	"net/http"
+	"path/filepath"
+	"strings"
 )
 
 const (
@@ -32,7 +30,6 @@ var (
 	callGetCHErrors                  = getCHErrors
 	callFindRoute                    = findRoute
 	callGetSchema                    = getSchema
-	callOnce                         sync.Once
 )
 
 // CHValidator provides an interface to interact with the CH Validator.
@@ -46,8 +43,19 @@ type CHValidatorImpl struct {
 }
 
 // NewCHValidator returns a new CHValidator implementation.
-func NewCHValidator() CHValidator {
-	return &CHValidatorImpl{}
+func NewCHValidator(openApiSpec string) (CHValidator, error) {
+
+	ctx := context.Background()
+	doc, err := callGetSchema(ctx, openApiSpec)
+	if err != nil {
+		// Failed to create validator when trying to get schema so return an error.
+		return nil, err
+	}
+
+	// Successfully created a CHValidator so return the fully constructed object.
+	return &CHValidatorImpl{
+		doc: doc,
+	}, nil
 }
 
 // ValidateRequestAgainstOpenApiSpec takes a request and an openAPI spec location (string relative path) and uses the
@@ -56,12 +64,6 @@ func NewCHValidator() CHValidator {
 func (chv *CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec, contextId string) ([]byte, error) {
 
 	ctx := context.Background()
-
-	// Get the Open API 3 validation schema.
-	err := callGetSchema(ctx, openApiSpec, contextId, chv)
-	if err != nil {
-		return nil, err
-	}
 
 	// Initialise router to later retrieve routes to validate against.
 	r, err := callNewRouter(chv.doc)
@@ -236,31 +238,29 @@ func findRoute(r routers.Router, req *http.Request) (route *routers.Route, pathP
 	return r.FindRoute(req)
 }
 
-func getSchema(ctx context.Context, openApiSpec, contextId string, chv *CHValidatorImpl) (err error) {
-	//callOnce.Do method ensures the code is executed once so that the schema is not repeatedly loaded unnecessarily.
-	callOnce.Do(func() {
-		log.InfoC(contextId, "Retrieving openAPI3 schema")
-		chv.doc, err = loadSchemaFromFile(ctx, openApiSpec, contextId)
-		if err != nil {
-			log.ErrorC(contextId, err, log.Data{config.OpenApiSpecKey: openApiSpec, config.MessageKey: "unable to open Open API spec"})
-		} else {
-			if err = chv.doc.Validate(ctx); err != nil {
-				log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while trying to call kin-openAPI validation method"})
-			}
-		}
-	})
+func getSchema(ctx context.Context, openApiSpec string) (*openapi3.T, error) {
 
-	return err
+	log.Info("Retrieving openAPI3 schema")
+	doc, err := loadSchemaFromFile(ctx, openApiSpec)
+	if err != nil {
+		log.Error(err, log.Data{config.OpenApiSpecKey: openApiSpec, config.MessageKey: "unable to open Open API spec"})
+	} else {
+		if err = doc.Validate(ctx); err != nil {
+			log.Error(err, log.Data{config.MessageKey: "error occurred while trying to call kin-openAPI validation method"})
+		}
+	}
+
+	return doc, err
 }
 
-func loadSchemaFromFile(ctx context.Context, openApiSpec, contextId string) (*openapi3.T, error) {
+func loadSchemaFromFile(ctx context.Context, openApiSpec string) (*openapi3.T, error) {
 	loader := &openapi3.Loader{Context: ctx, IsExternalRefsAllowed: true}
 	abs, err := callFilepathAbs(openApiSpec)
 	if err != nil {
-		log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while retrieving absolute path of validation schema file"})
+		log.Error(err, log.Data{config.MessageKey: "error occurred while retrieving absolute path of validation schema file"})
 		return nil, err
 	}
-	log.InfoC(contextId, fmt.Sprintf("Retrieved absolute path of validation schema "), log.Data{config.SchemaAbsolutePathKey: abs})
+	log.Info(fmt.Sprintf("Retrieved absolute path of validation schema "), log.Data{config.SchemaAbsolutePathKey: abs})
 
 	// Return the validation schema.
 	return loader.LoadFromFile(abs)
