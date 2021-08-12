@@ -20,8 +20,8 @@ const (
 	contextId   = "contextId"
 )
 
-// TestNewOfficerDeltaHandler asserts that the constructor for the OfficerDeltaHandler returns a fully configured handler.
-func TestNewOfficerDeltaHandler(t *testing.T) {
+// TestUnitNewOfficerDeltaHandler asserts that the constructor for the OfficerDeltaHandler returns a fully configured handler.
+func TestUnitNewOfficerDeltaHandler(t *testing.T) {
 
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
@@ -52,9 +52,9 @@ func TestNewOfficerDeltaHandler(t *testing.T) {
 	})
 }
 
-// TestOfficerDeltaHandlerFailsRequestBodyRetrieval asserts that when converting the request body fails, errors are
+// TestUnitOfficerDeltaHandlerFailsRequestBodyRetrieval asserts that when converting the request body fails, errors are
 // handled correctly and returned to the user with the correct status.
-func TestOfficerDeltaHandlerFailsRequestBodyRetrieval(t *testing.T) {
+func TestUnitOfficerDeltaHandlerFailsRequestBodyRetrieval(t *testing.T) {
 
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
@@ -92,8 +92,8 @@ func TestOfficerDeltaHandlerFailsRequestBodyRetrieval(t *testing.T) {
 	})
 }
 
-// TestOfficerDeltaHandlerSuccessfullySends asserts that you can send a REST request onto a kafka topic with no errors.
-func TestOfficerDeltaHandlerSuccessfullySends(t *testing.T) {
+// TestUnitOfficerDeltaHandlerSuccessfullySends asserts that you can send a REST request onto a kafka topic with no errors.
+func TestUnitOfficerDeltaHandlerSuccessfullySends(t *testing.T) {
 
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
@@ -133,8 +133,8 @@ func TestOfficerDeltaHandlerSuccessfullySends(t *testing.T) {
 	})
 }
 
-// TestOfficerDeltaHandlerFailsSend asserts that the officerDeltaHandler returns an internal error status when sending fails.
-func TestOfficerDeltaHandlerFailsSend(t *testing.T) {
+// TestUnitOfficerDeltaHandlerFailsSend asserts that the officerDeltaHandler returns an internal error status when sending fails.
+func TestUnitOfficerDeltaHandlerFailsSend(t *testing.T) {
 
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
@@ -173,9 +173,9 @@ func TestOfficerDeltaHandlerFailsSend(t *testing.T) {
 	})
 }
 
-// TestOfficerDeltaHandlerErrorsCallingValidation asserts that the officerDeltaHandler returns an internal error status when
+// TestUnitOfficerDeltaHandlerErrorsCallingValidation asserts that the officerDeltaHandler returns an internal error status when
 // call to validate the request fails (internal failure such as failure to open schema, not a user validation failure).
-func TestOfficerDeltaHandlerErrorsCallingValidation(t *testing.T) {
+func TestUnitOfficerDeltaHandlerErrorsCallingValidation(t *testing.T) {
 
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
@@ -212,8 +212,8 @@ func TestOfficerDeltaHandlerErrorsCallingValidation(t *testing.T) {
 	})
 }
 
-// TestOfficerDeltaHandlerFailsValidation asserts that the officerDeltaHandler returns a bad request status when validation fails
-func TestOfficerDeltaHandlerFailsValidation(t *testing.T) {
+// TestUnitOfficerDeltaHandlerFailsValidation asserts that the officerDeltaHandler returns a bad request status when validation fails
+func TestUnitOfficerDeltaHandlerFailsValidation(t *testing.T) {
 
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()

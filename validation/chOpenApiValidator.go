@@ -31,8 +31,8 @@ var (
 	callOpenApiFilterValidateRequest = openapi3filter.ValidateRequest
 	callGetCHErrors                  = getCHErrors
 	callFindRoute                    = findRoute
-	callGetSchema					 = getSchema
-	callOnce	 sync.Once
+	callGetSchema                    = getSchema
+	callOnce                         sync.Once
 )
 
 // CHValidator provides an interface to interact with the CH Validator.
@@ -42,7 +42,7 @@ type CHValidator interface {
 
 // CHValidatorImpl is a concrete implementation of the CHValidator interface.
 type CHValidatorImpl struct {
-	doc 	*openapi3.T
+	doc *openapi3.T
 }
 
 // NewCHValidator returns a new CHValidator implementation.
@@ -237,10 +237,10 @@ func findRoute(r routers.Router, req *http.Request) (route *routers.Route, pathP
 }
 
 func getSchema(ctx context.Context, openApiSpec, contextId string, chv *CHValidatorImpl) (err error) {
-	//callOnce.Do method insures the code is executed once so that the schema is not repeatedly loaded unnecessarily.
-	callOnce.Do(func (){
+	//callOnce.Do method ensures the code is executed once so that the schema is not repeatedly loaded unnecessarily.
+	callOnce.Do(func() {
 		log.InfoC(contextId, "Retrieving openAPI3 schema")
-		chv.doc , err = loadSchemaFromFile(ctx, openApiSpec, contextId)
+		chv.doc, err = loadSchemaFromFile(ctx, openApiSpec, contextId)
 		if err != nil {
 			log.ErrorC(contextId, err, log.Data{config.OpenApiSpecKey: openApiSpec, config.MessageKey: "unable to open Open API spec"})
 		} else {
@@ -253,7 +253,7 @@ func getSchema(ctx context.Context, openApiSpec, contextId string, chv *CHValida
 	return err
 }
 
-func loadSchemaFromFile(ctx context.Context, openApiSpec, contextId string) (*openapi3.T, error){
+func loadSchemaFromFile(ctx context.Context, openApiSpec, contextId string) (*openapi3.T, error) {
 	loader := &openapi3.Loader{Context: ctx, IsExternalRefsAllowed: true}
 	abs, err := callFilepathAbs(openApiSpec)
 	if err != nil {

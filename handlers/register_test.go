@@ -21,8 +21,8 @@ func TestUnitHealthCheck(t *testing.T) {
 	})
 }
 
-// TestRegister asserts that all routes are correctly registered and can be called.
-func TestRegister(t *testing.T) {
+// TestUnitRegister asserts that all routes are correctly registered and can be called.
+func TestUnitRegister(t *testing.T) {
 
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()

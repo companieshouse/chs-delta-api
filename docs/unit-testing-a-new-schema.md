@@ -32,7 +32,7 @@ matches the actual response.
 
 Example structure of a unit test (Mandatory elements missing unit test)
 ```go
-func TestSchemaExampleMissingMandatory(t *testing.T) {
+func TestUnitSchemaExampleMissingMandatory(t *testing.T) {
 
 	Convey("Given I want to test that missing mandatory fields in the exampleDelta are correctly reported", t, func() {
 
