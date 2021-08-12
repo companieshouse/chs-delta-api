@@ -30,9 +30,9 @@ const (
 	methodPost		 = "POST"
 )
 
-// TestOfficerDeltaSchemaNoErrors asserts that when a valid request body is given which matches the schema, then no
+// TestUnitOfficerDeltaSchemaNoErrors asserts that when a valid request body is given which matches the schema, then no
 // errors are returned.
-func TestOfficerDeltaSchemaNoErrors(t *testing.T) {
+func TestUnitOfficerDeltaSchemaNoErrors(t *testing.T) {
 
 	Convey("Given I want to test the officers-delta API schema", t, func() {
 
@@ -54,9 +54,9 @@ func TestOfficerDeltaSchemaNoErrors(t *testing.T) {
 	})
 }
 
-// TestOfficerDeltaSchemaTypeErrors asserts that when an invalid request body is given with type errors (int provided
+// TestUnitOfficerDeltaSchemaTypeErrors asserts that when an invalid request body is given with type errors (int provided
 // instead of string), then an errors array is returned.
-func TestOfficerDeltaSchemaTypeErrors(t *testing.T) {
+func TestUnitOfficerDeltaSchemaTypeErrors(t *testing.T) {
 
 	Convey("Given I want to test the officers-delta API schema for type assertions", t, func() {
 
@@ -82,9 +82,9 @@ func TestOfficerDeltaSchemaTypeErrors(t *testing.T) {
 	})
 }
 
-// TestOfficerDeltaSchemaRequiredErrors asserts that when an invalid request body is given with missing mandatory values.
+// TestUnitOfficerDeltaSchemaRequiredErrors asserts that when an invalid request body is given with missing mandatory values.
 // then an errors array is returned, stating that required values are missing.
-func TestOfficerDeltaSchemaRequiredErrors(t *testing.T) {
+func TestUnitOfficerDeltaSchemaRequiredErrors(t *testing.T) {
 
 	Convey("Given I want to test the officers-delta API schema to assert mandatory validation is working correctly", t, func() {
 
@@ -110,9 +110,9 @@ func TestOfficerDeltaSchemaRequiredErrors(t *testing.T) {
 	})
 }
 
-// TestOfficerDeltaSchemaEnumErrors asserts that when an invalid request body is given with incorrect ENUM values.
+// TestUnitOfficerDeltaSchemaEnumErrors asserts that when an invalid request body is given with incorrect ENUM values.
 // then an errors array is returned, stating that given values are incorrect.
-func TestOfficerDeltaSchemaEnumErrors(t *testing.T) {
+func TestUnitOfficerDeltaSchemaEnumErrors(t *testing.T) {
 
 	Convey("Given I want to test the officers-delta API schema to assert ENUM validation is working correctly", t, func() {
 
@@ -138,9 +138,9 @@ func TestOfficerDeltaSchemaEnumErrors(t *testing.T) {
 	})
 }
 
-// TestOfficerDeltaSchemaNoRequestBodyError asserts that when a missing request body is given,
+// TestUnitOfficerDeltaSchemaNoRequestBodyError asserts that when a missing request body is given,
 // then an error is returned, stating that request body is missing.
-func TestOfficerDeltaSchemaNoRequestBodyError(t *testing.T) {
+func TestUnitOfficerDeltaSchemaNoRequestBodyError(t *testing.T) {
 
 	Convey("Given I want to test the officers-delta API schema to assert validation is working correctly", t, func() {
 

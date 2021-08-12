@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestGetHasErrors(t *testing.T) {
+func TestUnitGetHasErrors(t *testing.T) {
 	Convey("When I try to get the config via the Get method", t, func() {
 		cfg, err := Get()
 		Convey("Then I am given an error when config validation function is executed", func() {
@@ -16,7 +16,7 @@ func TestGetHasErrors(t *testing.T) {
 	})
 }
 
-func TestGetNoErrors(t *testing.T) {
+func TestUnitGetNoErrors(t *testing.T) {
 	_ = os.Setenv("BIND_ADDR", "bind_addr")
 	_ = os.Setenv("KAFKA_BROKER_ADDR", "kafka_broker_addr,kafka_broker_addr")
 	_ = os.Setenv("SCHEMA_REGISTRY_URL", "schema_registry_url")

@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"path/filepath"
 	"strings"
+	"sync"
 
 	"github.com/companieshouse/chs-delta-api/config"
 	"github.com/companieshouse/chs-delta-api/models"
@@ -30,6 +31,8 @@ var (
 	callOpenApiFilterValidateRequest = openapi3filter.ValidateRequest
 	callGetCHErrors                  = getCHErrors
 	callFindRoute                    = findRoute
+	callGetSchema                    = getSchema
+	callOnce                         sync.Once
 )
 
 // CHValidator provides an interface to interact with the CH Validator.
@@ -39,84 +42,70 @@ type CHValidator interface {
 
 // CHValidatorImpl is a concrete implementation of the CHValidator interface.
 type CHValidatorImpl struct {
+	doc *openapi3.T
 }
 
 // NewCHValidator returns a new CHValidator implementation.
 func NewCHValidator() CHValidator {
-	return CHValidatorImpl{}
+	return &CHValidatorImpl{}
 }
 
 // ValidateRequestAgainstOpenApiSpec takes a request and an openAPI spec location (string relative path) and uses the
 // spec to validate the provided request. If any validation errors are found, then they are formatted and returned to the
 // caller. If any errors are encountered while attempting to validate, they are handled and also returned to the caller.
-func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec, contextId string) ([]byte, error) {
+func (chv *CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec, contextId string) ([]byte, error) {
 
-	// Get the Open API 3 validation schema location.
 	ctx := context.Background()
-	loader := &openapi3.Loader{Context: ctx, IsExternalRefsAllowed: true}
-	abs, err := callFilepathAbs(openApiSpec)
+
+	// Get the Open API 3 validation schema.
+	err := callGetSchema(ctx, openApiSpec, contextId, chv)
 	if err != nil {
-		log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while retrieving absolute path of validation schema file"})
 		return nil, err
 	}
-	log.InfoC(contextId, fmt.Sprintf("Retrieved absolute path of validation schema "), log.Data{config.SchemaAbsolutePathKey: abs})
 
-	// Load the validation schema.
-	doc, err := loader.LoadFromFile(abs)
+	// Initialise router to later retrieve routes to validate against.
+	r, err := callNewRouter(chv.doc)
 	if err != nil {
-		log.ErrorC(contextId, err, log.Data{config.OpenApiSpecKey: openApiSpec, config.MessageKey: "unable to open Open API spec"})
+		log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while initialising router for validation"})
 		return nil, err
-	} else {
-		if err := doc.Validate(ctx); err != nil {
-			log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while trying to call kin-openAPI validation method"})
-
-			return nil, err
-		}
-
-		// Initialise router to later retrieve routes to validate against.
-		r, err := callNewRouter(doc)
-		if err != nil {
-			log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while initialising router for validation"})
-			return nil, err
-		}
-
-		// Find routes using the given http request.
-		route, pathParams, err := callFindRoute(r, httpReq)
-		if err != nil {
-			log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while finding routes for given http request"})
-			return nil, err
-		}
-
-		// Define a set of Options for the request validator to use. Enable MultiError's to be returned so that all
-		// found errors are returned at once.
-		opts := &openapi3filter.Options{
-			MultiError: true,
-			// Set AuthenticationFunc to a Noop function as ERIC will handle missing / malformed security elements.
-			AuthenticationFunc: openapi3filter.NoopAuthenticationFunc,
-		}
-
-		// Validate request parameters
-		requestValidationInput := &openapi3filter.RequestValidationInput{
-			Request:    httpReq,
-			PathParams: pathParams,
-			Route:      route,
-			Options:    opts,
-		}
-
-		// Switch off the addition of schema error details to the returned error. This stops the OpenApi schema being added to errors.
-		openapi3.SchemaErrorDetailsDisabled = true
-
-		log.InfoC(contextId, "Validating request using: ", log.Data{config.OpenApiSpecKey: openApiSpec})
-		if err := callOpenApiFilterValidateRequest(ctx, requestValidationInput); err != nil {
-			// If errors are found in the request format them and return them.
-			log.InfoC(contextId, "Request validated. Errors found.", nil)
-			return callGetCHErrors(contextId, err), nil
-		}
-
-		// If we reach this point, then no validation errors were found.
-		log.InfoC(contextId, "Request validated. No errors were found.", nil)
-		return nil, nil
 	}
+
+	// Find routes using the given http request.
+	route, pathParams, err := callFindRoute(r, httpReq)
+	if err != nil {
+		log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while finding routes for given http request"})
+		return nil, err
+	}
+
+	// Define a set of Options for the request validator to use. Enable MultiError's to be returned so that all
+	// found errors are returned at once.
+	opts := &openapi3filter.Options{
+		MultiError: true,
+		// Set AuthenticationFunc to a Noop function as ERIC will handle missing / malformed security elements.
+		AuthenticationFunc: openapi3filter.NoopAuthenticationFunc,
+	}
+
+	// Validate request parameters
+	requestValidationInput := &openapi3filter.RequestValidationInput{
+		Request:    httpReq,
+		PathParams: pathParams,
+		Route:      route,
+		Options:    opts,
+	}
+
+	// Switch off the addition of schema error details to the returned error. This stops the OpenApi schema being added to errors.
+	openapi3.SchemaErrorDetailsDisabled = true
+
+	log.InfoC(contextId, "Validating request using: ", log.Data{config.OpenApiSpecKey: openApiSpec})
+	if err := callOpenApiFilterValidateRequest(ctx, requestValidationInput); err != nil {
+		// If errors are found in the request format them and return them.
+		log.InfoC(contextId, "Request validated. Errors found.", nil)
+		return callGetCHErrors(contextId, err), nil
+	}
+
+	// If we reach this point, then no validation errors were found.
+	log.InfoC(contextId, "Request validated. No errors were found.", nil)
+	return nil, nil
 }
 
 func getCHErrors(contextId string, err error) []byte {
@@ -245,4 +234,34 @@ func handleParseError(pe *openapi3filter.ParseError) models.CHError {
 // findRoute is used to add an abstraction layer for unit testing. Allowing us to mock the returns for external methods.
 func findRoute(r routers.Router, req *http.Request) (route *routers.Route, pathParams map[string]string, err error) {
 	return r.FindRoute(req)
+}
+
+func getSchema(ctx context.Context, openApiSpec, contextId string, chv *CHValidatorImpl) (err error) {
+	//callOnce.Do method ensures the code is executed once so that the schema is not repeatedly loaded unnecessarily.
+	callOnce.Do(func() {
+		log.InfoC(contextId, "Retrieving openAPI3 schema")
+		chv.doc, err = loadSchemaFromFile(ctx, openApiSpec, contextId)
+		if err != nil {
+			log.ErrorC(contextId, err, log.Data{config.OpenApiSpecKey: openApiSpec, config.MessageKey: "unable to open Open API spec"})
+		} else {
+			if err = chv.doc.Validate(ctx); err != nil {
+				log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while trying to call kin-openAPI validation method"})
+			}
+		}
+	})
+
+	return err
+}
+
+func loadSchemaFromFile(ctx context.Context, openApiSpec, contextId string) (*openapi3.T, error) {
+	loader := &openapi3.Loader{Context: ctx, IsExternalRefsAllowed: true}
+	abs, err := callFilepathAbs(openApiSpec)
+	if err != nil {
+		log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while retrieving absolute path of validation schema file"})
+		return nil, err
+	}
+	log.InfoC(contextId, fmt.Sprintf("Retrieved absolute path of validation schema "), log.Data{config.SchemaAbsolutePathKey: abs})
+
+	// Return the validation schema.
+	return loader.LoadFromFile(abs)
 }

@@ -11,6 +11,7 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 	"net/http"
 	"net/http/httptest"
+	"sync"
 	"testing"
 )
 
@@ -20,8 +21,8 @@ const (
 	contextId       = "contextId"
 )
 
-// TestNewCHValidator asserts that the CHValidator constructor correctly returns a CHValidator.
-func TestNewCHValidator(t *testing.T) {
+// TestUnitNewCHValidator asserts that the CHValidator constructor correctly returns a CHValidator.
+func TestUnitNewCHValidator(t *testing.T) {
 	Convey("When I call to get a new CHValidator", t, func() {
 		chv := NewCHValidator()
 
@@ -31,8 +32,8 @@ func TestNewCHValidator(t *testing.T) {
 	})
 }
 
-// TestValidateRequestAgainstOpenApiSpecFailsAbs asserts that when getting the ABS path fails, it handled the error correctly.
-func TestValidateRequestAgainstOpenApiSpecFailsAbs(t *testing.T) {
+// TestUnitValidateRequestAgainstOpenApiSpecFailsAbs asserts that when getting the ABS path fails, it handled the error correctly.
+func TestUnitValidateRequestAgainstOpenApiSpecFailsAbs(t *testing.T) {
 	Convey("When I call to validate a request", t, func() {
 		chv := NewCHValidator()
 
@@ -53,12 +54,13 @@ func TestValidateRequestAgainstOpenApiSpecFailsAbs(t *testing.T) {
 	})
 }
 
-// TestValidateRequestAgainstOpenApiSpecFailsFileOpen asserts that when calling to load the file using an ABS path fails
+// TestUnitValidateRequestAgainstOpenApiSpecFailsFileOpen asserts that when calling to load the file using an ABS path fails
 // it is handled correctly.
-func TestValidateRequestAgainstOpenApiSpecFailsFileOpen(t *testing.T) {
+func TestUnitValidateRequestAgainstOpenApiSpecFailsFileOpen(t *testing.T) {
+	//callOnce needs to be reset in order to work with running tests collectively
+	callOnce = sync.Once{}
 	Convey("When I call to validate a request", t, func() {
 		chv := NewCHValidator()
-
 		req := httptest.NewRequest("POST", "/dummy/target", bytes.NewBuffer([]byte(requestBody)))
 
 		callFilepathAbs = func(path string) (string, error) {
@@ -74,12 +76,11 @@ func TestValidateRequestAgainstOpenApiSpecFailsFileOpen(t *testing.T) {
 	})
 }
 
-// TestValidateRequestAgainstOpenApiSpecFailsToCreateRouter asserts that all errors are handled correctly when
+// TestUnitValidateRequestAgainstOpenApiSpecFailsToCreateRouter asserts that all errors are handled correctly when
 // creating of the Gorilla MUX router fails.
-func TestValidateRequestAgainstOpenApiSpecFailsToCreateRouter(t *testing.T) {
+func TestUnitValidateRequestAgainstOpenApiSpecFailsToCreateRouter(t *testing.T) {
 	Convey("When I call to validate a request", t, func() {
 		chv := NewCHValidator()
-
 		req := httptest.NewRequest("POST", "/dummy/target", bytes.NewBuffer([]byte(requestBody)))
 
 		callFilepathAbs = func(path string) (string, error) {
@@ -99,11 +100,12 @@ func TestValidateRequestAgainstOpenApiSpecFailsToCreateRouter(t *testing.T) {
 	})
 }
 
-// TestValidateRequestAgainstOpenApiSpecNoErrors assets that when no errors occur we get a nil return.
-func TestValidateRequestAgainstOpenApiSpecNoErrors(t *testing.T) {
+// TestUnitValidateRequestAgainstOpenApiSpecNoErrors assets that when no errors occur we get a nil return.
+func TestUnitValidateRequestAgainstOpenApiSpecNoErrors(t *testing.T) {
+	//callOnce needs to be reset in order to work with running tests collectively
+	callOnce = sync.Once{}
 	Convey("When I call to validate a request", t, func() {
 		chv := NewCHValidator()
-
 		req := httptest.NewRequest("POST", "/dummy/target", bytes.NewBuffer([]byte(requestBody)))
 
 		callFilepathAbs = func(path string) (string, error) {
@@ -129,18 +131,18 @@ func TestValidateRequestAgainstOpenApiSpecNoErrors(t *testing.T) {
 	})
 }
 
-// TestValidateRequestAgainstOpenApiSpecFindsValErrors asserts that when kin-openAPI finds validation errors, they are
+// TestUnitValidateRequestAgainstOpenApiSpecFindsValErrors asserts that when kin-openAPI finds validation errors, they are
 // returned as a formatted byte array.
-func TestValidateRequestAgainstOpenApiSpecFindsValErrors(t *testing.T) {
+func TestUnitValidateRequestAgainstOpenApiSpecFindsValErrors(t *testing.T) {
+	//callOnce needs to be reset in order to work with running tests collectively
+	callOnce = sync.Once{}
 	Convey("When I call to validate a request", t, func() {
 		chv := NewCHValidator()
-
 		req := httptest.NewRequest("POST", "/dummy/delta", bytes.NewBuffer([]byte(requestBody)))
 
 		callFilepathAbs = func(path string) (string, error) {
 			return apiSpecLocation, nil
 		}
-
 		callNewRouter = router.NewRouter
 
 		callFindRoute = func(r routers.Router, req *http.Request) (route *routers.Route, pathParams map[string]string, err error) {

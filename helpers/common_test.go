@@ -15,8 +15,8 @@ const (
 	contextId      = "contextId"
 )
 
-// TestGetDataFromRequestSuccess asserts that a data string is returned with no errors when given a valid request.
-func TestGetDataFromRequestSuccess(t *testing.T) {
+// TestUnitGetDataFromRequestSuccess asserts that a data string is returned with no errors when given a valid request.
+func TestUnitGetDataFromRequestSuccess(t *testing.T) {
 
 	Convey("Given I pass a request into the GetDataFromRequest function", t, func() {
 		h := NewHelper()
@@ -30,8 +30,8 @@ func TestGetDataFromRequestSuccess(t *testing.T) {
 	})
 }
 
-// TestGetDataFromRequestError asserts that when reading of the request fails, it returns an empty string and error.
-func TestGetDataFromRequestError(t *testing.T) {
+// TestUnitGetDataFromRequestError asserts that when reading of the request fails, it returns an empty string and error.
+func TestUnitGetDataFromRequestError(t *testing.T) {
 
 	Convey("Given I pass a request into the GetDataFromRequest function", t, func() {
 
@@ -52,8 +52,8 @@ func TestGetDataFromRequestError(t *testing.T) {
 	})
 }
 
-// TestGetRequestIdFromHeaderError asserts that request id is not set.
-func TestGetRequestIdFromHeaderError(t *testing.T) {
+// TestUnitGetRequestIdFromHeaderError asserts that request id is not set.
+func TestUnitGetRequestIdFromHeaderError(t *testing.T) {
 
 	Convey("Given I try to get the request id from header and X-Request-Id is not provided", t, func() {
 
@@ -70,8 +70,8 @@ func TestGetRequestIdFromHeaderError(t *testing.T) {
 	})
 }
 
-// TestGetRequestIdFromHeaderSuccess asserts that request id is set and is successfully extracted.
-func TestGetRequestIdFromHeaderSuccess(t *testing.T) {
+// TestUnitGetRequestIdFromHeaderSuccess asserts that request id is set and is successfully extracted.
+func TestUnitGetRequestIdFromHeaderSuccess(t *testing.T) {
 
 	Convey("Given I try to get the request id from header and X-Request-Id is provided", t, func() {
 
