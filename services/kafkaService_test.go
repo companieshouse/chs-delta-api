@@ -33,6 +33,9 @@ func TestUnitNewKafkaService(t *testing.T) {
 // TestUnitKafkaServiceInitSuccessful asserts that the Init method successfully creates and initialises a KafkaServiceImpl.
 func TestUnitKafkaServiceInitSuccessful(t *testing.T) {
 
+	config.CallValidateConfig = func(cfg *config.Config) error {
+		return nil
+	}
 	cfg, _ := config.Get()
 
 	Convey("Given a call to init a Kafka service", t, func() {

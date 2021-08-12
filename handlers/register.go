@@ -13,12 +13,23 @@ import (
 	"github.com/gorilla/mux"
 )
 
+var (
+	callNewCHValidator = validation.NewCHValidator
+)
+
 // Register defines all REST endpoints for the API.
 func Register(mainRouter *mux.Router, cfg *config.Config, kSvc services.KafkaService) error {
 
 	// Initialise all services and components needed to run chs-delta-api correctly.
 	h := helpers.NewHelper()
-	chv := validation.NewCHValidator()
+
+	// Init the CHValidator service and handle any errors that come back.
+	chv, err := callNewCHValidator(cfg.OpenApiSpec)
+	if err != nil {
+		return err
+	}
+
+	// Init the Kafka service and handle any errors that come back.
 	if err := kSvc.Init(cfg); err != nil {
 		return err
 	}
