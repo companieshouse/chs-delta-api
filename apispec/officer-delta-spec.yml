@@ -119,17 +119,17 @@ components:
           type: string
 
     Identification:
-      oneOf:
-        - properties:
-            EEA:
-              $ref: '#/components/schemas/EEA'
-            non_eea:
-              $ref: '#/components/schemas/EEA'
-            UK_limited_company:
-              $ref: '#/components/schemas/EEA'
-            other_corporate_body_or_firm:
-              $ref: '#/components/schemas/EEA'
-
+      type: object
+      properties:
+        EEA:
+          $ref: '#/components/schemas/EEA'
+        non_eea:
+          $ref: '#/components/schemas/EEA'
+        UK_limited_company:
+          $ref: '#/components/schemas/EEA'
+        other_corporate_body_or_firm:
+          $ref: '#/components/schemas/EEA'
+      maxProperties: 1
 
     EEA:
       type: object

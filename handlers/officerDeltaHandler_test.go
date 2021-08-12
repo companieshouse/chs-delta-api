@@ -18,6 +18,8 @@ import (
 const (
 	requestBody = `{"dummy" : "request"}`
 	contextId   = "contextId"
+	postMethod  = "POST"
+	endPoint    = "/delta/officers"
 )
 
 // TestUnitNewOfficerDeltaHandler asserts that the constructor for the OfficerDeltaHandler returns a fully configured handler.
@@ -31,13 +33,14 @@ func TestUnitNewOfficerDeltaHandler(t *testing.T) {
 		svc := sMocks.NewMockKafkaService(mockCtrl)
 		h := hMocks.NewMockHelper(mockCtrl)
 		chv := chvMocks.NewMockCHValidator(mockCtrl)
+		doValidationOnly := false
 
 		config.CallValidateConfig = func(cfg *config.Config) error {
 			return nil
 		}
 		cfg, _ := config.Get()
 
-		officerHandler := NewOfficerDeltaHandler(svc, h, chv, cfg)
+		officerHandler := NewOfficerDeltaHandler(svc, h, chv, cfg, doValidationOnly)
 
 		So(officerHandler, ShouldNotBeNil)
 
@@ -61,7 +64,7 @@ func TestUnitOfficerDeltaHandlerFailsRequestBodyRetrieval(t *testing.T) {
 
 	Convey("Given a HTTP POST request via the officer delta endpoint", t, func() {
 
-		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(requestBody)))
+		req := httptest.NewRequest(postMethod, endPoint, bytes.NewBuffer([]byte(requestBody)))
 		resp := httptest.NewRecorder()
 
 		Convey("When the request is handled by the router, but the kafka service fails to send", func() {
@@ -69,6 +72,7 @@ func TestUnitOfficerDeltaHandlerFailsRequestBodyRetrieval(t *testing.T) {
 			h := hMocks.NewMockHelper(mockCtrl)
 			svc := sMocks.NewMockKafkaService(mockCtrl)
 			chv := chvMocks.NewMockCHValidator(mockCtrl)
+			doValidationOnly := false
 
 			initEnv()
 			config.CallValidateConfig = func(cfg *config.Config) error {
@@ -76,10 +80,11 @@ func TestUnitOfficerDeltaHandlerFailsRequestBodyRetrieval(t *testing.T) {
 			}
 			cfg, _ := config.Get()
 
-			handler := NewOfficerDeltaHandler(svc, h, chv, cfg)
+			handler := NewOfficerDeltaHandler(svc, h, chv, cfg, doValidationOnly)
 
 			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec, contextId).Return(nil, nil)
 			h.EXPECT().GetDataFromRequest(req, contextId).Return("", errors.New("error converting request body"))
+			h.EXPECT().GetRequestIdFromHeader(req).Return(contextId)
 
 			handler.ServeHTTP(resp, req)
 
@@ -100,7 +105,7 @@ func TestUnitOfficerDeltaHandlerSuccessfullySends(t *testing.T) {
 
 	Convey("Given a HTTP POST request via the officer delta endpoint", t, func() {
 
-		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(requestBody)))
+		req := httptest.NewRequest(postMethod, endPoint, bytes.NewBuffer([]byte(requestBody)))
 		resp := httptest.NewRecorder()
 
 		Convey("When the request is handled by the router", func() {
@@ -108,6 +113,7 @@ func TestUnitOfficerDeltaHandlerSuccessfullySends(t *testing.T) {
 			h := hMocks.NewMockHelper(mockCtrl)
 			svc := sMocks.NewMockKafkaService(mockCtrl)
 			chv := chvMocks.NewMockCHValidator(mockCtrl)
+			doValidationOnly := false
 
 			initEnv()
 			config.CallValidateConfig = func(cfg *config.Config) error {
@@ -115,10 +121,11 @@ func TestUnitOfficerDeltaHandlerSuccessfullySends(t *testing.T) {
 			}
 			cfg, _ := config.Get()
 
-			handler := NewOfficerDeltaHandler(svc, h, chv, cfg)
+			handler := NewOfficerDeltaHandler(svc, h, chv, cfg, doValidationOnly)
 
 			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec, contextId).Return(nil, nil)
 			h.EXPECT().GetDataFromRequest(req, contextId).Return(requestBody, nil)
+			h.EXPECT().GetRequestIdFromHeader(req).Return(contextId)
 			svc.EXPECT().SendMessage(handler.cfg.OfficerDeltaTopic, requestBody, contextId).Return(nil)
 
 			handler.ServeHTTP(resp, req)
@@ -128,7 +135,6 @@ func TestUnitOfficerDeltaHandlerSuccessfullySends(t *testing.T) {
 			})
 
 			destroyEnv()
-
 		})
 	})
 }
@@ -141,7 +147,7 @@ func TestUnitOfficerDeltaHandlerFailsSend(t *testing.T) {
 
 	Convey("Given a HTTP POST request via the officer delta endpoint", t, func() {
 
-		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(requestBody)))
+		req := httptest.NewRequest(postMethod, endPoint, bytes.NewBuffer([]byte(requestBody)))
 		resp := httptest.NewRecorder()
 
 		Convey("When the request is handled by the router, but the kafka service fails to send", func() {
@@ -149,6 +155,7 @@ func TestUnitOfficerDeltaHandlerFailsSend(t *testing.T) {
 			h := hMocks.NewMockHelper(mockCtrl)
 			svc := sMocks.NewMockKafkaService(mockCtrl)
 			chv := chvMocks.NewMockCHValidator(mockCtrl)
+			doValidationOnly := false
 
 			initEnv()
 			config.CallValidateConfig = func(cfg *config.Config) error {
@@ -156,10 +163,11 @@ func TestUnitOfficerDeltaHandlerFailsSend(t *testing.T) {
 			}
 			cfg, _ := config.Get()
 
-			handler := NewOfficerDeltaHandler(svc, h, chv, cfg)
+			handler := NewOfficerDeltaHandler(svc, h, chv, cfg, doValidationOnly)
 
 			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec, contextId).Return(nil, nil)
 			h.EXPECT().GetDataFromRequest(req, contextId).Return(requestBody, nil)
+			h.EXPECT().GetRequestIdFromHeader(req).Return(contextId)
 			svc.EXPECT().SendMessage(handler.cfg.OfficerDeltaTopic, requestBody, contextId).Return(errors.New("error sending message"))
 
 			handler.ServeHTTP(resp, req)
@@ -182,7 +190,7 @@ func TestUnitOfficerDeltaHandlerErrorsCallingValidation(t *testing.T) {
 
 	Convey("Given a HTTP POST request via the officer delta endpoint", t, func() {
 
-		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(requestBody)))
+		req := httptest.NewRequest(postMethod, endPoint, bytes.NewBuffer([]byte(requestBody)))
 		resp := httptest.NewRecorder()
 
 		Convey("When the request is handled by the router, but the kafka service fails to send", func() {
@@ -190,6 +198,7 @@ func TestUnitOfficerDeltaHandlerErrorsCallingValidation(t *testing.T) {
 			h := hMocks.NewMockHelper(mockCtrl)
 			svc := sMocks.NewMockKafkaService(mockCtrl)
 			chv := chvMocks.NewMockCHValidator(mockCtrl)
+			doValidationOnly := false
 
 			initEnv()
 			config.CallValidateConfig = func(cfg *config.Config) error {
@@ -197,9 +206,10 @@ func TestUnitOfficerDeltaHandlerErrorsCallingValidation(t *testing.T) {
 			}
 			cfg, _ := config.Get()
 
-			handler := NewOfficerDeltaHandler(svc, h, chv, cfg)
+			handler := NewOfficerDeltaHandler(svc, h, chv, cfg, doValidationOnly)
 
 			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec, contextId).Return(nil, errors.New("error"))
+			h.EXPECT().GetRequestIdFromHeader(req).Return(contextId)
 
 			handler.ServeHTTP(resp, req)
 
@@ -220,14 +230,15 @@ func TestUnitOfficerDeltaHandlerFailsValidation(t *testing.T) {
 
 	Convey("Given a HTTP POST request via the officer delta endpoint", t, func() {
 
-		req := httptest.NewRequest("POST", "/delta/officers", bytes.NewBuffer([]byte(requestBody)))
+		req := httptest.NewRequest(postMethod, endPoint, bytes.NewBuffer([]byte(requestBody)))
 		resp := httptest.NewRecorder()
 
-		Convey("When the request is handled by the router, but the kafka service fails to send", func() {
+		Convey("When the request is handled by the router, but the request body fails validation", func() {
 
 			h := hMocks.NewMockHelper(mockCtrl)
 			svc := sMocks.NewMockKafkaService(mockCtrl)
 			chv := chvMocks.NewMockCHValidator(mockCtrl)
+			doValidationOnly := false
 
 			initEnv()
 			config.CallValidateConfig = func(cfg *config.Config) error {
@@ -235,15 +246,58 @@ func TestUnitOfficerDeltaHandlerFailsValidation(t *testing.T) {
 			}
 			cfg, _ := config.Get()
 
-			handler := NewOfficerDeltaHandler(svc, h, chv, cfg)
+			handler := NewOfficerDeltaHandler(svc, h, chv, cfg, doValidationOnly)
 
 			errBytes := []byte("error string")
 			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec, contextId).Return(errBytes, nil)
+			h.EXPECT().GetRequestIdFromHeader(req).Return(contextId)
 
 			handler.ServeHTTP(resp, req)
 
 			Convey("Then the response should be 400 and an error returned", func() {
 				So(resp.Code, ShouldEqual, http.StatusBadRequest)
+			})
+
+			destroyEnv()
+		})
+	})
+}
+
+// TestUnitOfficerDeltaHandlerValidatesOnly asserts that the officerDeltaHandler returns a bad request status when validation fails
+func TestUnitOfficerDeltaHandlerValidatesOnly(t *testing.T) {
+
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+
+	Convey("Given a HTTP POST request via the officer delta endpoint", t, func() {
+
+		req := httptest.NewRequest(postMethod, endPoint, bytes.NewBuffer([]byte(requestBody)))
+		resp := httptest.NewRecorder()
+
+		Convey("When the request is handled by the router, but the request body fails validation", func() {
+
+			h := hMocks.NewMockHelper(mockCtrl)
+			svc := sMocks.NewMockKafkaService(mockCtrl)
+			chv := chvMocks.NewMockCHValidator(mockCtrl)
+			doValidationOnly := true
+
+			initEnv()
+			config.CallValidateConfig = func(cfg *config.Config) error {
+				return nil
+			}
+			cfg, _ := config.Get()
+
+			handler := NewOfficerDeltaHandler(svc, h, chv, cfg, doValidationOnly)
+
+			h.EXPECT().GetRequestIdFromHeader(req).Return(contextId)
+			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, handler.cfg.OpenApiSpec, contextId).Return(nil, nil)
+			h.EXPECT().GetDataFromRequest(req, contextId).Times(0)
+			svc.EXPECT().SendMessage(handler.cfg.OfficerDeltaTopic, requestBody, contextId).Times(0)
+
+			handler.ServeHTTP(resp, req)
+
+			Convey("Then the response should be 200", func() {
+				So(resp.Code, ShouldEqual, http.StatusOK)
 			})
 
 			destroyEnv()

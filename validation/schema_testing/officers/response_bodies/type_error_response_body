@@ -225,11 +225,38 @@
         "type": "ch:validation"
     },
     {
-        "error": "",
+        "error": "Field must be set to string or not be present",
         "error_values": {
-            "identification": "map[EEA:map[legal_authority:123 legal_form:123 place_registered:123 registration_number:123] UK_limited_company:map[legal_authority:123 legal_form:123 place_registered:123 registration_number:123] non_eea:map[legal_authority:123 legal_form:123 place_registered:123 registration_number:123] other_corporate_body_or_firm:map[legal_authority:123 legal_form:123 place_registered:123 registration_number:123]]"
+            "place_registered": "number, integer"
         },
-        "location": "officers.0.identification",
+        "location": "officers.0.identification.EEA.place_registered",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "registration_number": "number, integer"
+        },
+        "location": "officers.0.identification.EEA.registration_number",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "legal_authority": "number, integer"
+        },
+        "location": "officers.0.identification.EEA.legal_authority",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "legal_form": "number, integer"
+        },
+        "location": "officers.0.identification.EEA.legal_form",
         "location_type": "json-path",
         "type": "ch:validation"
     },

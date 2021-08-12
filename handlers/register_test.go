@@ -37,6 +37,7 @@ func TestUnitRegister(t *testing.T) {
 		err := Register(router, cfg, kSvc)
 		So(router.GetRoute("healthcheck"), ShouldNotBeNil)
 		So(router.GetRoute("officer-delta"), ShouldNotBeNil)
+		So(router.GetRoute("officer-delta-validate"), ShouldNotBeNil)
 		So(err, ShouldBeNil)
 	})
 }
