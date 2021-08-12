@@ -240,7 +240,7 @@ func findRoute(r routers.Router, req *http.Request) (route *routers.Route, pathP
 
 func getSchema(ctx context.Context, openApiSpec string) (*openapi3.T, error) {
 
-	log.Info("Retrieving openAPI3 schema")
+	log.Info("Retrieving openAPI3 spec")
 	doc, err := loadSchemaFromFile(ctx, openApiSpec)
 	if err != nil {
 		log.Error(err, log.Data{config.OpenApiSpecKey: openApiSpec, config.MessageKey: "unable to open Open API spec"})
