@@ -34,7 +34,7 @@ appRouter.HandleFunc("/delta/example-delta", NewDeltaHandler(kSvc, h, chv, cfg, 
 ```
 
 You may also want to optionally add a validation endpoint for your new delta which only handles validation and doesn't send 
-the request to Kafka. to do this, switch the last parameter on the DeltaHandler constructor to true as seen in the snippet below.
+the request to Kafka. to do this, switch the boolean parameter (doValidationOnly) on the DeltaHandler constructor to true as seen in the snippet below.
 ```go
 appRouter.HandleFunc("/delta/example-delta/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, cfg.ExampleDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("example-delta-validate")
 ```
