@@ -90,7 +90,7 @@ func TestUnitValidateRequestAgainstOpenApiSpecFailsToCreateRouter(t *testing.T) 
 			return nil, errors.New("error creating router")
 		}
 
-		valErrs, err := chv.ValidateRequestAgainstOpenApiSpec(req, apiSpecLocation, contextId)
+		valErrs, err := chv.ValidateRequestAgainstOpenApiSpec(req, contextId)
 
 		Convey("Then the failure to get the ABS path to spec is handled correctly", func() {
 			So(valErrs, ShouldBeNil)
@@ -121,7 +121,7 @@ func TestUnitValidateRequestAgainstOpenApiSpecNoErrors(t *testing.T) {
 			return nil
 		}
 
-		valErrs, err := chv.ValidateRequestAgainstOpenApiSpec(req, apiSpecLocation, contextId)
+		valErrs, err := chv.ValidateRequestAgainstOpenApiSpec(req, contextId)
 
 		Convey("Then the failure to get the ABS path to spec is handled correctly", func() {
 			So(valErrs, ShouldBeNil)
@@ -157,7 +157,7 @@ func TestUnitValidateRequestAgainstOpenApiSpecFindsValErrors(t *testing.T) {
 			return []byte("error while validating")
 		}
 
-		valErrs, err := chv.ValidateRequestAgainstOpenApiSpec(req, apiSpecLocation, contextId)
+		valErrs, err := chv.ValidateRequestAgainstOpenApiSpec(req, contextId)
 
 		Convey("Then the failure to get the ABS path to spec is handled correctly", func() {
 			So(valErrs, ShouldNotBeNil)

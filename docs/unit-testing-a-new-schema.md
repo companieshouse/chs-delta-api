@@ -38,14 +38,14 @@ func TestUnitSchemaExampleMissingMandatory(t *testing.T) {
 
 		mandatoryMissingRequestBody := common.ReadRequestBody(mandatoryMissingRequestBodyLocation)
 
-		r := httptest.NewRequest("POST", exampleEndpoint, bytes.NewBuffer(mandatoryMissingRequestBody))
+		r := httptest.NewRequest("POST", "/delta/example-endpoint", bytes.NewBuffer(mandatoryMissingRequestBody))
 		r = common.SetHeaders(r)
 
 		Convey("When I call to validate the request body, providing a request which is missing mandatory fields", func() {
 
-			chv := validation.NewCHValidator()
+			chv, _ := validation.NewCHValidator(apiSpecLocation)
 
-			actualResponseBody, _ := chv.ValidateRequestAgainstOpenApiSpec(r, apiSpecLocation, contextId)
+			actualResponseBody, _ := chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
 
 			Convey("Then I am given a validation response stating that mandatory fields are missing", func() {
 				expectedResponseBody := common.ReadRequestBody(mandatoryMissingErrorResponseBodyLocation)

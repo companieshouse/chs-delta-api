@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	Topic      = "officers-delta"
+	Topic      = "chs-delta"
 	Data       = `{"test" : "value"}`
 	BadSchema  = `"bad_schema_value"`
 	ContextId  = "contextId"
