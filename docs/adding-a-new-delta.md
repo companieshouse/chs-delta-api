@@ -30,9 +30,16 @@ ExampleDeltaTopic string `env:"EXAMPLE_DELTA_TOPIC" flag:"example-delta-topic" f
 ## 3. Exposing your new delta endpoint
 The final step of adding a new delta is to register your new route within the `register.go` file.
 ```go
-appRouter.HandleFunc("/delta/example-delta", NewDeltaHandler(kSvc, h, chv, cfg, true, cfg.ExampleDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("example-delta")
+appRouter.HandleFunc("/delta/example-delta", NewDeltaHandler(kSvc, h, chv, cfg, false, cfg.ExampleDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("example-delta")
 ```
-and update the register.go `TestRegister` unit test to cover your changes.
+
+You may also want to optionally add a validation endpoint for your new delta which only handles validation and doesn't send 
+the request to Kafka. to do this, switch the last parameter on the DeltaHandler constructor to true as seen in the snippet below.
+```go
+appRouter.HandleFunc("/delta/example-delta/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, cfg.ExampleDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("example-delta-validate")
+```
+
+Finally, you'll need to update the register.go `TestUnitRegister` unit test to cover your changes.
 
 ## Final notes
 All other services on the chs-delta-api are generic and will not require any changes when adding a new delta, including 

@@ -60,7 +60,7 @@ func NewCHValidator(openApiSpec string) (CHValidator, error) {
 	}, nil
 }
 
-// ValidateRequestAgainstOpenApiSpec takes a request and uses an openAPI3 spec to validate the it. If any validation errors
+// ValidateRequestAgainstOpenApiSpec takes a request and uses an openAPI3 spec to validate the request's body. If any validation errors
 // are found, then they are formatted and returned to the caller. If any errors are encountered while attempting to validate,
 // then they are handled and also returned to the caller.
 func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, contextId string) ([]byte, error) {
