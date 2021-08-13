@@ -43,7 +43,7 @@ func TestUnitSchemaExampleMissingMandatory(t *testing.T) {
 
 		Convey("When I call to validate the request body, providing a request which is missing mandatory fields", func() {
 
-			chv := validation.NewCHValidator()
+			chv, _ := validation.NewCHValidator(apiSpecLocation)
 
 			actualResponseBody, _ := chv.ValidateRequestAgainstOpenApiSpec(r, apiSpecLocation, contextId)
 

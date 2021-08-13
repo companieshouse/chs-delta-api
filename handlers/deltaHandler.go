@@ -10,30 +10,39 @@ import (
 	"net/http"
 )
 
-// OfficerDeltaHandler offers a handler by which to publish an office-delta onto the officer-delta kafka topic.
-type OfficerDeltaHandler struct {
+// DeltaHandler offers a handler by which to publish a chs-delta onto the a chosen delta kafka topic.
+type DeltaHandler struct {
 	kSvc             services.KafkaService
 	h                helpers.Helper
 	chv              validation.CHValidator
 	cfg              *config.Config
 	doValidationOnly bool
+	topic			 string
 }
 
-// NewOfficerDeltaHandler returns an OfficerDeltaHandler.
-func NewOfficerDeltaHandler(kSvc services.KafkaService, h helpers.Helper, chv validation.CHValidator, cfg *config.Config, doValidationOnly bool) *OfficerDeltaHandler {
-	return &OfficerDeltaHandler{kSvc: kSvc, h: h, chv: chv, cfg: cfg, doValidationOnly: doValidationOnly}
+// NewDeltaHandler returns an DeltaHandler.
+func NewDeltaHandler(kSvc services.KafkaService, h helpers.Helper, chv validation.CHValidator,
+	cfg *config.Config, doValidationOnly bool, topic string) *DeltaHandler {
+	return &DeltaHandler{
+		kSvc: kSvc,
+		h: h,
+		chv: chv,
+		cfg: cfg,
+		doValidationOnly: doValidationOnly,
+		topic: topic,
+	}
 }
 
-// ServeHTTP accepts an incoming OfficerDelta request via a POST method, validates it
-// and then passes it to a Kafka service for further processing along with an officers-delta topic. If errors are
+// ServeHTTP accepts an incoming Delta request via a POST method, validates it and if doValidationOnly flag is set to
+// false, passes it to a Kafka service for further processing along with a chosen chs-delta topic. If errors are
 // encountered then they will be returned via the ResponseWriter.
-func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (kp *DeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	contextId := kp.h.GetRequestIdFromHeader(r)
 
 	log.InfoC(contextId, fmt.Sprintf("Using the open api spec: "), log.Data{config.OpenApiSpecKey: kp.cfg.OpenApiSpec})
 
-	// Validate against the open API 3 spec before progressing any further.
+	// Validate against the openAPI 3 spec before progressing any further.
 	errValidation, err := kp.chv.ValidateRequestAgainstOpenApiSpec(r, kp.cfg.OpenApiSpec, contextId)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -49,6 +58,7 @@ func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
+	// We only send to Kafka if doValidationOnly is false.
 	if !kp.doValidationOnly {
 		// Get request body and marshal into a string, ready for publishing.
 		data, err := kp.h.GetDataFromRequest(r, contextId)
@@ -58,8 +68,8 @@ func (kp *OfficerDeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request)
 		}
 
 		// Send data string to Kafka service for publishing.
-		if err := kp.kSvc.SendMessage(kp.cfg.OfficerDeltaTopic, data, contextId); err != nil {
-			log.ErrorC(contextId, err, log.Data{config.TopicKey: kp.cfg.OfficerDeltaTopic, config.MessageKey: "error sending the message to the given kafka topic"})
+		if err := kp.kSvc.SendMessage(kp.topic, data, contextId); err != nil {
+			log.ErrorC(contextId, err, log.Data{config.TopicKey: kp.topic, config.MessageKey: "error sending the message to the given kafka topic"})
 			w.WriteHeader(http.StatusInternalServerError)
 
 			return
