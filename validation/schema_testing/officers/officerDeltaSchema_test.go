@@ -45,7 +45,7 @@ func TestUnitOfficerDeltaSchemaNoErrors(t *testing.T) {
 
 			chv, _ := validation.NewCHValidator(apiSpecLocation)
 
-			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, apiSpecLocation, contextId)
+			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
 
 			Convey("Then I am given a nil response as no validation errors are returned", func() {
 				So(validationErrs, ShouldBeNil)
@@ -69,7 +69,7 @@ func TestUnitOfficerDeltaSchemaTypeErrors(t *testing.T) {
 
 			chv, _ := validation.NewCHValidator(apiSpecLocation)
 
-			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, apiSpecLocation, contextId)
+			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
 
 			Convey("Then I am given an errors array response as validation errors have been found", func() {
 				typeErrorResponseBody := common.ReadRequestBody(typeErrorResponseBodyLocation)
@@ -97,7 +97,7 @@ func TestUnitOfficerDeltaSchemaRequiredErrors(t *testing.T) {
 
 			chv, _ := validation.NewCHValidator(apiSpecLocation)
 
-			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, apiSpecLocation, contextId)
+			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
 
 			Convey("Then I am given an errors array response as validation errors have been found", func() {
 				mandatoryErrorsResponseBody := common.ReadRequestBody(requiredErrorResponseBodyLocation)
@@ -125,7 +125,7 @@ func TestUnitOfficerDeltaSchemaEnumErrors(t *testing.T) {
 
 			chv, _ := validation.NewCHValidator(apiSpecLocation)
 
-			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, apiSpecLocation, contextId)
+			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
 
 			Convey("Then I am given an errors array response as validation errors have been found", func() {
 				enumErrorsResponseBody := common.ReadRequestBody(enumErrorResponseBodyLocation)
@@ -151,7 +151,7 @@ func TestUnitOfficerDeltaSchemaNoRequestBodyError(t *testing.T) {
 
 			chv, _ := validation.NewCHValidator(apiSpecLocation)
 
-			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, apiSpecLocation, contextId)
+			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
 
 			Convey("Then I am given an error saying no request body provided", func() {
 				noRequestBodyErrorsResponseBody := common.ReadRequestBody(noRequestBodyErrorResponseBodyLocation)
@@ -179,7 +179,7 @@ func TestUnitOfficerDeltaSchemaMaxPropertiesError(t *testing.T) {
 
 			chv, _ := validation.NewCHValidator(apiSpecLocation)
 
-			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, apiSpecLocation, contextId)
+			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
 
 			Convey("Then I am given an errors array response as validation errors have been found", func() {
 				maxPropertiesErrorResponseBody := common.ReadRequestBody(maxPropertiesResponseBodyLocation)

@@ -34,16 +34,16 @@ func (m *MockCHValidator) EXPECT() *MockCHValidatorMockRecorder {
 }
 
 // ValidateRequestAgainstOpenApiSpec mocks base method
-func (m *MockCHValidator) ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec, contextId string) ([]byte, error) {
+func (m *MockCHValidator) ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, contextId string) ([]byte, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ValidateRequestAgainstOpenApiSpec", httpReq, openApiSpec, contextId)
+	ret := m.ctrl.Call(m, "ValidateRequestAgainstOpenApiSpec", httpReq, contextId)
 	ret0, _ := ret[0].([]byte)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ValidateRequestAgainstOpenApiSpec indicates an expected call of ValidateRequestAgainstOpenApiSpec
-func (mr *MockCHValidatorMockRecorder) ValidateRequestAgainstOpenApiSpec(httpReq, openApiSpec, contextId interface{}) *gomock.Call {
+func (mr *MockCHValidatorMockRecorder) ValidateRequestAgainstOpenApiSpec(httpReq, contextId interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ValidateRequestAgainstOpenApiSpec", reflect.TypeOf((*MockCHValidator)(nil).ValidateRequestAgainstOpenApiSpec), httpReq, openApiSpec, contextId)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ValidateRequestAgainstOpenApiSpec", reflect.TypeOf((*MockCHValidator)(nil).ValidateRequestAgainstOpenApiSpec), httpReq, contextId)
 }

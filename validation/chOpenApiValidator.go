@@ -34,12 +34,13 @@ var (
 
 // CHValidator provides an interface to interact with the CH Validator.
 type CHValidator interface {
-	ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec, contextId string) ([]byte, error)
+	ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, contextId string) ([]byte, error)
 }
 
 // CHValidatorImpl is a concrete implementation of the CHValidator interface.
 type CHValidatorImpl struct {
-	doc *openapi3.T
+	doc         *openapi3.T
+	openApiSpec string
 }
 
 // NewCHValidator returns a new CHValidator implementation.
@@ -54,14 +55,15 @@ func NewCHValidator(openApiSpec string) (CHValidator, error) {
 
 	// Successfully created a CHValidator so return the fully constructed object.
 	return CHValidatorImpl{
-		doc: doc,
+		doc:         doc,
+		openApiSpec: openApiSpec,
 	}, nil
 }
 
-// ValidateRequestAgainstOpenApiSpec takes a request and an openAPI spec location (string relative path) and uses the
-// spec to validate the provided request. If any validation errors are found, then they are formatted and returned to the
-// caller. If any errors are encountered while attempting to validate, they are handled and also returned to the caller.
-func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, openApiSpec, contextId string) ([]byte, error) {
+// ValidateRequestAgainstOpenApiSpec takes a request and uses an openAPI3 spec to validate the it. If any validation errors
+// are found, then they are formatted and returned to the caller. If any errors are encountered while attempting to validate,
+// then they are handled and also returned to the caller.
+func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Request, contextId string) ([]byte, error) {
 
 	ctx := context.Background()
 
@@ -98,7 +100,7 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 	// Switch off the addition of schema error details to the returned error. This stops the OpenApi schema being added to errors.
 	openapi3.SchemaErrorDetailsDisabled = true
 
-	log.InfoC(contextId, "Validating request using: ", log.Data{config.OpenApiSpecKey: openApiSpec})
+	log.InfoC(contextId, "Validating request using: ", log.Data{config.OpenApiSpecKey: chv.openApiSpec})
 	if err := callOpenApiFilterValidateRequest(ctx, requestValidationInput); err != nil {
 		// If errors are found in the request format them and return them.
 		log.InfoC(contextId, "Request validated. Errors found.", nil)
@@ -233,11 +235,6 @@ func handleParseError(pe *openapi3filter.ParseError) models.CHError {
 	}
 }
 
-// findRoute is used to add an abstraction layer for unit testing. Allowing us to mock the returns for external methods.
-func findRoute(r routers.Router, req *http.Request) (route *routers.Route, pathParams map[string]string, err error) {
-	return r.FindRoute(req)
-}
-
 func getSchema(ctx context.Context, openApiSpec string) (*openapi3.T, error) {
 
 	log.Info("Retrieving openAPI3 spec")
@@ -264,4 +261,9 @@ func loadSchemaFromFile(ctx context.Context, openApiSpec string) (*openapi3.T, e
 
 	// Return the validation schema.
 	return loader.LoadFromFile(abs)
+}
+
+// findRoute is used to add an abstraction layer for unit testing. Allowing us to mock the returns for external methods.
+func findRoute(r routers.Router, req *http.Request) (route *routers.Route, pathParams map[string]string, err error) {
+	return r.FindRoute(req)
 }

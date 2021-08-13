@@ -17,19 +17,19 @@ type DeltaHandler struct {
 	chv              validation.CHValidator
 	cfg              *config.Config
 	doValidationOnly bool
-	topic			 string
+	topic            string
 }
 
 // NewDeltaHandler returns an DeltaHandler.
 func NewDeltaHandler(kSvc services.KafkaService, h helpers.Helper, chv validation.CHValidator,
 	cfg *config.Config, doValidationOnly bool, topic string) *DeltaHandler {
 	return &DeltaHandler{
-		kSvc: kSvc,
-		h: h,
-		chv: chv,
-		cfg: cfg,
+		kSvc:             kSvc,
+		h:                h,
+		chv:              chv,
+		cfg:              cfg,
 		doValidationOnly: doValidationOnly,
-		topic: topic,
+		topic:            topic,
 	}
 }
 
@@ -43,7 +43,7 @@ func (kp *DeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	log.InfoC(contextId, fmt.Sprintf("Using the open api spec: "), log.Data{config.OpenApiSpecKey: kp.cfg.OpenApiSpec})
 
 	// Validate against the openAPI 3 spec before progressing any further.
-	errValidation, err := kp.chv.ValidateRequestAgainstOpenApiSpec(r, kp.cfg.OpenApiSpec, contextId)
+	errValidation, err := kp.chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.ErrorC(contextId, err, log.Data{config.MessageKey: "error occurred while trying to validate request"})
