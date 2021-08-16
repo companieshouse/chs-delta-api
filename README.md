@@ -4,14 +4,14 @@ Service to send delta events from CHIPS on the correct kafka topic
 Environment Variables
 -----------------
 
-|  Variable                         |  Example                          |  Description                                       |
-| --------------------------------- | --------------------------------- | -------------------------------------------------- |
-| BIND_ADDR                         | 5010                              | Bind Address                                       |
-| KAFKA_BROKER_ADDR                 | chs-kafka:9092                    | Kafka broker address (can be comma separated)      |
-| SCHEMA_REGISTRY_URL               | http://chs-kafka:8081             | Schema registry URL                                |
-| OFFICER_DELTA_TOPIC               | officers-delta                    | Kafka topic to write messages to                   |
-| OPEN_API_SPEC                     | ./apispec/apispec.yml             | OpenAPI schema location                            |
-
+|  Variable                         |  Example                          |  Description                                       |  Required                                       |
+| --------------------------------- | --------------------------------- | -------------------------------------------------- | ----------------------------------------------- |
+| BIND_ADDR                         | 5010                              | Bind Address / application port                    | TRUE                                            |
+| KAFKA_BROKER_ADDR                 | chs-kafka:9092                    | Kafka broker address (can be comma separated)      | TRUE                                            |
+| SCHEMA_REGISTRY_URL               | http://chs-kafka:8081             | Schema registry URL                                | TRUE                                            |
+| OFFICER_DELTA_TOPIC               | officers-delta                    | Officer Delta Kafka topic to write messages to     | TRUE                                            |
+| OPEN_API_SPEC                     | ./apispec/apispec.yml             | OpenAPI schema location                            | TRUE                                            |
+| LOG_LEVEL                         | trace                             | The level at which the logger prints               | FALSE                                           |
 
 ## Running Locally with Docker CHS
 Clone Docker CHS Development and follow the steps in the README.
@@ -24,13 +24,15 @@ Development mode is available for this service in Docker CHS Development.
 
 `./bin/chs-dev development enable chs-delta-api`
 
-Swagger documentation is available for this service in the docker CHS development
-
-Navigate to http://api.chs.local/api-docs/chs-delta-api/swagger-ui.html
-
 ## Running locally without Docker CHS
-Pull image from private CH registry by running docker pull 169942020521.dkr.ecr.eu-west-1.amazonaws.com/local/chs-delta-api:latest command or run the following steps to build image locally:
+Export the required environment variables to ensure the service can start up correctly.
+
+Pull image from private CH registry by running docker pull 169942020521.dkr.ecr.eu-west-1.amazonaws.com/local/chs-delta-api:latest 
+command or run the following steps to build image locally:
 
 1. `export SSH_PRIVATE_KEY_PASSPHRASE='[your SSH key passhprase goes here]'` (optional, set only if SSH key is passphrase protected)
 2. `DOCKER_BUILDKIT=0 docker build --build-arg SSH_PRIVATE_KEY="$(cat ~/.ssh/id_rsa)" --build-arg SSH_PRIVATE_KEY_PASSPHRASE -t 169942020521.dkr.ecr.eu-west-1.amazonaws.com/local/chs-delta-api .`
 3. `docker run 169942020521.dkr.ecr.eu-west-1.amazonaws.com/local/chs-delta-api:latest`
+
+## Documentation
+All documentation can be found in the `/docs` folder at the root of this project's directory.
