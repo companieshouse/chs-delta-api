@@ -38,7 +38,9 @@ ports:
       - "5010:5010"
 ```
 
-These allow us to use our local machines port to connect to the matched docker container port.
+These allow us to use our local machine's port to connect to the matched docker container port.
+
+Make sure the docker port you select matches the `BIND_ADDR` port you previously added to the environment.
 
 ## 2. Starting the debugger in Goland IDE
 Now we've started our application using the delve debugging tool we need to attach our debugger to delve. To do this 
