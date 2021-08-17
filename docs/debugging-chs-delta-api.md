@@ -28,16 +28,23 @@ the application to work correctly.
 
 Finally, we set the CMD to the included dlv tool, providing all the necessary arguments to allow dlv to start our service.
 
-### 1.2 Changes to chs-delta-api docker-compose
+### 1.2 Mapping the docker-compose ports on our local machine
 Open the docker-chs-development repository in an IDE and edit the `chs-delta-api.docker-compose.yaml` file and add the 
-following property:
+following properties:
 ```yaml
-environment:
+services:
+  chs-delta-api:
+    ...
+    environment:
+      ...
       - BIND_ADDR=:5010
+    ports:
+      - "5010:5010"
 ```
 
-This is needed as the `BIND_ADDR` was previously supplied through the CMD of the original Dockerfile. As we are changing
-the CMD to use dlv, we need to add this variable to the environment on the docker-compose file instead.
+This allows us to use our local machine's port to connect to the matched docker container port.
+
+Make sure the docker port you select matches the port you previously exposed in the Dockerfile.
 
 ## 2. Using the debugger on the chs-delta-api
 
