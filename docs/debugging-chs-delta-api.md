@@ -42,7 +42,9 @@ These allow us to use our local machine's port to connect to the matched docker 
 
 Make sure the docker port you select matches the `BIND_ADDR` port you previously added to the environment.
 
-## 2. Starting the debugger in Goland IDE
+## 2. Using the debugger on the chs-delta-api
+
+### 2.1 Starting the debugger in Goland IDE
 Now we've started our application using the delve debugging tool we need to attach our debugger to delve. To do this 
 we need to open our project in Goland IDE and visit the `Run -> Edit Configurations` window. Press the `+` to add a new 
 configuration and select `Go Remote`. Set the following values:
@@ -51,6 +53,11 @@ configuration and select `Go Remote`. Set the following values:
 - `Port`: 5010
 
 Press `Apply` and finally in the top right-hand corner of Goland IDE select your new connection and press `Debug`.
+
+### 2.2 Communicating with the service while in debug mode
+As this is an internal API, all traffic routes through ERIC. When using docker-chs-development we will want to use 
+the following URL to communicate with the chs-delta-api service: `http://api.chs.local:4001/delta/officers`. Now all you 
+need to do is add your breakpoints and debug as you would any other service.
 
 ## Final notes
 This image shouldn't be committed to GitHub or AWS ECR.
