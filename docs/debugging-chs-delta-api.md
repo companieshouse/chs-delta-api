@@ -28,7 +28,7 @@ the application to work correctly.
 
 Finally, we set the CMD to the included dlv tool, providing all the necessary arguments to allow dlv to start our service.
 
-### 1.2 Mapping the docker-compose ports on our local machine
+### 1.2 Changes needed to chs-delta-api docker-compose
 Open the docker-chs-development repository in an IDE and edit the `chs-delta-api.docker-compose.yaml` file and add the 
 following properties:
 ```yaml
