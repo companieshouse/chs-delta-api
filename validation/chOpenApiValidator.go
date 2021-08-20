@@ -123,6 +123,13 @@ func getCHErrors(contextId string, err error) []byte {
 		errorsArr = handleMultiError(contextId, &mea, errorsArr)
 	}
 
+	// Log all errors to logger for better debugging.
+	var errSB strings.Builder
+	for _, e := range errorsArr {
+		errSB.WriteString(e.String() + ",")
+	}
+	log.ErrorC(contextId, errors.New(errSB.String()), log.Data{config.MessageKey: "Logging validation errors: "})
+
 	// Marshal the built up array and return it.
 	mr, err := json.Marshal(errorsArr)
 	if err != nil {
