@@ -9,7 +9,7 @@ to the user. This means that the caller of the kin-openAPI3 validator will need 
 the wrapped error(s) to get the necessary values back.
 
 The chs-delta-api takes the wrapped error(s) returned from the kin-openAPI3 validator and parses them into the standard 
-[CH Errors Object](link_here) by using the errors.Is and errors.As functions introduced to Go in version 1.13. To view 
+[CH Errors Object](https://developer-specs.company-information.service.gov.uk/companies-house-public-data-api/resources/error?v=latest) by using the errors.Is and errors.As functions introduced to Go in version 1.13. To view 
 the code implementation of this, please see the `/validation/chOpenApiValidator.go` file; specfically the `getCHErrors` 
 function.
 
