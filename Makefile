@@ -28,7 +28,7 @@ test: test-unit test-integration
 
 .PHONY: test-unit
 test-unit:
-	go test $(TESTS) -run 'Unit' -coverprofile=coverage.out
+	go test -covermode=atomic -coverpkg=./... -run 'Unit' -coverprofile=coverage.out
 
 .PHONY: test-integration
 test-integration:
