@@ -76,7 +76,7 @@ func initSchema(cfg *config.Config) (string, error) {
 func initProducer(cfg *config.Config) (*producer.Producer, error) {
 	// Create a new Kafka Producer which will be used to publish our message onto a given Kafka topic.
 	log.Info("Using Streaming Kafka broker Address", log.Data{"Brokers": cfg.BrokerAddr})
-	p, err := callProducerNew(&producer.Config{Acks: &producer.WaitForAll, BrokerAddrs: cfg.BrokerAddr})
+	p, err := callProducerNew(&producer.Config{Acks: &producer.WaitForAll, BrokerAddrs: cfg.BrokerAddr, RoundRobinPartitioner: true})
 	if err != nil {
 		log.Error(fmt.Errorf("error initialising producer: %s", err))
 		return nil, err
@@ -109,7 +109,6 @@ func (kSvc *KafkaServiceImpl) SendMessage(topic, data, contextId string) error {
 	producerMessage := &producer.Message{
 		Topic:     topic,
 		Value:     sarama.ByteEncoder(messageBytes),
-		Partition: 0,
 	}
 
 	// Finally try to send the message.
