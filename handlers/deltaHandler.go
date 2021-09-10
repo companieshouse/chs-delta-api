@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"github.com/companieshouse/chs-delta-api/config"
 	"github.com/companieshouse/chs-delta-api/helpers"
 	"github.com/companieshouse/chs-delta-api/services"
@@ -39,8 +38,6 @@ func NewDeltaHandler(kSvc services.KafkaService, h helpers.Helper, chv validatio
 func (kp *DeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	contextId := kp.h.GetRequestIdFromHeader(r)
-
-	log.InfoC(contextId, fmt.Sprintf("Using the open api spec: "), log.Data{config.OpenApiSpecKey: kp.cfg.OpenApiSpec})
 
 	// Validate against the openAPI 3 spec before progressing any further.
 	errValidation, err := kp.chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
