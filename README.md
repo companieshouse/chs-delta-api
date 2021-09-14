@@ -34,17 +34,6 @@ command or run the following steps to build image locally:
 2. `DOCKER_BUILDKIT=0 docker build --build-arg SSH_PRIVATE_KEY="$(cat ~/.ssh/id_rsa)" --build-arg SSH_PRIVATE_KEY_PASSPHRASE -t 169942020521.dkr.ecr.eu-west-1.amazonaws.com/local/chs-delta-api .`
 3. `docker run 169942020521.dkr.ecr.eu-west-1.amazonaws.com/local/chs-delta-api:latest`
 
-## Logging
-This application uses the following standard format to log messages using the chs.go logger:
-
-```go
-{"context":"contextID","created":"date-time stamp","data":{"message":"message_text"},"event":"log_leveL","namespace":"chs-delta-api"}
-```
-
-With an example of this being:
-```go
-{"context":"bJvOa4n6k-HsVlvLz1h3uuHqxxMi","created":"2021-09-13T07:00:49.028270306+01:00","data":{"message":"Request validated. No errors were found."},"event":"info","namespace":"chs-delta-api"}
-```
 ## Healthcheck
 This service implements a `healthcheck` endpoint. Using POSTMAN call the `/delta/healthcheck` GET endpoint to assert 
 the service is running correctly.
