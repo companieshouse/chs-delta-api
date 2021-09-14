@@ -107,8 +107,8 @@ func (kSvc *KafkaServiceImpl) SendMessage(topic, data, contextId string) error {
 
 	// Create the producer message which will contain a topic, our message and a default partition.
 	producerMessage := &producer.Message{
-		Topic:     topic,
-		Value:     sarama.ByteEncoder(messageBytes),
+		Topic: topic,
+		Value: sarama.ByteEncoder(messageBytes),
 	}
 
 	// Finally try to send the message.
