@@ -113,8 +113,12 @@ func (kSvc *KafkaServiceImpl) SendMessage(topic, data, contextId string) error {
 
 	// Finally try to send the message.
 	partition, offset, err := callSend(kSvc, producerMessage)
-	log.InfoC(contextId, "Sending message", log.Data{config.TopicKey: producerMessage.Topic, config.PartitionKey: partition, config.OffsetKey: offset})
-	return err
+	if err != nil {
+		return err
+	}
+
+	log.InfoC(contextId, "Sent message", log.Data{config.TopicKey: producerMessage.Topic, config.PartitionKey: partition, config.OffsetKey: offset})
+	return nil
 }
 
 // sendViaProducer is used to add an abstraction layer for unit testing when calling to send a message via a producer.
