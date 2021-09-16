@@ -60,10 +60,18 @@ With an example of this being:
 If a message fails to be sent to Kafka you will get the following logs:
 
 ```go
-{"context":"context_id","created":"date_time_stamp","data":{"error":kafka_error_int,"message":"kafka.","topic":"topic_choice"},"event":"error","namespace":"chs-delta-api"}
+{"context":"context_id","created":"date_time_stamp","data":{"error":kafka_error_int,"message":"kafka_message","topic":"topic_choice"},"event":"error","namespace":"chs-delta-api"}
 ```
 
-The message will be logged changes depending on the error kafka returns.
+The message that will be logged changes depending on the error Kafka returns. This can vary quite a bit, but here are 2 examples:
+
+```go
+"message":"kafka server: Replication-factor is invalid."
+```
+
+```go
+"message":"kafka server: In the middle of a leadership election, there is currently no leader for this partition and hence it is unavailable for writes."
+```
 
 The following variables are of interest to Kibana:
 
@@ -100,3 +108,14 @@ Example of a Validation Error request:
 ```go
 {"context":"Dy7rFtAq3G5G9m60MZ1jlgkgeyLD","created":"2021-09-14T11:03:02.045648992+01:00","data":{"duration":3111079,"end":"2021-09-14T11:03:02.045644507+01:00","method":"POST","path":"/delta/officers","start":"2021-09-14T11:03:02.042533743+01:00","status":400},"event":"request","namespace":"chs-delta-api"}
 ```
+
+---
+
+#### ContextId and its use in tracking requests from CHIPS to CHS
+The context_id variable as mentioned in other sections of this document is the variable which should be used to track a filing from CHIPS to CHS.
+It is retrieved / created in the chs-delta-api at the start of handling a request. First the chs-delta-api will attempt to pull the contxt_id from 
+the request headers; one of the provided headers from ERIC is the x-request-id, this is the context_id. If the x-request-id header is not present 
+then the chs-delta-api will create a context_id.
+
+It is passed with the request received from CHIPS onto a Kafka topic as part of the avro schema (inside the avro schema you will find the contextId field).
+A go struct implementation of the avro schema can be found in the `models/chsDelta.go` file.
