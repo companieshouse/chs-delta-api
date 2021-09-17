@@ -70,6 +70,11 @@ components:
           enum:
             - "Y"
             - "N"
+        residential_address_same_as_service_address:
+          type: string
+          enum:
+            - "Y"
+            - "N"
         nationality:
           type: string
           maxLength: 50
@@ -93,7 +98,9 @@ components:
           type: string
           maxLength: 160
         previous_name_array:
-          $ref: '#/components/schemas/Previous_name_array'
+          type: array
+          items:
+            $ref: '#/components/schemas/Previous_name_array'
         identification:
           $ref: '#/components/schemas/Identification'
         service_address:
