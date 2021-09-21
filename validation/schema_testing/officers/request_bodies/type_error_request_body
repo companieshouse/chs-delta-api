@@ -13,6 +13,7 @@
       "middle_name": 123,
       "date_of_birth": 123,
       "service_address_same_as_registered_address": "Y",
+      "residential_address_same_as_service_address": "Y",
       "nationality": 123,
       "occupation": 123,
       "officer_id": 123,
@@ -20,11 +21,11 @@
       "officer_detail_id": 123,
       "officer_role": 123,
       "usual_residential_country": 123,
-      "previous_name_array": {
+      "previous_name_array": [{
         "previous_surname": 123,
         "previous_forename": 123,
         "previous_timestamp": 123
-      },
+      }],
       "identification": {
         "EEA": {
           "place_registered": 123,

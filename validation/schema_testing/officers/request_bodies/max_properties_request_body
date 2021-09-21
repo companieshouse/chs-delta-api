@@ -13,6 +13,7 @@
       "middle_name": "string",
       "date_of_birth": "string",
       "service_address_same_as_registered_address": "Y",
+      "residential_address_same_as_service_address": "Y",
       "nationality": "string",
       "occupation": "string",
       "officer_id": "string",
@@ -20,11 +21,11 @@
       "officer_detail_id": "string",
       "officer_role": "string",
       "usual_residential_country": "string",
-      "previous_name_array": {
+      "previous_name_array": [{
         "previous_surname": "string",
         "previous_forename": "string",
         "previous_timestamp": "string"
-      },
+      }],
       "identification": {
         "EEA": {
           "place_registered": "string",

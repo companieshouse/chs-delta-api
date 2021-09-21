@@ -25,5 +25,14 @@
         "location": "officers.0.service_address_same_as_registered_address",
         "location_type": "json-path",
         "type": "ch:validation"
+    },
+    {
+        "error": "value is not one of the allowed values",
+        "error_values": {
+            "residential_address_same_as_service_address": "wrong"
+        },
+        "location": "officers.0.residential_address_same_as_service_address",
+        "location_type": "json-path",
+        "type": "ch:validation"
     }
 ]
