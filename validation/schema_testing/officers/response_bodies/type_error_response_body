@@ -58,7 +58,7 @@
         "error_values": {
             "previous_surname": "number, integer"
         },
-        "location": "officers.0.previous_name_array.previous_surname",
+        "location": "officers.0.previous_name_array.0.previous_surname",
         "location_type": "json-path",
         "type": "ch:validation"
     },
@@ -67,7 +67,7 @@
         "error_values": {
             "previous_forename": "number, integer"
         },
-        "location": "officers.0.previous_name_array.previous_forename",
+        "location": "officers.0.previous_name_array.0.previous_forename",
         "location_type": "json-path",
         "type": "ch:validation"
     },
@@ -76,7 +76,7 @@
         "error_values": {
             "previous_timestamp": "number, integer"
         },
-        "location": "officers.0.previous_name_array.previous_timestamp",
+        "location": "officers.0.previous_name_array.0.previous_timestamp",
         "location_type": "json-path",
         "type": "ch:validation"
     },
