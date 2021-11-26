@@ -16,10 +16,14 @@ Environment Variables
 ## Running Locally with Docker CHS
 Clone [Docker CHS Development](https://github.com/companieshouse/docker-chs-development) and follow the steps in the README.
 
-Enable the `delta` module
+### Using the delta module
+Enable the `delta` module  by running the command `./bin/chs-dev modules enable delta` in chs-docker-development
 
 All traffic will be handled via http://api.chs.local:4001 using the `/delta` endpoint. See API spec for available endpoints.
+### Running the service on its own
+To run the service on its own use the command `./bin/chs-dev services enable chs-delta-api` in chs-docker-development
 
+### Running the service in Development Mode
 Development mode is available for this service in Docker CHS Development.
 
 `./bin/chs-dev development enable chs-delta-api`
@@ -40,3 +44,7 @@ the service is running correctly.
 
 ## Documentation
 All documentation can be found in the `/docs` folder at the root of this project's directory.
+
+Note : Make sure you are logged into AWS ECR before running any of the above commands
+`aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 169942020521.dkr.ecr.eu-west-1.amazonaws.com
+`
