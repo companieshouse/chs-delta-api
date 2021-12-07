@@ -42,5 +42,4 @@ appRouter.HandleFunc("/delta/example-delta/validate", NewDeltaHandler(kSvc, h, c
 Finally, you'll need to update the register.go `TestUnitRegister` unit test to cover your changes.
 
 ## Final notes
-All other services on the chs-delta-api are generic and will not require any changes when adding a new delta, including 
-their unit tests.
+All other services on the chs-delta-api are generic and will not require any changes when adding a new delta. You may have to add [unit test] (https://github.com/companieshouse/chs-delta-api/blob/main/docs/unit-testing-a-new-schema.md) for the new schemas 
