@@ -1,157 +1,145 @@
 post:
   summary: Accepts an incoming insolvency delta, transforms it into an avro schema and puts it onto a Kafka topic.
   requestBody:
-    required: true
     content:
       application/json:
         schema:
-          oneOf:
-            - $ref: '#/components/schemas/Insolvency_delta_compulsory_liq'
-            - $ref: '#/components/schemas/Insolvency_delta_creditors-voluntary-liq'
-            - ...
-          discriminator:
-            propertyName: case_type
-            mapping:
-              compulsory-liquidation: '#/components/schemas/Insolvency_delta_compulsory_liq'
-              creditors-voluntary-liquidation: '#/components/schemas/Insolvency_delta_creditors-voluntary-liq'
-
+          $ref: '#/components/schemas/CommonModelFields'
+    required: true
   responses:
-    '200':
+    "200":
       description: Successfully produced message onto Kafka topic.
-    '400':
+    "400":
       description: Bad request body - validation errors.
-    '401':
+    "401":
       description: Unauthorised - missing api key in header.
-    '500':
+    "500":
       description: Internal server error has occured.
-
 components:
   schemas:
     CommonModelFields:
+      required:
+      - case_type
       type: object
       properties:
-        title: # fixed string
+        title:
           type: string
         company_number:
-          type: string
           maxLength: 10
-        case_numbers:
-          type: array
-          items:
-            $ref: '#/components/schemas/Case_number_array'
+          type: string
         case_type_id:
           type: number
           enum:
-            - 1
-            - 2
-            - 3
-            - 5
-            - 6
-            - 7
-            - 8
-            - 13
-            - 14
-            - 15
-            - 17
-
-
-    Insolvency_delta_compulsory_liq:
-      allOf:     # Combines the CommonModelFields and the inline case type specific model
-        - $ref: '#/components/schemas/CommonModelFields'
-        - type: object
-          properties:
-              case_type:
-                type: string
-              wind_up_date:
-                type: string
-              petition_date:
-                type: string
-              wind_up_conclusion_date: 
-                type: string
-              dissolved_date:
-                type: string
-              dissolved_due_date:
-                type: string
-          required:
-            - case_type
-    
-    Insolvency_delta_creditors-voluntary-liq:
-      allOf:     # Combines the CommonModelFields and the inline case type specific model
-        - $ref: '#/components/schemas/CommonModelFields'
-        - type: object
-          properties:
-              case_type:
-                type: string
-              wind_up_date:
-                type: string
-              dissolved_date:
-                type: string
-              dissolved_due_date:
-                type: string
-          required:
-            - case_type
-
-
-        
-
-
-
-
-
-    Insolvency_delta:
-      type: object
-      properties:
-        
+          - 1
+          - 2
+          - 3
+          - 5
+          - 6
+          - 7
+          - 8
+          - 13
+          - 14
+          - 15
+          - 17
         case_type:
           type: string
-          enum:
-            - "Members Voluntary Liquidation"
-            - "Creditors Voluntary Liquidation"
-            - "Compulsory Liquidation"
-            - "Official Receiver"
-            - "Receiver/Manager"
-            - "Administrative Receiver"
-            - "Administration"
-            - "Corporate Voluntary Arrangement"
-            - "Declaration of solvency"
-            - "Dummy"
-            - "Liquidation - 'Stay'"
-            - "Provisional Liquidator"
-            - "In Administration"
-            - "CVA Moratoria"
-            - "Foreign Insolvency"
-            - "Administrative Receiver - court"
-            - "Moratorium"
-        wind_up_date:
-          type: string
-        petition_date:
-          type: string
-        wind_up_conclusion_date: 
-          type: string
-        dissolved_date:
-          type: string
-        dissolved_due_date:
-          type: string
-        sworn_date:
-          type: string
-        admin_start_date:
-          type: string
-        admin_end_date:
-          type: string
-        report_date:
-          type: string
-        completion_date:
-          type: string
-        appointment_date:
-          type: string
-        end_date:
-          type: string
-        admin_order_date:
-          type: string
-        discharge_admin_order_date:
-          type: string
-        instrument_date:
-          type: string
-
-
-
+      discriminator:
+        propertyName: case_type
+        mapping:
+          members-voluntary-liquidation: '#/components/schemas/Members-voluntary-liquidation'
+          creditors-voluntary-liquidation: '#/components/schemas/Creditors-voluntary-liquidation'
+          compulsory-liquidation: '#/components/schemas/Compulsory-liquidation'
+          receiver-manager: '#/components/schemas/Receiver-manager'
+          administrative-receiver: '#/components/schemas/Administrative-receiver'
+          administration-order: '#/components/schemas/Administration-order'
+          corporate-voluntary-arrangement: '#/components/schemas/Corporate-voluntary-arrangement'
+          in-administration: '#/components/schemas/In-administration'
+          corporate-voluntary-arrangement-moratorium: '#/components/schemas/Corporate-voluntary-arrangement-moratorium'
+          foreign-insolvency: '#/components/schemas/Foreign-insolvency'
+          moratorium: '#/components/schemas/Moratorium'
+    Members-voluntary-liquidation:
+      allOf:
+      - $ref: '#/components/schemas/CommonModelFields'
+      - type: object
+        properties:
+          wind_up_date:
+            type: string
+          dissolved_date:
+            type: string
+          dissolved_due_date:
+            type: string
+          sworn_date:
+            type: string
+    Creditors-voluntary-liquidation:
+      allOf:
+      - $ref: '#/components/schemas/CommonModelFields'
+      - type: object
+        properties:
+          wind_up_date:
+            type: string
+          dissolved_date:
+            type: string
+          dissolved_due_date:
+            type: string
+    Compulsory-liquidation:
+      allOf:
+      - $ref: '#/components/schemas/CommonModelFields'
+    Receiver-manager:
+      allOf:
+      - $ref: '#/components/schemas/CommonModelFields'
+      - type: object
+        properties:
+          instrument_date:
+            type: string
+    Administrative-receiver:
+      allOf:
+      - $ref: '#/components/schemas/CommonModelFields'
+    Administration-order:
+      allOf:
+      - $ref: '#/components/schemas/CommonModelFields'
+      - type: object
+        properties:
+          admin_order_date:
+            type: string
+          discharge_admin_order_date:
+            type: string
+    Corporate-voluntary-arrangement:
+      allOf:
+      - $ref: '#/components/schemas/CommonModelFields'
+      - type: object
+        properties:
+          report_date:
+            type: string
+          completion_date:
+            type: string
+    In-administration:
+      allOf:
+      - $ref: '#/components/schemas/CommonModelFields'
+      - type: object
+        properties:
+          admin_start_date:
+            type: string
+          admin_end_date:
+            type: string
+    Corporate-voluntary-arrangement-moratorium:
+      allOf:
+      - $ref: '#/components/schemas/CommonModelFields'
+      - type: object
+        properties:
+          appointment_date:
+            type: string
+          end_date:
+            type: string
+    Foreign-insolvency:
+      allOf:
+      - $ref: '#/components/schemas/CommonModelFields'
+      - type: object
+    Moratorium:
+      allOf:
+      - $ref: '#/components/schemas/CommonModelFields'
+      - type: object
+        properties:
+          appointment_date:
+            type: string
+          end_date:
+            type: string

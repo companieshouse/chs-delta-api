@@ -47,7 +47,8 @@ func Register(mainRouter *mux.Router, cfg *config.Config, kSvc services.KafkaSer
 	appRouter.HandleFunc("/delta/officers", NewDeltaHandler(kSvc, h, chv, cfg, false, cfg.OfficerDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("officer-delta")
 	appRouter.HandleFunc("/delta/officers/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, cfg.OfficerDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("officer-delta-validate")
 	appRouter.Use(userAuthInterceptor.UserAuthenticationIntercept)
-
+	appRouter.HandleFunc("/delta/insolvency", NewDeltaHandler(kSvc, h, chv, cfg, false, cfg.InsolvencyDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("insolvency-delta")
+	appRouter.HandleFunc("/delta/insolvency/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, cfg.InsolvencyDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("insolvency-delta-validate")
 	return nil
 }
 
