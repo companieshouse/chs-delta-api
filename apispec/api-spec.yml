@@ -9,6 +9,11 @@ paths:
     $ref: 'officer-delta-spec.yml'
   /delta/officers/validate:
     $ref: 'officer-delta-spec.yml'
+  /delta/insolvency:
+    $ref: 'insolvency-delta-spec.yml'
+  /delta/insolvency/validate:
+    $ref: 'insolvency-delta-spec.yml'
+
 
 components:
   securitySchemes:
