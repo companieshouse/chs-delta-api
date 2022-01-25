@@ -5,6 +5,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/http"
+	"path/filepath"
+	"strings"
+
 	"github.com/companieshouse/chs-delta-api/config"
 	"github.com/companieshouse/chs-delta-api/models"
 	"github.com/companieshouse/chs.go/log"
@@ -12,9 +16,6 @@ import (
 	"github.com/getkin/kin-openapi/openapi3filter"
 	"github.com/getkin/kin-openapi/routers"
 	router "github.com/getkin/kin-openapi/routers/gorillamux"
-	"net/http"
-	"path/filepath"
-	"strings"
 )
 
 const (
@@ -98,7 +99,7 @@ func (chv CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Reque
 	}
 
 	// Switch off the addition of schema error details to the returned error. This stops the OpenApi schema being added to errors.
-	openapi3.SchemaErrorDetailsDisabled = true
+	openapi3.SchemaErrorDetailsDisabled = false
 
 	log.InfoC(contextId, "Validating request using: ", log.Data{config.OpenApiSpecKey: chv.openApiSpec})
 	if err := callOpenApiFilterValidateRequest(ctx, requestValidationInput); err != nil {
