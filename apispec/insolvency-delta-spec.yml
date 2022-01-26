@@ -4,7 +4,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: '#/components/schemas/CommonModelFields'
+          $ref: '#/components/schemas/Insolvency'
     required: true
   responses:
     "200":
@@ -17,18 +17,33 @@ post:
       description: Internal server error has occured.
 components:
   schemas:
-    CommonModelFields:
+    Insolvency:
       required:
-      - case_type
+      - company_number
+      - case_numbers
       type: object
       properties:
         title:
           type: string
+          enum: ['insolvency']
         company_number:
           maxLength: 10
           type: string
+        case_numbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Case-number'
+    Case-number:
+      required:
+      - case_number
+      - case_type_id
+      - case_type
+      type: object
+      properties:
+        case_number:
+          type: integer
         case_type_id:
-          type: number
+          type: integer
           enum:
           - 1
           - 2
@@ -43,103 +58,102 @@ components:
           - 17
         case_type:
           type: string
-      discriminator:
-        propertyName: case_type
-        mapping:
-          members-voluntary-liquidation: '#/components/schemas/Members-voluntary-liquidation'
-          creditors-voluntary-liquidation: '#/components/schemas/Creditors-voluntary-liquidation'
-          compulsory-liquidation: '#/components/schemas/Compulsory-liquidation'
-          receiver-manager: '#/components/schemas/Receiver-manager'
-          administrative-receiver: '#/components/schemas/Administrative-receiver'
-          administration-order: '#/components/schemas/Administration-order'
-          corporate-voluntary-arrangement: '#/components/schemas/Corporate-voluntary-arrangement'
-          in-administration: '#/components/schemas/In-administration'
-          corporate-voluntary-arrangement-moratorium: '#/components/schemas/Corporate-voluntary-arrangement-moratorium'
-          foreign-insolvency: '#/components/schemas/Foreign-insolvency'
-          moratorium: '#/components/schemas/Moratorium'
-    Members-voluntary-liquidation:
-      allOf:
-      - $ref: '#/components/schemas/CommonModelFields'
-      - type: object
-        properties:
-          wind_up_date:
-            type: string
-          dissolved_date:
-            type: string
-          dissolved_due_date:
-            type: string
-          sworn_date:
-            type: string
-    Creditors-voluntary-liquidation:
-      allOf:
-      - $ref: '#/components/schemas/CommonModelFields'
-      - type: object
-        properties:
-          wind_up_date:
-            type: string
-          dissolved_date:
-            type: string
-          dissolved_due_date:
-            type: string
-    Compulsory-liquidation:
-      allOf:
-      - $ref: '#/components/schemas/CommonModelFields'
-    Receiver-manager:
-      allOf:
-      - $ref: '#/components/schemas/CommonModelFields'
-      - type: object
-        properties:
-          instrument_date:
-            type: string
-    Administrative-receiver:
-      allOf:
-      - $ref: '#/components/schemas/CommonModelFields'
-    Administration-order:
-      allOf:
-      - $ref: '#/components/schemas/CommonModelFields'
-      - type: object
-        properties:
-          admin_order_date:
-            type: string
-          discharge_admin_order_date:
-            type: string
-    Corporate-voluntary-arrangement:
-      allOf:
-      - $ref: '#/components/schemas/CommonModelFields'
-      - type: object
-        properties:
-          report_date:
-            type: string
-          completion_date:
-            type: string
-    In-administration:
-      allOf:
-      - $ref: '#/components/schemas/CommonModelFields'
-      - type: object
-        properties:
-          admin_start_date:
-            type: string
-          admin_end_date:
-            type: string
-    Corporate-voluntary-arrangement-moratorium:
-      allOf:
-      - $ref: '#/components/schemas/CommonModelFields'
-      - type: object
-        properties:
-          appointment_date:
-            type: string
-          end_date:
-            type: string
-    Foreign-insolvency:
-      allOf:
-      - $ref: '#/components/schemas/CommonModelFields'
-      - type: object
-    Moratorium:
-      allOf:
-      - $ref: '#/components/schemas/CommonModelFields'
-      - type: object
-        properties:
-          appointment_date:
-            type: string
-          end_date:
-            type: string
+          enum: ['Members Voluntary Liquidation',
+                'Creditors Voluntary Liquidation',
+                'Compulsory Liquidation',
+                'Receiver Manager',
+                'Administrative Receiver',
+                'Administration',
+                'Corporate Voluntary Arrangement',
+                'In Administration',
+                'Corporate Voluntary Arrangement Moratorium',
+                'Foreign Insolvency',
+                'Moratorium']
+        mortgage_id:
+          type: integer
+        appointments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Appointment'
+        wind_up_date:
+          type: string
+        dissolved_date:
+          type: string
+        dissolved_due_date:
+          type: string
+        sworn_date:
+          type: string
+        petition_date:
+          type: string
+        wind_up_conclusion_date:
+          type: string 
+        instrument_date:
+          type: string
+        admin_order_date:
+          type: string
+        discharge_admin_order_date:
+          type: string
+        report_date:
+          type: string
+        completion_date:
+          type: string
+        admin_start_date:
+          type: string
+        admin_end_date:
+          type: string
+        appointment_date:
+          type: string
+        end_date:
+          type: string
+
+   
+    Appointment:
+      type: object
+      properties:
+        forename:
+          type: string
+          maxLength: 50
+        middle_name:
+          type: string
+          maxLength: 50
+        surname:
+          type: string
+          maxLength: 160
+        appt_type:
+          type: integer
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+        appt_date:
+          type: string
+        ceased_to_act_appt:
+          type: string
+        practitioner_address:
+          $ref: '#/components/schemas/Practitioner-address'
+    Practitioner-address:
+      type: object
+      properties:
+        address_line_1:
+          type: string
+          maxLength: 50
+        address_line_2:
+          type: string
+          maxLength: 50
+        locality:
+          type: string
+          maxLength: 50
+        region:
+          type: string
+          maxLength: 50
+        country:
+          type: string
+          maxLength: 50
+        postal_code:
+          type: string
+          maxLength: 20

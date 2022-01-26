@@ -1,0 +1,14 @@
+[
+    {
+        "location": "company_number"
+    },
+    {
+        "location": "case_numbers.0.case_type"
+    },
+    {
+        "location": "case_numbers.0.case_type_id"
+    },
+    {
+        "location": "case_numbers.0.case_number"
+    }
+]
