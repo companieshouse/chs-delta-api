@@ -32,8 +32,9 @@ components:
         case_numbers:
           type: array
           items:
-            $ref: '#/components/schemas/Case-number'
-    Case-number:
+            $ref: '#/components/schemas/CaseNumber'
+
+    CaseNumber:
       required:
       - case_number
       - case_type_id
@@ -134,8 +135,9 @@ components:
         ceased_to_act_appt:
           type: string
         practitioner_address:
-          $ref: '#/components/schemas/Practitioner-address'
-    Practitioner-address:
+          $ref: '#/components/schemas/PractitionerAddress'
+
+    PractitionerAddress:
       type: object
       properties:
         address_line_1:
