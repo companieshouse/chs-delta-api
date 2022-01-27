@@ -61,12 +61,12 @@ components:
           enum: ['Members Voluntary Liquidation',
                 'Creditors Voluntary Liquidation',
                 'Compulsory Liquidation',
-                'Receiver Manager',
+                'Receiver/Manager',
                 'Administrative Receiver',
                 'Administration',
                 'Corporate Voluntary Arrangement',
                 'In Administration',
-                'Corporate Voluntary Arrangement Moratorium',
+                'CVA Moratorium',
                 'Foreign Insolvency',
                 'Moratorium']
         mortgage_id:
@@ -106,7 +106,6 @@ components:
         end_date:
           type: string
 
-   
     Appointment:
       type: object
       properties:
