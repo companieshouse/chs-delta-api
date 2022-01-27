@@ -4,7 +4,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: '#/components/schemas/Insolvency'
+          $ref: '#/components/schemas/Insolvencies'
     required: true
   responses:
     "200":
@@ -15,17 +15,28 @@ post:
       description: Unauthorised - missing api key in header.
     "500":
       description: Internal server error has occured.
+
 components:
   schemas:
-    Insolvency:
+    Insolvencies:
+      required: 
+      - insolvency
+      type: object
+      properties:
+        insolvency:
+          type: array
+          items:
+            $ref: '#/components/schemas/InsolvencyDelta'
+
+    InsolvencyDelta:
       required:
+      - delta_at
       - company_number
       - case_numbers
       type: object
       properties:
-        title:
+        delta_at:
           type: string
-          enum: ['insolvency']
         company_number:
           maxLength: 10
           type: string
@@ -67,7 +78,7 @@ components:
                 'Administration',
                 'Corporate Voluntary Arrangement',
                 'In Administration',
-                'CVA Moratorium',
+                'CVA Moratoria',
                 'Foreign Insolvency',
                 'Moratorium']
         mortgage_id:
