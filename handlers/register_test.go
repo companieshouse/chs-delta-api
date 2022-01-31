@@ -48,9 +48,9 @@ func TestUnitRegister(t *testing.T) {
 		So(router.GetRoute("healthcheck"), ShouldNotBeNil)
 		So(router.GetRoute("officer-delta"), ShouldNotBeNil)
 		So(router.GetRoute("officer-delta-validate"), ShouldNotBeNil)
-		So(err, ShouldBeNil)
 		So(router.GetRoute("insolvency-delta"), ShouldNotBeNil)
 		So(router.GetRoute("insolvency-delta-validate"), ShouldNotBeNil)
+		So(err, ShouldBeNil)
 	})
 
 }

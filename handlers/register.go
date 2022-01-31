@@ -2,13 +2,13 @@
 package handlers
 
 import (
+	"net/http"
+
 	"github.com/companieshouse/chs-delta-api/config"
 	"github.com/companieshouse/chs-delta-api/helpers"
 	"github.com/companieshouse/chs-delta-api/services"
 	"github.com/companieshouse/chs-delta-api/validation"
 	"github.com/companieshouse/chs.go/authentication"
-	"net/http"
-
 	"github.com/companieshouse/chs.go/log"
 	"github.com/gorilla/mux"
 )
@@ -46,9 +46,9 @@ func Register(mainRouter *mux.Router, cfg *config.Config, kSvc services.KafkaSer
 	appRouter := mainRouter.PathPrefix("").Subrouter()
 	appRouter.HandleFunc("/delta/officers", NewDeltaHandler(kSvc, h, chv, cfg, false, cfg.OfficerDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("officer-delta")
 	appRouter.HandleFunc("/delta/officers/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, cfg.OfficerDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("officer-delta-validate")
-	appRouter.Use(userAuthInterceptor.UserAuthenticationIntercept)
 	appRouter.HandleFunc("/delta/insolvency", NewDeltaHandler(kSvc, h, chv, cfg, false, cfg.InsolvencyDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("insolvency-delta")
 	appRouter.HandleFunc("/delta/insolvency/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, cfg.InsolvencyDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("insolvency-delta-validate")
+	appRouter.Use(userAuthInterceptor.UserAuthenticationIntercept)
 	return nil
 }
 
