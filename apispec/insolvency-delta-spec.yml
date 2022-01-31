@@ -76,13 +76,14 @@ components:
                 'Receiver/Manager',
                 'Administrative Receiver',
                 'Administration',
-                'Corporate Voluntary Arrangement',
+                'Corporate Voluntary Arrangement ',
                 'In Administration',
                 'CVA Moratoria',
                 'Foreign Insolvency',
                 'Moratorium']
         mortgage_id:
           type: integer
+          format: int64
         appointments:
           type: array
           items:
