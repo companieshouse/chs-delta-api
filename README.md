@@ -10,6 +10,7 @@ Environment Variables
 | KAFKA_BROKER_ADDR                 | chs-kafka:9092                    | Kafka broker address (can be comma separated)      | YES             |               |
 | SCHEMA_REGISTRY_URL               | http://chs-kafka:8081             | Schema registry URL                                | YES             |               |
 | OFFICER_DELTA_TOPIC               | officers-delta                    | Officer Delta Kafka topic to write messages to     | YES             |               |
+| INSOLVENCY_DELTA_TOPIC            | insolvency-delta                  | Insolvency Delta Kafka topic to write messages to  | YES             |               |
 | OPEN_API_SPEC                     | ./apispec/apispec.yml             | OpenAPI schema location                            | YES             |               |
 | LOG_LEVEL                         | trace                             | The level at which the logger prints               | NO              | info          |
 

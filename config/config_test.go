@@ -1,9 +1,10 @@
 package config
 
 import (
-	. "github.com/smartystreets/goconvey/convey"
 	"os"
 	"testing"
+
+	. "github.com/smartystreets/goconvey/convey"
 )
 
 func TestUnitGetHasErrors(t *testing.T) {
@@ -21,6 +22,7 @@ func TestUnitGetNoErrors(t *testing.T) {
 	_ = os.Setenv("KAFKA_BROKER_ADDR", "kafka_broker_addr,kafka_broker_addr")
 	_ = os.Setenv("SCHEMA_REGISTRY_URL", "schema_registry_url")
 	_ = os.Setenv("OFFICER_DELTA_TOPIC", "officer_delta_topic")
+	_ = os.Setenv("INSOLVENCY_DELTA_TOPIC", "insolvency_delta_topic")
 	_ = os.Setenv("OPEN_API_SPEC", "open_api_spec")
 	Convey("When I try to get the config via the Get method and all config vars are provided", t, func() {
 		cfg, err := Get()
