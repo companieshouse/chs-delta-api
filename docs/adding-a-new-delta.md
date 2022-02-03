@@ -28,7 +28,7 @@ ExampleDeltaTopic string `env:"EXAMPLE_DELTA_TOPIC" flag:"example-delta-topic" f
 ```
 
 ## 3. Exposing your new delta endpoint
-The final step of adding a new delta is to register your new route within the `register.go` file.
+You need to register your new route within the `register.go` file.
 ```go
 appRouter.HandleFunc("/delta/example-delta", NewDeltaHandler(kSvc, h, chv, cfg, false, cfg.ExampleDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("example-delta")
 ```
@@ -40,6 +40,21 @@ appRouter.HandleFunc("/delta/example-delta/validate", NewDeltaHandler(kSvc, h, c
 ```
 
 Finally, you'll need to update the register.go `TestUnitRegister` unit test to cover your changes.
+
+## 4. Updating docker compose to specify your kafka topic
+In order to run this you need to have added a new environment variable in the respective docker compose file located in the [docker-chs-development repo](https://github.com/companieshouse/docker-chs-development). For deltas this is `services/modules/delta/chs-delta-api.docker-compose.yaml`. 
+
+Add your kafka topic name under `services.chs-delta-api.environment` like so:
+
+```yaml
+services:
+  chs-delta-api:
+    ...
+    environment:
+      ...
+      - EXAMPLE_DELTA_TOPIC=example-delta
+      ...
+```
 
 ## Final notes
 All other services on the chs-delta-api are generic and will not require any changes when adding a new delta, including 

@@ -1,14 +1,15 @@
 package handlers
 
 import (
+	"net/http"
+	"net/http/httptest"
+	"testing"
+
 	"github.com/companieshouse/chs-delta-api/config"
 	"github.com/companieshouse/chs-delta-api/services/mocks"
 	"github.com/companieshouse/chs-delta-api/validation"
 	"github.com/golang/mock/gomock"
 	"github.com/gorilla/mux"
-	"net/http"
-	"net/http/httptest"
-	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -47,6 +48,9 @@ func TestUnitRegister(t *testing.T) {
 		So(router.GetRoute("healthcheck"), ShouldNotBeNil)
 		So(router.GetRoute("officer-delta"), ShouldNotBeNil)
 		So(router.GetRoute("officer-delta-validate"), ShouldNotBeNil)
+		So(router.GetRoute("insolvency-delta"), ShouldNotBeNil)
+		So(router.GetRoute("insolvency-delta-validate"), ShouldNotBeNil)
 		So(err, ShouldBeNil)
 	})
+
 }

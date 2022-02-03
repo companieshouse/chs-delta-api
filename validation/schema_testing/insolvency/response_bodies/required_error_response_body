@@ -1,0 +1,17 @@
+[
+    {
+        "location": "insolvency.0.delta_at"
+    },
+    {
+        "location": "insolvency.0.company_number"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.case_type"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.case_type_id"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.case_number"
+    }
+]

@@ -1,0 +1,101 @@
+[
+    {
+        "location": "insolvency.0.case_numbers.0.case_number"
+    },
+    {
+        "location": "insolvency.0.delta_at"
+    },
+    {
+        "location": "insolvency.0.company_number"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.case_type_id"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.case_type"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.mortgage_id"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.appointments.0.forename"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.appointments.0.middle_name"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.appointments.0.surname"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.appointments.0.appt_type"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.appointments.0.appt_date"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.appointments.0.ceased_to_act_appt"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.appointments.0.practitioner_address.address_line_1"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.appointments.0.practitioner_address.address_line_2"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.appointments.0.practitioner_address.locality"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.appointments.0.practitioner_address.region"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.appointments.0.practitioner_address.country"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.appointments.0.practitioner_address.postal_code"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.wind_up_date"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.dissolved_date"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.dissolved_due_date"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.sworn_date"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.petition_date"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.wind_up_conclusion_date"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.instrument_date"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.admin_order_date"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.discharge_admin_order_date"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.report_date"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.completion_date"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.admin_start_date"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.admin_end_date"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.appointment_date"
+    },
+    {
+        "location": "insolvency.0.case_numbers.0.end_date"
+    }
+]
