@@ -44,6 +44,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CaseNumber'
+          minItems: 1
 
     CaseNumber:
       required:
@@ -90,34 +91,64 @@ components:
             $ref: '#/components/schemas/Appointment'
         wind_up_date:
           type: string
+          minLength: 8
+          maxLength: 8
         dissolved_date:
           type: string
+          minLength: 8
+          maxLength: 8
         dissolved_due_date:
           type: string
+          minLength: 8
+          maxLength: 8
         sworn_date:
           type: string
+          minLength: 8
+          maxLength: 8
         petition_date:
           type: string
+          minLength: 8
+          maxLength: 8
         wind_up_conclusion_date:
-          type: string 
+          type: string
+          minLength: 8
+          maxLength: 8
         instrument_date:
           type: string
+          minLength: 8
+          maxLength: 8
         admin_order_date:
           type: string
+          minLength: 8
+          maxLength: 8
         discharge_admin_order_date:
           type: string
+          minLength: 8
+          maxLength: 8
         report_date:
           type: string
+          minLength: 8
+          maxLength: 8
         completion_date:
           type: string
+          minLength: 8
+          maxLength: 8
         admin_start_date:
           type: string
+          minLength: 8
+          maxLength: 8
         admin_end_date:
           type: string
+          minLength: 8
+          maxLength: 8
         appointment_date:
           type: string
+          minLength: 8
+          maxLength: 8
         end_date:
           type: string
+          minLength: 8
+          maxLength: 8
 
     Appointment:
       type: object
@@ -144,8 +175,12 @@ components:
           - 8
         appt_date:
           type: string
+          minLength: 8
+          maxLength: 8
         ceased_to_act_appt:
           type: string
+          minLength: 8
+          maxLength: 8
         practitioner_address:
           $ref: '#/components/schemas/PractitionerAddress'
 
