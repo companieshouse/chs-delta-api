@@ -55,6 +55,8 @@ components:
       properties:
         case_number:
           type: integer
+          minimum: 0
+          maximum: 999
         case_type_id:
           type: integer
           enum:
