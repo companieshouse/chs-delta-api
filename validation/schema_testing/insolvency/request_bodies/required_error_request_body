@@ -10,8 +10,8 @@
               "middle_name": "string",
               "surname": "string",
               "appt_type": 1,
-              "appt_date": "string",
-              "ceased_to_act_appt": "string",
+              "appt_date": "20210823",
+              "ceased_to_act_appt": "20010705",
               "practitioner_address": {
                 "address_line_1": "string",
                 "address_line_2": "string",
@@ -22,21 +22,21 @@
               }
             }
           ],
-          "wind_up_date": "string",
-          "dissolved_date": "string",
-          "dissolved_due_date": "string",
-          "sworn_date": "string",
-          "petition_date": "string",
-          "wind_up_conclusion_date": "string",
-          "instrument_date": "string",
-          "admin_order_date": "string",
-          "discharge_admin_order_date": "string",
-          "report_date": "string",
-          "completion_date": "string",
-          "admin_start_date": "string",
-          "admin_end_date": "string",
-          "appointment_date": "string",
-          "end_date": "string"
+          "wind_up_date": "20210823",
+          "dissolved_date": "20010705",
+          "dissolved_due_date": "20210823",
+          "sworn_date": "20010705",
+          "petition_date": "20010705",
+          "wind_up_conclusion_date": "20210823",
+          "instrument_date": "20210823",
+          "admin_order_date": "20210823",
+          "discharge_admin_order_date": "20210823",
+          "report_date": "20010705",
+          "completion_date": "20010705",
+          "admin_start_date": "20210823",
+          "admin_end_date": "20210823",
+          "appointment_date": "20210823",
+          "end_date": "20210823"
         }
       ]
     }
