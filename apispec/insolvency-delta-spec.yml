@@ -54,23 +54,21 @@ components:
       type: object
       properties:
         case_number:
-          type: integer
-          minimum: 0
-          maximum: 999
+          type: string
         case_type_id:
-          type: integer
+          type: string
           enum:
-          - 1
-          - 2
-          - 3
-          - 5
-          - 6
-          - 7
-          - 8
-          - 13
-          - 14
-          - 15
-          - 17
+          - '1'
+          - '2'
+          - '3'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '13'
+          - '14'
+          - '15'
+          - '17'
         case_type:
           type: string
           enum: ['Members Voluntary Liquidation',
@@ -85,8 +83,7 @@ components:
                 'Foreign Insolvency',
                 'Moratorium']
         mortgage_id:
-          type: integer
-          format: int64
+          type: string
         appointments:
           type: array
           items:
@@ -165,16 +162,16 @@ components:
           type: string
           maxLength: 160
         appt_type:
-          type: integer
+          type: string
           enum:
-          - 1
-          - 2
-          - 3
-          - 4
-          - 5
-          - 6
-          - 7
-          - 8
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
         appt_date:
           type: string
           minLength: 8
