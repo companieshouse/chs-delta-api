@@ -1,3 +1,4 @@
+---
 post:
   summary: Accepts an incoming insolvency delta, transforms it into an avro schema and puts it onto a Kafka topic.
   requestBody:
@@ -19,7 +20,7 @@ post:
 components:
   schemas:
     Insolvencies:
-      required: 
+      required:
       - insolvency
       type: object
       properties:
