@@ -5,16 +5,16 @@
       "company_number": 123,
       "case_numbers": [
         {
-          "case_number": "invalid",
-          "case_type_id": "invalid",
+          "case_number": 0,
+          "case_type_id": 1,
           "case_type": "invalid",
-          "mortgage_id": "invalid",
+          "mortgage_id": 0,
           "appointments": [
             {
               "forename": 123,
               "middle_name": 123,
               "surname": 123,
-              "appt_type": 123,
+              "appt_type": "invalid",
               "appt_date": 123,
               "ceased_to_act_appt": 123,
               "practitioner_address": {

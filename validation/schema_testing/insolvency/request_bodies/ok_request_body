@@ -5,16 +5,16 @@
       "company_number": "string",
       "case_numbers": [
         {
-          "case_number": 0,
-          "case_type_id": 1,
+          "case_number": "0",
+          "case_type_id": "1",
           "case_type": "Members Voluntary Liquidation",
-          "mortgage_id": 0,
+          "mortgage_id": "0",
           "appointments": [
             {
               "forename": "string",
               "middle_name": "string",
               "surname": "string",
-              "appt_type": 1,
+              "appt_type": "1",
               "appt_date": "20110705",
               "ceased_to_act_appt": "20211209",
               "practitioner_address": {

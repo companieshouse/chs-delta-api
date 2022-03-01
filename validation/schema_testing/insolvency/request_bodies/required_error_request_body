@@ -3,13 +3,13 @@
     {
       "case_numbers": [
         {
-          "mortgage_id": 0,
+          "mortgage_id": "0",
           "appointments": [
             {
               "forename": "string",
               "middle_name": "string",
               "surname": "string",
-              "appt_type": 1,
+              "appt_type": "1",
               "appt_date": "20210823",
               "ceased_to_act_appt": "20010705",
               "practitioner_address": {
