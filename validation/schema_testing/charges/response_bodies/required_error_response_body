@@ -1,0 +1,23 @@
+[
+    {
+        "location": "charges.0.id"
+    },
+    {
+        "location": "charges.0.company_number"
+    },
+    {
+        "location": "charges.0.charge_number"
+    },
+    {
+        "location": "charges.0.delta_at"
+    },
+    {
+        "location": "charges.0.persons_entitled.0.person"
+    },
+    {
+        "location": "charges.0.migrated_from"
+    },
+    {
+        "location": "charges.0.status"
+    }
+]

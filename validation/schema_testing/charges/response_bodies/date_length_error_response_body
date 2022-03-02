@@ -1,0 +1,29 @@
+[
+    {
+        "location": "charges.0.delivered_on"
+    },
+    {
+        "location": "charges.0.acquired_on"
+    },    
+    {
+        "location": "charges.0.created_on"
+    },
+    {
+        "location": "charges.0.satisfied_on"
+    },
+    {
+        "location": "charges.0.resolution_passed_on"
+    },
+    {
+        "location": "charges.0.covering_instrument_date"
+    },
+    {
+        "location": "charges.0.additional_notices.0.delivered_on"
+    },
+    {
+        "location": "charges.0.debentures.0.issued_on"
+    }
+
+    
+    
+]

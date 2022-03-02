@@ -1,0 +1,75 @@
+
+{
+  "charges": [
+    {
+      "id": "string",
+      "company_number": "string",
+      "delta_at": "string",
+      "persons_entitled": [
+        {
+          "person": "string"
+        }
+      ],
+      "notice_type": "string",
+      "trans_id": "string",
+      "trans_desc": "string",
+      "submission_type": "string",
+      "case": 0,
+      "additional_notices": [
+        {
+          "notice_type": "string",
+          "trans_id": "string",
+          "trans_desc": "string",
+          "submission_type": "string",
+          "case": "0",
+          "delivered_on": "stringst"
+        }
+      ],
+      "insolvency_cases": [
+        {
+          "case": "string",
+          "transaction_id": "string"
+        }
+      ],
+      "charge_number": 0,
+      "more_than_4_persons": "s",
+      "code": "string",
+      "migrated_from": "STEM",
+      "amount_secured": "string",
+      "obligations_secured": "string",
+      "type": "string",
+      "nature_of_charge": "string",
+      "short_particulars": "string",
+      "description_of_property_charged": "string",
+      "description_of_property_undertaking": "string",
+      "brief_description": "string",
+      "short_particular_flags": {
+        "fixed_charge": "string",
+        "contains_floating_charge": "string",
+        "floating_charge_all": "string",
+        "negative_pledge": "string",
+        "bare_trustees": "string"
+      },
+      "status": 0,
+      "assets_ceased_released": 0,
+      "floating_charge": "s",
+      "restricting_provisions": "string",
+      "delivered_on": "stringst",
+      "acquired_on": "stringst",
+      "created_on": "stringst",
+      "satisfied_on": "stringst",
+      "general_desc": "string",
+      "resolution_passed_on": "stringst",
+      "covering_instrument_date": "stringst",
+      "alterations_to_order": "string",
+      "alterations_to_prohibitions": "string",
+      "debentures": [
+        {
+          "issued_on": "stringst",
+          "amount": "string",
+          "currency": "string"
+        }
+      ]
+    }
+  ]
+}
