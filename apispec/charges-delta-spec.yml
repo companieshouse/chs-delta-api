@@ -214,6 +214,7 @@ components:
           type: string
         amount:
           type: string
+          pattern: '^[0-9]{1,21}(\.[0-9]{1,6})?$'
         currency:
           type: string
           pattern: '^[0-9]{1,10}$'

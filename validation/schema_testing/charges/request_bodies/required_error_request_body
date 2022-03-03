@@ -59,7 +59,7 @@
       "debentures": [
         {
           "issued_on": "stringst",
-          "amount": "string",
+          "amount": "123.34",
           "currency": "1234"
         }
       ]
