@@ -14,7 +14,7 @@
       "trans_id": 789,
       "trans_desc": 123,
       "submission_type": 456,
-      "case": "0",
+      "case": 789,
       "additional_notices": [
         {
           "notice_type": 123,
@@ -31,7 +31,7 @@
           "transaction_id": 456
         }
       ],
-      "charge_number": "0",
+      "charge_number": 0,
       "more_than_4_persons": 123,
       "code": 456,
       "migrated_from": 789,
@@ -50,8 +50,8 @@
         "negative_pledge": 123,
         "bare_trustees": 456
       },
-      "status": "0",
-      "assets_ceased_released": "0",
+      "status": 0,
+      "assets_ceased_released": 0,
       "floating_charge": 123,
       "restricting_provisions": 456,
       "delivered_on": 789,

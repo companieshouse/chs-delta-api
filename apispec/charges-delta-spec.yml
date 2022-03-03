@@ -52,7 +52,7 @@ components:
         submission_type:
           type: string
         case:
-          type: integer
+          type: string
         additional_notices:
           type: array
           items:
@@ -62,7 +62,7 @@ components:
           items:
             $ref: '#/components/schemas/InsolvencyCase'
         charge_number:
-          type: integer
+          type: string
         more_than_4_persons:
           maxLength: 1
           type: string
@@ -101,9 +101,9 @@ components:
         short_particular_flags:
           $ref: '#/components/schemas/ShortParticularFlags'
         status:
-          type: integer
+          type: string
         assets_ceased_released:
-          type: integer
+          type: string
         floating_charge:
           maxLength: 1
           type: string
