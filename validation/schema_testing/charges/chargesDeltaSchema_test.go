@@ -16,12 +16,14 @@ const (
 	typeErrorRequestBodyLocation       = requestBodiesLocation + "type_error_request_body"
 	requiredErrorRequestBodyLocation   = requestBodiesLocation + "required_error_request_body"
 	dateLengthErrorRequestBodyLocation = requestBodiesLocation + "date_length_error_request_body"
+	regexErrorRequestBodyLocation      = requestBodiesLocation + "regex_error_request_body"
 
 	responseBodiesLocation                 = "./response_bodies/"
 	typeErrorResponseBodyLocation          = responseBodiesLocation + "type_error_response_body"
 	requiredErrorResponseBodyLocation      = responseBodiesLocation + "required_error_response_body"
 	noRequestBodyErrorResponseBodyLocation = responseBodiesLocation + "no_request_body_error_response_body"
 	dateLengthErrorResponseBodyLocation    = responseBodiesLocation + "date_length_error_response_body"
+	regexErrorResponseBodyLocation         = responseBodiesLocation + "regex_error_response_body"
 
 	chargesEndpoint = "/delta/charges"
 	apiSpecLocation = "../../../apispec/api-spec.yml"
@@ -154,6 +156,34 @@ func TestUnitChargesDeltaSchemaNoRequestBodyError(t *testing.T) {
 			Convey("Then I am given an error saying no request body provided", func() {
 				noRequestBodyErrorsResponseBody := common.ReadRequestBody(noRequestBodyErrorResponseBodyLocation)
 				match := common.CompareActualToExpected(validationErrs, noRequestBodyErrorsResponseBody)
+
+				So(validationErrs, ShouldNotBeNil)
+				So(match, ShouldEqual, true)
+			})
+		})
+	})
+}
+
+// TestUnitChargesDeltaSchemaRegexErrors asserts that when an invalid request body is given with incorrect Regular Expression pattern values,
+// then an errors array is returned, stating that required values are incorrect.
+func TestUnitChargesDeltaSchemaRegexErrors(t *testing.T) {
+
+	Convey("Given I want to test the charges-delta API schema to assert Regular Expression validation is working correctly", t, func() {
+
+		mandatoryErrorsRequestBody := common.ReadRequestBody(regexErrorRequestBodyLocation)
+
+		r := httptest.NewRequest(methodPost, chargesEndpoint, bytes.NewBuffer(mandatoryErrorsRequestBody))
+		r = common.SetHeaders(r)
+
+		Convey("When I call to validate the request body, providing an invalid request with not maching Regular Expression values", func() {
+
+			chv, _ := validation.NewCHValidator(apiSpecLocation)
+
+			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
+
+			Convey("Then I am given an errors array response as validation errors have been found", func() {
+				mandatoryErrorsResponseBody := common.ReadRequestBody(regexErrorResponseBodyLocation)
+				match := common.CompareActualToExpected(validationErrs, mandatoryErrorsResponseBody)
 
 				So(validationErrs, ShouldNotBeNil)
 				So(match, ShouldEqual, true)

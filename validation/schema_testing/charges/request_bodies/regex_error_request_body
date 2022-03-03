@@ -2,7 +2,7 @@
 {
   "charges": [
     {
-      "id": "12345",
+      "id": "123asd312",
       "company_number": "string",
       "delta_at": "string",
       "persons_entitled": [
@@ -11,27 +11,27 @@
         }
       ],
       "notice_type": "string",
-      "trans_id": "123456",
+      "trans_id": "string",
       "trans_desc": "string",
-      "submission_type": "123456",
-      "case": "0",
+      "submission_type": "string",
+      "case": "abc",
       "additional_notices": [
         {
           "notice_type": "string",
-          "trans_id": "123456",
+          "trans_id": "string",
           "trans_desc": "string",
-          "submission_type": "123456",
-          "case": "0",
+          "submission_type": "string",
+          "case": "1234",
           "delivered_on": "stringst"
         }
       ],
       "insolvency_cases": [
         {
-          "case": "123",
-          "transaction_id": "1234567"
+          "case": "string",
+          "transaction_id": "string"
         }
       ],
-      "charge_number": "123456",
+      "charge_number": "123abc",
       "more_than_4_persons": "s",
       "code": "string",
       "migrated_from": "STEM",
@@ -50,8 +50,8 @@
         "negative_pledge": "string",
         "bare_trustees": "string"
       },
-      "status": "12345",
-      "assets_ceased_released": "12345",
+      "status": "0123asc",
+      "assets_ceased_released": "acds",
       "floating_charge": "s",
       "restricting_provisions": "string",
       "delivered_on": "stringst",
@@ -67,7 +67,7 @@
         {
           "issued_on": "stringst",
           "amount": "string",
-          "currency": "123"
+          "currency": "string"
         }
       ]
     }

@@ -7,24 +7,24 @@
         }
       ],
       "notice_type": "string",
-      "trans_id": "string",
+      "trans_id": "123",
       "trans_desc": "string",
-      "submission_type": "string",
+      "submission_type": "123",
       "case": "0",
       "additional_notices": [
         {
           "notice_type": "string",
-          "trans_id": "string",
+          "trans_id": "123",
           "trans_desc": "string",
-          "submission_type": "string",
+          "submission_type": "123",
           "case": "0",
           "delivered_on": "stringst"
         }
       ],
       "insolvency_cases": [
         {
-          "case": "string",
-          "transaction_id": "string"
+          "case": "123",
+          "transaction_id": "1234567"
         }
       ],
       "more_than_4_persons": "s",
@@ -44,7 +44,7 @@
         "negative_pledge": "string",
         "bare_trustees": "string"
       },
-      "assets_ceased_released": "0",
+      "assets_ceased_released": "123",
       "floating_charge": "s",
       "restricting_provisions": "string",
       "delivered_on": "stringst",
@@ -60,7 +60,7 @@
         {
           "issued_on": "stringst",
           "amount": "string",
-          "currency": "string"
+          "currency": "1234"
         }
       ]
     }
