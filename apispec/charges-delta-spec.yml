@@ -33,7 +33,7 @@ components:
       properties:
         id:
           type: string
-          pattern: '^[0-9]{1,10}$'
+          pattern: '^[0-9]{0,10}$'
         company_number:
           maxLength: 10
           type: string
@@ -47,16 +47,16 @@ components:
           type: string
         trans_id:
           type: string
-          pattern: '^[0-9]{1,10}$'
+          pattern: '^[0-9]{0,10}$'
         trans_desc:
           maxLength: 4000
           type: string
         submission_type:
           type: string
-          pattern: '^[0-9]{1,10}$'
+          pattern: '^[0-9]{0,10}$'
         case:
           type: string
-          pattern: '^[0-9]{1,3}$'
+          pattern: '^[0-9]{0,3}$'
         additional_notices:
           type: array
           items:
@@ -67,7 +67,7 @@ components:
             $ref: '#/components/schemas/InsolvencyCase'
         charge_number:
           type: string
-          pattern: '^[0-9]{1,10}$'
+          pattern: '^[0-9]{0,10}$'
         more_than_4_persons:
           maxLength: 1
           type: string
@@ -104,13 +104,15 @@ components:
           maxLength: 4000
           type: string
         short_particular_flags:
-          $ref: '#/components/schemas/ShortParticularFlags'
+          type: array
+          items:
+            $ref: '#/components/schemas/ShortParticularFlags'
         status:
           type: string
-          pattern: '^[0-9]{1,10}$'
+          pattern: '^[0-9]{0,10}$'
         assets_ceased_released:
           type: string
-          pattern: '^[0-9]{1,10}$'
+          pattern: '^[0-9]{0,10}$'
         floating_charge:
           maxLength: 1
           type: string
@@ -180,16 +182,16 @@ components:
           type: string
         trans_id:
           type: string
-          pattern: '^[0-9]{1,10}$'
+          pattern: '^[0-9]{0,10}$'
         trans_desc:
           maxLength: 4000
           type: string
         submission_type:
           type: string
-          pattern: '^[0-9]{1,10}$'
+          pattern: '^[0-9]{0,10}$'
         case:
           type: string
-          pattern: '^[0-9]{1,3}$'
+          pattern: '^[0-9]{0,3}$'
         delivered_on:
           minLength: 8
           maxLength: 8
@@ -200,10 +202,10 @@ components:
       properties:
         case:
           type: string
-          pattern: '^[0-9]{1,3}$'
+          pattern: '^[0-9]{0,3}$'
         transaction_id:
           type: string
-          pattern: '^[0-9]{1,10}$'
+          pattern: '^[0-9]{0,10}$'
 
     Debenture:
       type: object
@@ -214,10 +216,8 @@ components:
           type: string
         amount:
           type: string
-          pattern: '^[0-9]{1,21}(\.[0-9]{1,6})?$'
         currency:
           type: string
-          pattern: '^[0-9]{1,10}$'
     
     ShortParticularFlags:
       type: object

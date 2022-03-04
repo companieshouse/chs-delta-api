@@ -34,11 +34,5 @@
     },
     {
         "location": "charges.0.assets_ceased_released"
-    },
-    {
-        "location": "charges.0.debentures.0.currency"
-    },
-    {
-        "location": "charges.0.debentures.0.amount"
     }
 ]

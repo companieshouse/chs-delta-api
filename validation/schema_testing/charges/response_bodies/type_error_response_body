@@ -87,19 +87,19 @@
         "location": "charges.0.brief_description"
     },
     {
-        "location": "charges.0.short_particular_flags.fixed_charge"
+        "location": "charges.0.short_particular_flags.0.fixed_charge"
     },
     {
-        "location": "charges.0.short_particular_flags.contains_floating_charge"
+        "location": "charges.0.short_particular_flags.0.contains_floating_charge"
     },
     {
-        "location": "charges.0.short_particular_flags.floating_charge_all"
+        "location": "charges.0.short_particular_flags.0.floating_charge_all"
     },
     {
-        "location": "charges.0.short_particular_flags.negative_pledge"
+        "location": "charges.0.short_particular_flags.0.negative_pledge"
     },
     {
-        "location": "charges.0.short_particular_flags.bare_trustees"
+        "location": "charges.0.short_particular_flags.0.bare_trustees"
     },
     {
         "location": "charges.0.status"

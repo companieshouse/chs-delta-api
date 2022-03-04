@@ -43,13 +43,15 @@
       "description_of_property_charged": "string",
       "description_of_property_undertaking": "string",
       "brief_description": "string",
-      "short_particular_flags": {
-        "fixed_charge": "string",
-        "contains_floating_charge": "string",
-        "floating_charge_all": "string",
-        "negative_pledge": "string",
-        "bare_trustees": "string"
-      },
+      "short_particular_flags": [
+        {
+          "fixed_charge": "string",
+          "contains_floating_charge": "string",
+          "floating_charge_all": "string",
+          "negative_pledge": "string",
+          "bare_trustees": "string"
+        }
+      ],
       "status": "12345",
       "assets_ceased_released": "12345",
       "floating_charge": "s",
