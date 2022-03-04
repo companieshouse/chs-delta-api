@@ -1,0 +1,38 @@
+[
+    {
+        "location": "charges.0.case"
+    },
+    {
+        "location": "charges.0.id"
+    },
+    {
+        "location": "charges.0.trans_id"
+    },
+    {
+        "location": "charges.0.submission_type"
+    },
+    {
+        "location": "charges.0.additional_notices.0.submission_type"
+    },
+    {
+        "location": "charges.0.additional_notices.0.case"
+    },
+    {
+        "location": "charges.0.additional_notices.0.trans_id"
+    },
+    {
+        "location": "charges.0.insolvency_cases.0.case"
+    },
+    {
+        "location": "charges.0.insolvency_cases.0.transaction_id"
+    },
+    {
+        "location": "charges.0.charge_number"
+    },
+    {
+        "location": "charges.0.status"
+    },
+    {
+        "location": "charges.0.assets_ceased_released"
+    }
+]

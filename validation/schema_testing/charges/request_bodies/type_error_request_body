@@ -1,0 +1,77 @@
+
+{
+  "charges": [
+    {
+      "id": 123,
+      "company_number": 456,
+      "delta_at": 789,
+      "persons_entitled": [
+        {
+          "person": 123
+        }
+      ],
+      "notice_type": 456,
+      "trans_id": 789,
+      "trans_desc": 123,
+      "submission_type": 456,
+      "case": 789,
+      "additional_notices": [
+        {
+          "notice_type": 123,
+          "trans_id": 456,
+          "trans_desc": 789,
+          "submission_type": 123,
+          "case": 0,
+          "delivered_on": 456
+        }
+      ],
+      "insolvency_cases": [
+        {
+          "case": 123,
+          "transaction_id": 456
+        }
+      ],
+      "charge_number": 0,
+      "more_than_4_persons": 123,
+      "code": 456,
+      "migrated_from": 789,
+      "amount_secured": 123,
+      "obligations_secured": 456,
+      "type": 789,
+      "nature_of_charge": 123,
+      "short_particulars": 456,
+      "description_of_property_charged": 789,
+      "description_of_property_undertaking": 123,
+      "brief_description": 456,
+      "short_particular_flags": [
+        {
+          "fixed_charge": 123,
+          "contains_floating_charge": 456,
+          "floating_charge_all": 789,
+          "negative_pledge": 123,
+          "bare_trustees": 456
+        }
+      ],
+      "status": 0,
+      "assets_ceased_released": 0,
+      "floating_charge": 123,
+      "restricting_provisions": 456,
+      "delivered_on": 789,
+      "acquired_on": 123,
+      "created_on": 456,
+      "satisfied_on": 789,
+      "general_desc": 123,
+      "resolution_passed_on": 456,
+      "covering_instrument_date": 789,
+      "alterations_to_order": 123,
+      "alterations_to_prohibitions": "string",
+      "debentures": [
+        {
+          "issued_on": 123,
+          "amount": 456,
+          "currency": 789
+        }
+      ]
+    }
+  ]
+}

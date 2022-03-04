@@ -1,0 +1,239 @@
+post:
+  summary: Accepts an incoming Charges delta, transforms it into an avro schema and puts it onto a Kafka topic.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ChargesDelta'
+  responses:
+    '200':
+      description: Successfully produced message onto Kafka topic.
+    '400':
+      description: Bad request body - validation errors.
+    '401':
+      description: Unauthorised - missing api key in header.
+    '500':
+      description: Internal server error has occured.
+
+components:
+  schemas:
+    ChargesDelta:
+      type: object
+      properties:
+        charges:
+          type: array
+          items:
+            $ref: '#/components/schemas/Charge'
+      required:
+        - charges
+
+    Charge:
+      type: object
+      properties:
+        id:
+          type: string
+          pattern: '^[0-9]{0,10}$'
+        company_number:
+          maxLength: 10
+          type: string
+        delta_at:
+          type: string
+        persons_entitled:
+          type: array
+          items:
+            $ref: '#/components/schemas/Person'
+        notice_type:
+          type: string
+        trans_id:
+          type: string
+          pattern: '^[0-9]{0,10}$'
+        trans_desc:
+          maxLength: 4000
+          type: string
+        submission_type:
+          type: string
+          pattern: '^[0-9]{0,10}$'
+        case:
+          type: string
+          pattern: '^[0-9]{0,3}$'
+        additional_notices:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalNotice'
+        insolvency_cases:
+          type: array
+          items:
+            $ref: '#/components/schemas/InsolvencyCase'
+        charge_number:
+          type: string
+          pattern: '^[0-9]{0,10}$'
+        more_than_4_persons:
+          maxLength: 1
+          type: string
+        code:
+          maxLength: 20
+          type: string
+        migrated_from:
+          type: string
+          enum:
+          - 'STEM'
+          - 'CHIPS'
+        amount_secured:
+          maxLength: 4000
+          type: string
+        obligations_secured:
+          maxLength: 4000
+          type: string
+        type:
+          maxLength: 2000
+          type: string
+        nature_of_charge:
+          maxLength: 2000
+          type: string
+        short_particulars:
+          maxLength: 4000
+          type: string
+        description_of_property_charged:
+          maxLength: 4000
+          type: string
+        description_of_property_undertaking:
+          maxLength: 4000
+          type: string
+        brief_description:
+          maxLength: 4000
+          type: string
+        short_particular_flags:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShortParticularFlags'
+        status:
+          type: string
+          pattern: '^[0-9]{0,10}$'
+        assets_ceased_released:
+          type: string
+          pattern: '^[0-9]{0,10}$'
+        floating_charge:
+          maxLength: 1
+          type: string
+        restricting_provisions:
+          maxLength: 4000
+          type: string
+        delivered_on:
+          minLength: 8
+          maxLength: 8
+          type: string
+        acquired_on:
+          minLength: 8
+          maxLength: 8
+          type: string
+        created_on:
+          minLength: 8
+          maxLength: 8
+          type: string
+        satisfied_on:
+          minLength: 8
+          maxLength: 8
+          type: string
+        general_desc:
+          maxLength: 2000
+          type: string
+        resolution_passed_on:
+          minLength: 8
+          maxLength: 8
+          type: string
+        covering_instrument_date:
+          minLength: 8
+          maxLength: 8
+          type: string
+        alterations_to_order:
+          maxLength: 4000
+          type: string
+        alterations_to_prohibitions:
+          maxLength: 4000
+          type: string
+        debentures:
+          type: array
+          items:
+            $ref: '#/components/schemas/Debenture'
+
+      required:
+        - id
+        - company_number
+        - charge_number
+        - delta_at
+        - migrated_from
+        - status
+
+    Person:
+      type: object
+      properties:
+        person:
+          maxLength: 500
+          type: string
+      required:
+        - person
+
+    AdditionalNotice:
+      type: object
+      properties:
+        notice_type:
+          maxLength: 15
+          type: string
+        trans_id:
+          type: string
+          pattern: '^[0-9]{0,10}$'
+        trans_desc:
+          maxLength: 4000
+          type: string
+        submission_type:
+          type: string
+          pattern: '^[0-9]{0,10}$'
+        case:
+          type: string
+          pattern: '^[0-9]{0,3}$'
+        delivered_on:
+          minLength: 8
+          maxLength: 8
+          type: string
+
+    InsolvencyCase:
+      type: object
+      properties:
+        case:
+          type: string
+          pattern: '^[0-9]{0,3}$'
+        transaction_id:
+          type: string
+          pattern: '^[0-9]{0,10}$'
+
+    Debenture:
+      type: object
+      properties:
+        issued_on:
+          minLength: 8
+          maxLength: 8
+          type: string
+        amount:
+          type: string
+        currency:
+          type: string
+    
+    ShortParticularFlags:
+      type: object
+      properties:
+        fixed_charge:
+          maxLength: 4000
+          type: string
+        contains_floating_charge:
+          maxLength: 4000
+          type: string
+        floating_charge_all:
+          maxLength: 4000
+          type: string
+        negative_pledge:
+          maxLength: 4000
+          type: string
+        bare_trustees:
+          maxLength: 4000
+          type: string

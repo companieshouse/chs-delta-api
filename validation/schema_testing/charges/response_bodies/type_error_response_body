@@ -1,0 +1,149 @@
+[
+    {
+        "location": "charges.0.id"
+    },
+    {
+        "location": "charges.0.company_number"
+    },
+    {
+        "location": "charges.0.delta_at"
+    },
+    {
+        "location": "charges.0.persons_entitled.0.person"
+    },
+    {
+        "location": "charges.0.notice_type"
+    },
+    {
+        "location": "charges.0.trans_id"
+    },
+    {
+        "location": "charges.0.trans_desc"
+    },
+    {
+        "location": "charges.0.submission_type"
+    },
+    {
+        "location": "charges.0.case"
+    },
+    {
+        "location": "charges.0.additional_notices.0.notice_type"
+    },
+    {
+        "location": "charges.0.additional_notices.0.trans_id"
+    },
+    {
+        "location": "charges.0.additional_notices.0.trans_desc"
+    },
+    {
+        "location": "charges.0.additional_notices.0.submission_type"
+    },
+    {
+        "location": "charges.0.additional_notices.0.case"
+    },
+    {
+        "location": "charges.0.additional_notices.0.delivered_on"
+    },
+    {
+        "location": "charges.0.insolvency_cases.0.case"
+    },
+    {
+        "location": "charges.0.insolvency_cases.0.transaction_id"
+    },
+    {
+        "location": "charges.0.charge_number"
+    },
+    {
+        "location": "charges.0.more_than_4_persons"
+    },
+    {
+        "location": "charges.0.code"
+    },
+    {
+        "location": "charges.0.migrated_from"
+    },
+    {
+        "location": "charges.0.amount_secured"
+    },
+    {
+        "location": "charges.0.obligations_secured"
+    },
+    {
+        "location": "charges.0.type"
+    },
+    {
+        "location": "charges.0.nature_of_charge"
+    },
+    {
+        "location": "charges.0.short_particulars"
+    },
+    {
+        "location": "charges.0.description_of_property_charged"
+    },
+    {
+        "location": "charges.0.description_of_property_undertaking"
+    },
+    {
+        "location": "charges.0.brief_description"
+    },
+    {
+        "location": "charges.0.short_particular_flags.0.fixed_charge"
+    },
+    {
+        "location": "charges.0.short_particular_flags.0.contains_floating_charge"
+    },
+    {
+        "location": "charges.0.short_particular_flags.0.floating_charge_all"
+    },
+    {
+        "location": "charges.0.short_particular_flags.0.negative_pledge"
+    },
+    {
+        "location": "charges.0.short_particular_flags.0.bare_trustees"
+    },
+    {
+        "location": "charges.0.status"
+    },
+    {
+        "location": "charges.0.assets_ceased_released"
+    },
+    {
+        "location": "charges.0.floating_charge"
+    },
+    {
+        "location": "charges.0.restricting_provisions"
+    },
+    {
+        "location": "charges.0.delivered_on"
+    },
+    {
+        "location": "charges.0.acquired_on"
+    },
+    {
+        "location": "charges.0.created_on"
+    },
+    {
+        "location": "charges.0.satisfied_on"
+    },
+    {
+        "location": "charges.0.general_desc"
+    },
+    {
+        "location": "charges.0.resolution_passed_on"
+    },
+    {
+        "location": "charges.0.covering_instrument_date"
+    },
+    {
+        "location": "charges.0.alterations_to_order"
+    },
+    {
+        "location": "charges.0.debentures.0.issued_on"
+    },
+    {
+        "location": "charges.0.debentures.0.amount"
+    },
+    {
+        "location": "charges.0.debentures.0.currency"
+    }
+]

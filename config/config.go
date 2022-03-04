@@ -23,6 +23,7 @@ type Config struct {
 	OfficerDeltaTopic    string   `env:"OFFICER_DELTA_TOPIC" flag:"officer-delta-topic" flagDesc:"Topic for officer deltas"`
 	OpenApiSpec          string   `env:"OPEN_API_SPEC" flag:"open-api-spec" flagDesc:"OpenAPI schema location"`
 	InsolvencyDeltaTopic string   `env:"INSOLVENCY_DELTA_TOPIC" flag:"insolvency-delta-topic" flagDesc:"Topic for insolvency deltas"`
+	ChargesDeltaTopic    string   `env:"CHARGES_DELTA_TOPIC" flag:"charges-delta-topic" flagDesc:"Topic for charges deltas"`
 }
 
 // Get returns a pointer to a Config instance populated with values from environment or command-line flags
@@ -75,6 +76,11 @@ func validateConfigs(cfg *Config) error {
 
 	if cfg.InsolvencyDeltaTopic == "" {
 		log.Info("INSOLVENCY_DELTA_TOPIC not set in environment")
+		mandatoryElementMissing = true
+	}
+
+	if cfg.ChargesDeltaTopic == "" {
+		log.Info("CHARGES_DELTA_TOPIC not set in environment")
 		mandatoryElementMissing = true
 	}
 

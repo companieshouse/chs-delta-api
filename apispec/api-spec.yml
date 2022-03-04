@@ -13,6 +13,10 @@ paths:
     $ref: 'insolvency-delta-spec.yml'
   /delta/insolvency/validate:
     $ref: 'insolvency-delta-spec.yml'
+  /delta/charges:
+    $ref: 'charges-delta-spec.yml'
+  /delta/charges/validate:
+    $ref: 'charges-delta-spec.yml'
 
 
 components:

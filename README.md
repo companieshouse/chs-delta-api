@@ -11,6 +11,7 @@ Environment Variables
 | SCHEMA_REGISTRY_URL               | http://chs-kafka:8081             | Schema registry URL                                | YES             |               |
 | OFFICER_DELTA_TOPIC               | officers-delta                    | Officer Delta Kafka topic to write messages to     | YES             |               |
 | INSOLVENCY_DELTA_TOPIC            | insolvency-delta                  | Insolvency Delta Kafka topic to write messages to  | YES             |               |
+| CHARGES_DELTA_TOPIC               | charges-delta                     | Charges Delta Kafka topic to write messages to     | YES             |               |
 | OPEN_API_SPEC                     | ./apispec/apispec.yml             | OpenAPI schema location                            | YES             |               |
 | LOG_LEVEL                         | trace                             | The level at which the logger prints               | NO              | info          |
 
