@@ -49,7 +49,7 @@
           "contains_floating_charge": "string",
           "floating_charge_all": "string",
           "negative_pledge": "string",
-          "bare_trustees": "string"
+          "bare_trustee": "string"
         }
       ],
       "status": "0123asc",

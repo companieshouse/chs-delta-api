@@ -99,7 +99,7 @@
         "location": "charges.0.short_particular_flags.0.negative_pledge"
     },
     {
-        "location": "charges.0.short_particular_flags.0.bare_trustees"
+        "location": "charges.0.short_particular_flags.0.bare_trustee"
     },
     {
         "location": "charges.0.status"

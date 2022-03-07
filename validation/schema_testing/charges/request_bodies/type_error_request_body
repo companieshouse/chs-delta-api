@@ -49,7 +49,7 @@
           "contains_floating_charge": 456,
           "floating_charge_all": 789,
           "negative_pledge": 123,
-          "bare_trustees": 456
+          "bare_trustee": 456
         }
       ],
       "status": 0,
