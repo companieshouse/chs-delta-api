@@ -234,6 +234,6 @@ components:
         negative_pledge:
           maxLength: 4000
           type: string
-        bare_trustees:
+        bare_trustee:
           maxLength: 4000
           type: string
