@@ -22,8 +22,11 @@
     },
     {
         "location": "charges.0.debentures.0.issued_on"
+    },
+    {
+        "location": "charges.0.notice_type"
+    },
+    {
+        "location": "charges.0.additional_notices.0.notice_type"
     }
-
-    
-    
 ]
