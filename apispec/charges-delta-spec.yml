@@ -43,7 +43,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Person'
+          minItems : 1
         notice_type:
+          maxLength: 15
           type: string
         trans_id:
           type: string
@@ -61,10 +63,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AdditionalNotice'
+          minItems : 1
         insolvency_cases:
           type: array
           items:
             $ref: '#/components/schemas/InsolvencyCase'
+          minItems : 1
         charge_number:
           type: string
           pattern: '^[0-9]{0,10}$'
@@ -107,6 +111,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ShortParticularFlags'
+          minItems : 1
         status:
           type: string
           pattern: '^[0-9]{0,10}$'
@@ -128,7 +133,6 @@ components:
           maxLength: 8
           type: string
         created_on:
-          minLength: 8
           maxLength: 8
           type: string
         satisfied_on:
@@ -156,6 +160,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Debenture'
+          minItems : 1
 
       required:
         - id
@@ -164,6 +169,7 @@ components:
         - delta_at
         - migrated_from
         - status
+        - created_on
 
     Person:
       type: object

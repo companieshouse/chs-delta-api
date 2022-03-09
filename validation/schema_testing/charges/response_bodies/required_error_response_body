@@ -19,5 +19,8 @@
     },
     {
         "location": "charges.0.status"
+    },
+    {
+        "location": "charges.0.created_on"
     }
 ]

@@ -58,7 +58,7 @@
       "restricting_provisions": "string",
       "delivered_on": "stringst",
       "acquired_on": "stringst",
-      "created_on": "stringst",
+      "created_on": "",
       "satisfied_on": "stringst",
       "general_desc": "string",
       "resolution_passed_on": "stringst",

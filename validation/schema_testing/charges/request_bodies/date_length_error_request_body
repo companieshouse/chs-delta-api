@@ -10,14 +10,14 @@
           "person": "string"
         }
       ],
-      "notice_type": "string",
+      "notice_type": "string123123123123",
       "trans_id": "12345",
       "trans_desc": "string",
       "submission_type": "12345",
       "case": "0",
       "additional_notices": [
         {
-          "notice_type": "string",
+          "notice_type": "string123123123123",
           "trans_id": "12345",
           "trans_desc": "string",
           "submission_type": "12345",
