@@ -45,7 +45,7 @@ components:
             $ref: '#/components/schemas/Person'
           minItems : 1
         notice_type:
-          maxLength: 15
+          maxLength: 50
           type: string
         trans_id:
           type: string
@@ -184,7 +184,7 @@ components:
       type: object
       properties:
         notice_type:
-          maxLength: 15
+          maxLength: 50
           type: string
         trans_id:
           type: string
