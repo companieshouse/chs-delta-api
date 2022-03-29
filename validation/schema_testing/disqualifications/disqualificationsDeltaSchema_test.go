@@ -24,9 +24,9 @@ const (
 	dateLengthErrorResponseBodyLocation    = responseBodiesLocation + "date_length_error_response_body"
 
 	disqualificationEndpoint = "/delta/disqualification"
-	apiSpecLocation    = "../../../apispec/api-spec.yml"
-	contextId          = "contextId"
-	methodPost         = "POST"
+	apiSpecLocation          = "../../../apispec/api-spec.yml"
+	contextId                = "contextId"
+	methodPost               = "POST"
 )
 
 // TestUnitDisqualificationDeltaSchemaNoErrors asserts that when a valid request body is given which matches the schema, then no
