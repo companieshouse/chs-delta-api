@@ -1,0 +1,58 @@
+{
+  "CreatedTime": "20211008152823383176",
+  "disqualified_officer": [
+    {
+      "officer_disq_id": "string",
+      "external_number": "string",
+      "officer_id": "string",
+      "officer_detail_id": "string",
+      "date_of_birth": "stringTooLong",
+      "title": "string",
+      "forename": "string",
+      "middle_name": "string",
+      "surname": "string",
+      "honours": "string",
+      "nationality": "string",
+      "registered_number": "string",
+      "registered_location": "string",
+      "corporate_ind": "string",
+      "disqualifications": [
+        {
+          "disq_eff_date": "stringTooLong",
+          "disq_end_date": "stringTooLong",
+          "disq_type": "string",
+          "hearing_date": "stringTooLong",
+          "section_of_the_act": "string",
+          "court_ref": "string",
+          "court_name": "string",
+          "address": {
+            "premise" : "string",
+            "address_line_1": "string",
+            "address_line_2": "string",
+            "locality": "string",
+            "region": "string",
+            "country": "string",
+            "postal_code": "string"
+          },
+          "variation_court": "string",
+          "variation_court_ref_no": "string",
+          "var_instrument_start_date": "stringTooLong",
+          "company_names": [
+            "string"
+          ]
+        }
+      ],
+      "exemptions": [
+        {
+            "court_name": "string",
+            "granted_on": "stringTooLong",
+            "expires_on": "stringTooLong",
+            "purpose": "string",
+            "company_names": [
+              "string"
+            ]
+        }
+      ]
+    }
+  ]
+}

@@ -17,6 +17,10 @@ paths:
     $ref: 'charges-delta-spec.yml'
   /delta/charges/validate:
     $ref: 'charges-delta-spec.yml'
+  /delta/disqualification:
+    $ref: 'disqualification-delta-spec.yml'
+  /delta/disqualification/validate:
+    $ref: 'disqualification-delta-spec.yml'
 
 
 components:

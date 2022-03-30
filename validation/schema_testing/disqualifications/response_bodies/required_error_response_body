@@ -1,0 +1,41 @@
+[
+    {
+        "location": "disqualified_officer.0.officer_disq_id"
+    },
+    {
+        "location": "disqualified_officer.0.external_number"
+    },
+    {
+        "location": "disqualified_officer.0.officer_id"
+    },
+    {
+        "location": "disqualified_officer.0.officer_detail_id"
+    },
+    {
+        "location": "disqualified_officer.0.date_of_birth"
+    },
+    {
+        "location": "disqualified_officer.0.title"
+    },
+    {
+        "location": "disqualified_officer.0.forename"
+    },
+    {
+        "location": "disqualified_officer.0.middle_name"
+    },
+    {
+        "location": "disqualified_officer.0.surname"
+    },
+    {
+        "location": "disqualified_officer.0.honours"
+    },
+    {
+        "location": "disqualified_officer.0.nationality"
+    },
+    {
+        "location": "disqualified_officer.0.registered_number"
+    },
+    {
+        "location": "disqualified_officer.0.registered_location"
+    }
+]
