@@ -26,6 +26,8 @@ components:
             $ref: '#/components/schemas/DisqualificationOfficer'
         CreatedTime:
           type: string
+        delta_at:
+          type: string
 
     DisqualificationOfficer:
       properties:
@@ -80,19 +82,7 @@ components:
           items:
             $ref: '#/components/schemas/Exemption'
       required:
-        - officer_disq_id
-        - external_number
-        - officer_id
-        - officer_detail_id
-        - date_of_birth
-        - title
-        - forename
-        - middle_name
         - surname
-        - honours
-        - nationality
-        - registered_number
-        - registered_location
 
     Disqualification:
       type: object
@@ -138,6 +128,12 @@ components:
           items:
             type: string
             maxLength: 160
+      required:
+        - address
+        - disq_eff_date
+        - disq_end_date
+        - disq_type
+        - section_of_the_act
 
     DisqualificationAddress:
       type: object
@@ -186,3 +182,6 @@ components:
           items:
             type: string
             maxLength: 160
+      required:
+       - granted_on
+       - expires_on
