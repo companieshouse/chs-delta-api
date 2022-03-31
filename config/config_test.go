@@ -24,6 +24,7 @@ func TestUnitGetNoErrors(t *testing.T) {
 	_ = os.Setenv("OFFICER_DELTA_TOPIC", "officer_delta_topic")
 	_ = os.Setenv("INSOLVENCY_DELTA_TOPIC", "insolvency_delta_topic")
 	_ = os.Setenv("CHARGES_DELTA_TOPIC", "charges_delta_topic")
+	_ = os.Setenv("DISQUALIFIED_OFFICERS_DELTA_TOPIC", "disqualified-officers-delta-topic")
 	_ = os.Setenv("OPEN_API_SPEC", "open_api_spec")
 	Convey("When I try to get the config via the Get method and all config vars are provided", t, func() {
 		cfg, err := Get()

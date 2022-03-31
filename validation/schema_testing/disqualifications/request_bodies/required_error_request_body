@@ -1,0 +1,43 @@
+{
+  "CreatedTime": "20211008152823383176",
+  "delta_at" : "20211008152823383176",
+  "disqualified_officer": [
+    {
+      "officer_disq_id": "string",
+      "external_number": "string",
+      "officer_id": "string",
+      "officer_detail_id": "string",
+      "date_of_birth": "20110705",
+      "title": "string",
+      "forename": "string",
+      "middle_name": "string",
+      "honours": "string",
+      "nationality": "string",
+      "registered_number": "string",
+      "registered_location": "string",
+      "corporate_ind": "string",
+      "disqualifications": [
+        {
+          "hearing_date": "20110705",
+          "court_ref": "string",
+          "court_name": "string",
+          "variation_court": "string",
+          "variation_court_ref_no": "string",
+          "var_instrument_start_date": "20110705",
+          "company_names": [
+            "string"
+          ]
+        }
+      ],
+      "exemptions": [
+        {
+            "court_name": "string",
+            "purpose": "string",
+            "company_names": [
+              "string"
+            ]
+        }
+      ]
+    }
+  ]
+}

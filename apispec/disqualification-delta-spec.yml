@@ -1,0 +1,187 @@
+post:
+  summary: Accepts an incoming officer disqualification delta, transforms it into an avro schema and puts it onto a Kafka topic.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/DisqualificationDelta'
+  responses:
+    '200':
+      description: Successfully produced message onto Kafka topic.
+    '400':
+      description: Bad request body - validation errors.
+    '401':
+      description: Unauthorised - missing api key in header.
+    '500':
+      description: Internal server error has occurred.
+
+components:
+  schemas:
+    DisqualificationDelta:
+      properties:
+        disqualified_officer:
+          type: array
+          items:
+            $ref: '#/components/schemas/DisqualificationOfficer'
+        CreatedTime:
+          type: string
+        delta_at:
+          type: string
+
+    DisqualificationOfficer:
+      properties:
+        officer_disq_id:
+          type: string
+          maxLength: 10
+        external_number:
+          type: string
+          maxLength: 20
+        officer_id:
+          type: string
+          maxLength: 10
+        officer_detail_id:
+          type: string
+          maxLength: 10
+        date_of_birth:
+          type: string
+          minLength: 8
+          maxLength: 8
+        title:
+          type: string
+          maxLength: 50
+        forename:
+          type: string
+          maxLength: 50
+        middle_name:
+          type: string
+          maxLength: 50
+        surname:
+          type: string
+          maxLength: 160
+        honours:
+          type: string
+          maxLength: 50
+        nationality:
+          type: string
+          maxLength: 50
+        registered_number:
+          type: string
+          maxLength: 160
+        registered_location:
+          type: string
+          maxLength: 160
+        corporate_ind:
+          type: string
+        disqualifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/Disqualification'
+        exemptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Exemption'
+      required:
+        - surname
+
+    Disqualification:
+      type: object
+      properties:
+        disq_eff_date:
+          type: string
+          minLength: 8
+          maxLength: 8
+        disq_end_date:
+          type: string
+          minLength: 8
+          maxLength: 8
+        disq_type:
+          type: string
+          maxLength: 30
+        hearing_date:
+          type: string
+          minLength: 8
+          maxLength: 8
+        section_of_the_act:
+          type: string
+          maxLength: 20
+        court_ref:
+          type: string
+          maxLength: 30
+        court_name:
+          type: string
+          maxLength: 4000
+        address:
+          $ref: '#/components/schemas/DisqualificationAddress'
+        variation_court:
+          type: string
+          maxLength: 4000
+        variation_court_ref_no:
+          type: string
+          maxLength: 30
+        var_instrument_start_date:
+          type: string
+          minLength: 8
+          maxLength: 8
+        company_names:
+          type: array
+          items:
+            type: string
+            maxLength: 160
+      required:
+        - address
+        - disq_eff_date
+        - disq_end_date
+        - disq_type
+        - section_of_the_act
+
+    DisqualificationAddress:
+      type: object
+      properties:
+        premise:
+          type: string
+          maxLength: 200
+        address_line_1:
+          type: string
+          maxLength: 50
+        address_line_2:
+          type: string
+          maxLength: 50
+        locality:
+          type: string
+          maxLength: 50
+        region:
+          type: string
+          maxLength: 50
+        country:
+          type: string
+          maxLength: 50
+        postal_code:
+          type: string
+          maxLength: 20
+
+    Exemption:
+      type: object
+      properties:
+        court_name:
+          type: string
+          maxLength: 2000
+        granted_on:
+          type: string
+          minLength: 8
+          maxLength: 8
+        expires_on:
+          type: string
+          minLength: 8
+          maxLength: 8
+        purpose:
+          type: string
+          maxLength: 200
+        company_names:
+          type: array
+          items:
+            type: string
+            maxLength: 160
+      required:
+       - granted_on
+       - expires_on
