@@ -44,12 +44,14 @@ func Register(mainRouter *mux.Router, cfg *config.Config, kSvc services.KafkaSer
 	mainRouter.Use(log.Handler)
 
 	appRouter := mainRouter.PathPrefix("").Subrouter()
-	appRouter.HandleFunc("/delta/officers", NewDeltaHandler(kSvc, h, chv, cfg, false, cfg.OfficerDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("officer-delta")
-	appRouter.HandleFunc("/delta/officers/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, cfg.OfficerDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("officer-delta-validate")
-	appRouter.HandleFunc("/delta/insolvency", NewDeltaHandler(kSvc, h, chv, cfg, false, cfg.InsolvencyDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("insolvency-delta")
-	appRouter.HandleFunc("/delta/insolvency/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, cfg.InsolvencyDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("insolvency-delta-validate")
-	appRouter.HandleFunc("/delta/charges", NewDeltaHandler(kSvc, h, chv, cfg, false, cfg.ChargesDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("charges-delta")
-	appRouter.HandleFunc("/delta/charges/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, cfg.ChargesDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("charges-delta-validate")
+	appRouter.HandleFunc("/delta/officers", NewDeltaHandler(kSvc, h, chv, cfg, false, false, cfg.OfficerDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("officer-delta")
+	appRouter.HandleFunc("/delta/officers/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, false, cfg.OfficerDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("officer-delta-validate")
+	appRouter.HandleFunc("/delta/insolvency", NewDeltaHandler(kSvc, h, chv, cfg, false, false, cfg.InsolvencyDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("insolvency-delta")
+	appRouter.HandleFunc("/delta/insolvency/delete", NewDeltaHandler(kSvc, h, chv, cfg, false, true, cfg.InsolvencyDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("insolvency-delta")
+	appRouter.HandleFunc("/delta/insolvency/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, false, cfg.InsolvencyDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("insolvency-delta-validate")
+	appRouter.HandleFunc("/delta/charges", NewDeltaHandler(kSvc, h, chv, cfg, false, false, cfg.ChargesDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("charges-delta")
+	appRouter.HandleFunc("/delta/charges/delete", NewDeltaHandler(kSvc, h, chv, cfg, false, true, cfg.ChargesDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("charges-delta")
+	appRouter.HandleFunc("/delta/charges/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, false, cfg.ChargesDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("charges-delta-validate")
 	appRouter.Use(userAuthInterceptor.UserAuthenticationIntercept)
 	return nil
 }

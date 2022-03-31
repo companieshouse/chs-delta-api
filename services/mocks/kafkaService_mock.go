@@ -49,7 +49,7 @@ func (mr *MockKafkaServiceMockRecorder) Init(cfg interface{}) *gomock.Call {
 }
 
 // SendMessage mocks base method.
-func (m *MockKafkaService) SendMessage(topic, data, contextId string) error {
+func (m *MockKafkaService) SendMessage(topic, data, contextId string, isDelete bool) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SendMessage", topic, data, contextId)
 	ret0, _ := ret[0].(error)
@@ -57,7 +57,7 @@ func (m *MockKafkaService) SendMessage(topic, data, contextId string) error {
 }
 
 // SendMessage indicates an expected call of SendMessage.
-func (mr *MockKafkaServiceMockRecorder) SendMessage(topic, data, contextId interface{}) *gomock.Call {
+func (mr *MockKafkaServiceMockRecorder) SendMessage(topic, data, contextId interface{}, isDelete bool) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendMessage", reflect.TypeOf((*MockKafkaService)(nil).SendMessage), topic, data, contextId)
 }

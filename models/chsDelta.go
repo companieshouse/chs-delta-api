@@ -5,4 +5,5 @@ type ChsDelta struct {
 	Data      string `avro:"data"`
 	Attempt   int32  `avro:"attempt"`
 	ContextId string `avro:"context_id"`
+	IsDelete  bool   `avro:"is_delete"`
 }
