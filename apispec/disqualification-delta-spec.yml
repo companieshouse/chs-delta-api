@@ -28,6 +28,8 @@ components:
           type: string
         delta_at:
           type: string
+      required:
+        - disqualified_officer
 
     DisqualificationOfficer:
       properties:
@@ -83,6 +85,7 @@ components:
             $ref: '#/components/schemas/Exemption'
       required:
         - surname
+        - disqualifications
 
     Disqualification:
       type: object
