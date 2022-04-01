@@ -16,18 +16,20 @@ type DeltaHandler struct {
 	chv              validation.CHValidator
 	cfg              *config.Config
 	doValidationOnly bool
+	isDelete         bool
 	topic            string
 }
 
 // NewDeltaHandler returns an DeltaHandler.
 func NewDeltaHandler(kSvc services.KafkaService, h helpers.Helper, chv validation.CHValidator,
-	cfg *config.Config, doValidationOnly bool, topic string) *DeltaHandler {
+	cfg *config.Config, doValidationOnly bool, isDelete bool, topic string) *DeltaHandler {
 	return &DeltaHandler{
 		kSvc:             kSvc,
 		h:                h,
 		chv:              chv,
 		cfg:              cfg,
 		doValidationOnly: doValidationOnly,
+		isDelete:         isDelete,
 		topic:            topic,
 	}
 }
@@ -65,7 +67,7 @@ func (kp *DeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// Send data string to Kafka service for publishing.
-		if err := kp.kSvc.SendMessage(kp.topic, data, contextId); err != nil {
+		if err := kp.kSvc.SendMessage(kp.topic, data, contextId, kp.isDelete); err != nil {
 			log.ErrorC(contextId, err, log.Data{config.TopicKey: kp.topic, config.MessageKey: "error sending the message to the given kafka topic"})
 			w.WriteHeader(http.StatusInternalServerError)
 
