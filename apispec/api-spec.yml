@@ -11,6 +11,8 @@ paths:
     $ref: 'officer-delta-spec.yml'
   /delta/insolvency:
     $ref: 'insolvency-delta-spec.yml'
+  /delta/insolvency/delete:
+    $ref: 'insolvency-delete-delta-spec.yml'
   /delta/insolvency/validate:
     $ref: 'insolvency-delta-spec.yml'
   /delta/charges:

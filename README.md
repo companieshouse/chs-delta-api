@@ -4,7 +4,7 @@ Service to send delta events from CHIPS on the correct kafka topic
 Environment Variables
 -----------------
 
-|  Variable                         |  Example                          |  Description                                        |  Required       | Default value |        
+|  Variable                         |  Example                          |  Description                                        |  Required       | Default value |
 | --------------------------------- | --------------------------------- | --------------------------------------------------  | --------------- | ------------- |
 | BIND_ADDR                         | 5010                              | Bind Address / application port                     | YES             |               |
 | KAFKA_BROKER_ADDR                 | chs-kafka:9092                    | Kafka broker address (can be comma separated)       | YES             |               |
@@ -13,7 +13,7 @@ Environment Variables
 | INSOLVENCY_DELTA_TOPIC            | insolvency-delta                  | Insolvency Delta Kafka topic to write messages to   | YES             |               |
 | CHARGES_DELTA_TOPIC               | charges-delta                     | Charges Delta Kafka topic to write messages to      | YES             |               |
 | DISQUALIFIED_OFFICERS_DELTA_TOPIC | disqualification-delta            | Disqualified Delta Kafka topic to write messages to | YES             |               |
-| OPEN_API_SPEC                     | ./apispec/apispec.yml             | OpenAPI schema location                             | YES             |               |
+| OPEN_API_SPEC                     | ./apispec/api-spec.yml            | OpenAPI schema location                             | YES             |               |
 | LOG_LEVEL                         | trace                             | The level at which the logger prints                | NO              | info          |
 
 ## Running Locally with Docker CHS
