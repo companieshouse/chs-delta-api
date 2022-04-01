@@ -85,6 +85,7 @@ components:
             $ref: '#/components/schemas/Exemption'
       required:
         - surname
+        - disqualifications
 
     Disqualification:
       type: object
