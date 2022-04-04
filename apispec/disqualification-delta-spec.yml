@@ -47,7 +47,7 @@ components:
           maxLength: 10
         date_of_birth:
           type: string
-          minLength: 8
+          minLength: 0
           maxLength: 8
         title:
           type: string
@@ -103,7 +103,7 @@ components:
           maxLength: 30
         hearing_date:
           type: string
-          minLength: 8
+          minLength: 0
           maxLength: 8
         section_of_the_act:
           type: string
@@ -124,7 +124,7 @@ components:
           maxLength: 30
         var_instrument_start_date:
           type: string
-          minLength: 8
+          minLength: 0
           maxLength: 8
         company_names:
           type: array
