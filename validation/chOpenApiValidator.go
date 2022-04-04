@@ -209,13 +209,17 @@ func handleSchemaError(se *openapi3.SchemaError) models.CHError {
 
 	reason := strings.Replace(se.Reason, "\"", "'", -1)
 	path := strings.Join(se.JSONPointer(), ".")
-	fieldName := se.JSONPointer()[len(se.JSONPointer())-1]
+	fieldName := ""
+	if path != "" {
+		fieldName = se.JSONPointer()[len(se.JSONPointer())-1]
+	}
 
 	// Switch over validation error for fieldValue to replace required with an empty string. Without this the
 	// error simply returns nothing when a required error is found, as it returns what the user gave (nothing).
 	fieldValue := ""
 	switch se.SchemaField {
 	case "required":
+	case "properties":
 		fieldValue = ""
 	default:
 		fieldValue = fmt.Sprintf("%v", se.Value)

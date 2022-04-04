@@ -19,6 +19,8 @@ post:
 components:
   schemas:
     DisqualificationDelta:
+      type: object
+      additionalProperties: false
       properties:
         disqualified_officer:
           type: array

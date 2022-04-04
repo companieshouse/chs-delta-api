@@ -20,6 +20,7 @@ components:
   schemas:
     ChargesDelta:
       type: object
+      additionalProperties: false
       properties:
         charges:
           type: array
@@ -30,6 +31,7 @@ components:
 
     Charge:
       type: object
+      additionalProperties: false
       properties:
         id:
           type: string
