@@ -50,6 +50,7 @@ func Register(mainRouter *mux.Router, cfg *config.Config, kSvc services.KafkaSer
 	appRouter.HandleFunc("/delta/insolvency/delete", NewDeltaHandler(kSvc, h, chv, cfg, false, true, cfg.InsolvencyDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("insolvency-delta")
 	appRouter.HandleFunc("/delta/insolvency/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, false, cfg.InsolvencyDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("insolvency-delta-validate")
 	appRouter.HandleFunc("/delta/charges", NewDeltaHandler(kSvc, h, chv, cfg, false, false, cfg.ChargesDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("charges-delta")
+	appRouter.HandleFunc("/delta/charges/delete", NewDeltaHandler(kSvc, h, chv, cfg, false, true, cfg.ChargesDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("charges-delta")
 	appRouter.HandleFunc("/delta/charges/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, false, cfg.ChargesDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("charges-delta-validate")
 	appRouter.HandleFunc("/delta/disqualification", NewDeltaHandler(kSvc, h, chv, cfg, false, false, cfg.DisqualifiedDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("disqualified-officer-delta")
 	appRouter.HandleFunc("/delta/disqualification/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, false, cfg.DisqualifiedDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("disqualified-officer-delta-validate")

@@ -17,6 +17,8 @@ paths:
     $ref: 'insolvency-delta-spec.yml'
   /delta/charges:
     $ref: 'charges-delta-spec.yml'
+  /delta/charges/delete:
+    $ref: 'charges-delete-delta-spec.yml'
   /delta/charges/validate:
     $ref: 'charges-delta-spec.yml'
   /delta/disqualification:

@@ -119,7 +119,7 @@ func (kSvc *KafkaServiceImpl) SendMessage(topic, data, contextId string, isDelet
 	}
 
 	log.InfoC(contextId, "Sent message", log.Data{config.TopicKey: producerMessage.Topic, config.PartitionKey: partition, config.OffsetKey: offset})
-	log.TraceC(contextId, "Message data", log.Data{config.MessageKey: deltaData})
+	log.InfoC(contextId, "Message data", log.Data{config.MessageKey: deltaData})
 
 	return nil
 }
