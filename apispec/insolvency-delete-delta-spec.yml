@@ -23,6 +23,8 @@ components:
       properties:
         company_number:
           type: string
+          minLength: 8
+          maxLength: 10
         action:
           type: string
           enum:
