@@ -87,6 +87,7 @@ components:
           type: string
         appointments:
           type: array
+          default: []
           items:
             $ref: '#/components/schemas/Appointment'
         wind_up_date:
