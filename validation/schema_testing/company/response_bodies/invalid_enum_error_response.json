@@ -1,0 +1,35 @@
+[
+    {
+        "location": "account_overdue"
+    },
+    {
+        "location": "has_mortgages"
+    },
+    {
+        "location": "registered_office_is_in_dispute"
+    },
+    {
+        "location": "undeliverable_registered_office_address"
+    },
+    {
+        "location": "confirmation_statement_overdue"
+    },
+    {
+        "location": "annual_return_overdue"
+    },
+    {
+        "location": "has_appointments"
+    },
+    {
+        "location": "has_insolvency_history"
+    },
+    {
+        "location": "cic_ind"
+    },
+    {
+        "location": "super_secure_psc_ind"
+    },
+    {
+        "location": "subtype"
+    }
+]

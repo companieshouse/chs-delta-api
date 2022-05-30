@@ -1,0 +1,224 @@
+post:
+  summary: Accepts an incoming Company delta, transforms it into an avro schema and puts it onto a Kafka topic.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/CompanyDelta'
+  responses:
+    '200':
+      description: Successfully produced message onto Kafka topic.
+    '400':
+      description: Bad request body - validation errors.
+    '401':
+      description: Unauthorised - missing api key in header.
+    '500':
+      description: Internal server error has occurred.
+
+components:
+  schemas:
+    CompanyDelta:
+      type: object
+      properties:
+        company_name:
+          type: string
+        company_number:
+          maxLength: 10
+          type: string
+        country:
+          description: 'Is this a bug in the stored proc?'
+          type: string
+        locality:
+          description: 'Is this a bug in the stored proc?'
+          type: string
+        care_of_name:
+          description: 'Is this a bug in the stored proc?'
+          type: string
+        address_line_1:
+          description: 'Is this a bug in the stored proc?'
+          type: string
+        delta_at:
+          type: string
+        registered_office_address:
+          $ref: '#/components/schemas/RegisteredOfficeAddress'
+        type:
+          type: string
+        has_mortgages:
+          $ref: '#/components/schemas/BooleanFlag'
+        registered_office_is_in_dispute:
+          $ref: '#/components/schemas/BooleanFlag'
+        undeliverable_registered_office_address:
+          $ref: '#/components/schemas/BooleanFlag'
+        status:
+          type: string
+        creation_date:
+          type: string
+        date_of_dissolution:
+          type: string
+        closure_date:
+          type: string
+        account_overdue:
+          type: string
+          enum:
+            - ''
+            - '0'
+            - '1'
+        external_registration_number:
+          type: string
+        confirmation_statement_overdue:
+          $ref: '#/components/schemas/BooleanFlag'
+        annual_return_overdue:
+          $ref: '#/components/schemas/BooleanFlag'
+        account_type:
+          type: string
+        acc_ref_date:
+          type: string
+        no_of_general_partners:
+          type: string
+        no_of_limited_partners:
+          type: string
+        full_members_list_date:
+          type: string
+        has_appointments:
+          $ref: '#/components/schemas/BooleanFlag'
+        has_insolvency_history:
+          $ref: '#/components/schemas/BooleanFlag'
+        jurisdiction:
+          type: string
+        proof_status:
+          type: string
+        cic_ind:
+          $ref: '#/components/schemas/BooleanFlag'
+        super_secure_psc_ind:
+          $ref: '#/components/schemas/BooleanFlag'
+        subtype:
+          $ref: '#/components/schemas/BooleanFlag'
+        confirmation_statement_dates:
+          $ref: '#/components/schemas/ConfirmationStatementDates'
+        annual_return_dates:
+          $ref: '#/components/schemas/AnnualReturnDates'
+        accounting_dates:
+          $ref: '#/components/schemas/AccountingDates'
+        sic_codes:
+          type: array
+          items:
+            $ref: '#/components/schemas/SicCodes'
+        previous_company_names:
+          type: array
+          items:
+            $ref: '#/components/schemas/PreviousCompanyName'
+        foreign_company:
+          $ref:  '#/components/schemas/ForeignCompany'
+        CreatedTime:
+          type: string
+
+    RegisteredOfficeAddress:
+      type: object
+      properties:
+        address_line_1:
+          type: string
+          maxLength: 50
+        address_line_2:
+          type: string
+          maxLength: 50
+        locality:
+          type: string
+          maxLength: 50
+        region:
+          type: string
+          maxLength: 50
+        country:
+          type: string
+          maxLength: 50
+        postal_code:
+          type: string
+          maxLength: 20
+        care_of_name:
+          type: string
+        po_box:
+          type: string
+
+    ConfirmationStatementDates:
+      type: object
+      properties:
+        next_due:
+          type: string
+        next_made_up_to:
+          type: string
+        latest_made_up_to:
+          type: string
+
+    AnnualReturnDates:
+      type: object
+      properties:
+        next_due:
+          type: string
+        next_made_up_to:
+          type: string
+        latest_made_up_to:
+          type: string
+
+    AccountingDates:
+      type: object
+      properties:
+        next_period_start_on:
+          type: string
+        next_period_end_on:
+          type: string
+        next_due:
+          type: string
+        last_period_start_on:
+          type: string
+        last_period_end_on:
+          type: string
+
+    SicCodes:
+      type: object
+      properties:
+        sic_1:
+          type: string
+        sic_2:
+          type: string
+        sic_3:
+          type: string
+        sic_4:
+          type: string
+
+    PreviousCompanyName:
+      type: object
+      properties:
+        name:
+          type: string
+        effective_from:
+          type: string
+        ceased_on:
+          type: string
+
+    ForeignCompany:
+      type: object
+      properties:
+        parent_registry:
+          type: string
+        registration_number:
+          type: string
+        governing_law:
+          type: string
+        legal_form:
+          type: string
+        credit_or_financial:
+          type: string
+        acc_req_type:
+          type: string
+        business_activity:
+          type: string
+        country_of_origin:
+          type: string
+        required_to_publish:
+          type: object
+
+    BooleanFlag:
+      type: string
+      enum:
+        - '0'
+        - '1'
