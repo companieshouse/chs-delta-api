@@ -1,0 +1,17 @@
+[
+  {
+    "location": "company_number"
+  },
+  {
+    "location": "registered_office_address"
+  },
+  {
+    "location": "sic_codes"
+  },
+  {
+    "location": "confirmation_statement_dates.next_due"
+  },
+  {
+    "location": "previous_company_names.0"
+  }
+]

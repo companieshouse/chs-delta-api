@@ -1,0 +1,57 @@
+{
+  "company_name": "BUNZL PUBLIC LIMITED COMPANY",
+  "company_number": "00358948",
+  "registered_office_address": {
+    "address_line_1": "1 North Road",
+    "locality": "Cardiff",
+    "country": "Wales",
+    "postal_code": "CF14 3UA"
+  },
+  "type": "3",
+  "has_mortgages": "2",
+  "registered_office_is_in_dispute": "2",
+  "undeliverable_registered_office_address": "2",
+  "status": "0",
+  "creation_date": "19400122",
+  "account_overdue": "2",
+  "confirmation_statement_overdue": "2",
+  "annual_return_overdue": "2",
+  "account_type": "4",
+  "acc_ref_date": "3112",
+  "full_members_list_date": "20140523",
+  "has_appointments": "2",
+  "has_insolvency_history": "2",
+  "jurisdiction": "1",
+  "proof_status": "0",
+  "cic_ind": "2",
+  "super_secure_psc_ind": "2",
+  "subtype": "2",
+  "confirmation_statement_dates": {
+    "next_due": "20160606",
+    "next_made_up_to": "20160523"
+  },
+  "annual_return_dates": {
+    "latest_made_up_to": "20150523"
+  },
+  "accounting_dates": {
+    "next_period_start_on": "20150101",
+    "next_period_end_on": "20151231",
+    "next_due": "20160630",
+    "last_period_start_on": "20140101",
+    "last_period_end_on": "20141231"
+  },
+  "sic_codes": [
+    {
+      "sic_1": "70100"
+    }
+  ],
+  "previous_company_names": [
+    {
+      "name": "BUNZL PULP & PAPER LIMITED",
+      "effective_from": "19400122",
+      "ceased_on": "19820209"
+    }
+  ],
+  "CreatedTime": "12-JUN-19 18.20.02.000000",
+  "delta_at": "20190612181928152002"
+}

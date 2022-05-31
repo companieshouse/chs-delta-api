@@ -27,7 +27,10 @@ paths:
     $ref: 'disqualification-delete-delta-spec.yml'
   /delta/disqualification/validate:
     $ref: 'disqualification-delta-spec.yml'
-
+  /delta/company:
+    $ref: 'company-delta-spec.yml'
+  /delta/company/validate:
+    $ref: 'company-delta-spec.yml'
 
 components:
   securitySchemes:

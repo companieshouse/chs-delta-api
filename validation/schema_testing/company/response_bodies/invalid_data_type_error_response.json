@@ -1,0 +1,11 @@
+[
+  {
+    "location": "company_name"
+  },
+  {
+    "location": "registered_office_address.locality"
+  },
+  {
+    "location": "sic_codes.0.sic_1"
+  }
+]
