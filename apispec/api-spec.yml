@@ -23,6 +23,8 @@ paths:
     $ref: 'charges-delta-spec.yml'
   /delta/disqualification:
     $ref: 'disqualification-delta-spec.yml'
+  /delta/disqualification/delete:
+    $ref: 'disqualification-delete-delta-spec.yml'
   /delta/disqualification/validate:
     $ref: 'disqualification-delta-spec.yml'
 
