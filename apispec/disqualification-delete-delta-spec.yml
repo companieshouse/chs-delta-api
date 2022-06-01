@@ -23,6 +23,8 @@ components:
       properties:
         officer_id:
           type: string
+          minLength: 1
+          maxLength: 10
         action:
           type: string
           enum:
