@@ -155,12 +155,14 @@ components:
       properties:
         forename:
           type: string
+          minLength: 1
           maxLength: 50
         middle_name:
           type: string
           maxLength: 50
         surname:
           type: string
+          minLength: 1
           maxLength: 160
         appt_type:
           type: string
