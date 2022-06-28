@@ -151,6 +151,9 @@ components:
           maxLength: 8
 
     Appointment:
+      required: 
+      - forename
+      - surname
       type: object
       properties:
         forename:
