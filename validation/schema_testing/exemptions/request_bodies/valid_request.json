@@ -1,0 +1,30 @@
+{
+  "company_number": "01432059",
+  "exemption": {
+    "Non-UK EEA state market": {
+      "items": [
+        {
+          "exempt_from": "20181219",
+          "exempt_to": "20211219"
+        }
+      ]
+    },
+    "EU state market": {
+      "items": [
+        {
+          "exempt_from": "20211219",
+          "exempt_to": ""
+        }
+      ]
+    },
+    "dtr5": {
+      "items": [
+        {
+          "exempt_from": "20160828",
+          "exempt_to": "20221012"
+        }
+      ]
+    }
+  },
+  "delta_at": "20221012091025774312"
+}

@@ -31,6 +31,12 @@ paths:
     $ref: 'company-delta-spec.yml'
   /delta/company/validate:
     $ref: 'company-delta-spec.yml'
+  /delta/company-exemptions:
+    $ref: 'psc-exemption-delta-spec.yml'
+  /delta/company-exemptions/delete:
+    $ref: 'psc-exemption-delete-delta-spec.yml'
+  /delta/company-exemptions/validate:
+    $ref: 'psc-exemption-delta-spec.yml'
 
 components:
   securitySchemes:
