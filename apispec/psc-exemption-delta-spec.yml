@@ -1,0 +1,64 @@
+post:
+  summary: Accepts an incoming PSC Exemption delta, transforms it into an avro schema and puts it onto a Kafka topic.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PscExemptionDelta'
+  responses:
+    '200':
+      description: Successfully produced message onto Kafka topic.
+    '400':
+      description: Bad request body - validation errors.
+    '401':
+      description: Unauthorised - missing api key in header.
+    '500':
+      description: Internal server error has occurred.
+
+components:
+  schemas:
+    PscExemptionDelta:
+      type: object
+      properties:
+        company_number:
+          type: string
+        exemption:
+          type: object
+          properties:
+            psc_exempt_as_trading_on_regulated_market:
+              $ref: '#/components/schemas/PscExemption'
+            psc_exempt_as_shares_admitted_on_market:
+              $ref: '#/components/schemas/PscExemption'
+            psc_exempt_as_trading_on_uk_regulated_market:
+              $ref: '#/components/schemas/PscExemption'
+            psc_exempt_as_trading_on_eu_regulated_market:
+              $ref: '#/components/schemas/PscExemption'
+            disclosure_transparency_rules_chapter_five_applies:
+              $ref: '#/components/schemas/PscExemption'
+        delta_at:
+          type: string
+      required:
+        - company_number
+        - exemption
+
+    PscExemption:
+      type: object
+      properties:
+        description:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExemptionDates'
+      required:
+        - description
+        - items
+
+    ExemptionDates:
+      type: object
+      properties:
+        exempt_from:
+          type: string
+        exempt_to:
+          type: string

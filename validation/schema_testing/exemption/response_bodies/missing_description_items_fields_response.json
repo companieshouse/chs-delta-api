@@ -1,0 +1,32 @@
+[
+  {
+    "location": "exemption.psc_exempt_as_trading_on_regulated_market.description"
+  },
+  {
+    "location": "exemption.psc_exempt_as_trading_on_regulated_market.items"
+  },
+  {
+    "location": "exemption.psc_exempt_as_shares_admitted_on_market.description"
+  },
+  {
+    "location": "exemption.psc_exempt_as_shares_admitted_on_market.items"
+  },
+  {
+    "location": "exemption.psc_exempt_as_trading_on_uk_regulated_market.description"
+  },
+  {
+    "location": "exemption.psc_exempt_as_trading_on_uk_regulated_market.items"
+  },
+  {
+    "location": "exemption.psc_exempt_as_trading_on_eu_regulated_market.description"
+  },
+  {
+    "location": "exemption.psc_exempt_as_trading_on_eu_regulated_market.items"
+  },
+  {
+    "location": "exemption.disclosure_transparency_rules_chapter_five_applies.description"
+  },
+  {
+    "location": "exemption.disclosure_transparency_rules_chapter_five_applies.items"
+  }
+]
