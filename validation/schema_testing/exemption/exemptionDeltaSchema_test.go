@@ -1,4 +1,4 @@
-package exemptions
+package exemption
 
 import (
 	"bytes"
@@ -10,30 +10,30 @@ import (
 )
 
 const (
-	requestBodiesLocation = "./request_bodies/"
-	okRequestBodyLocation = requestBodiesLocation + "valid_request.json"
-	missingTopLevelFieldsRequestBodyLocation = requestBodiesLocation + "missing_top_level_fields_request.json"
+	requestBodiesLocation                           = "./request_bodies/"
+	okRequestBodyLocation                           = requestBodiesLocation + "valid_request.json"
+	missingTopLevelFieldsRequestBodyLocation        = requestBodiesLocation + "missing_top_level_fields_request.json"
 	missingNestedExemptionFieldsRequestBodyLocation = requestBodiesLocation + "missing_description_items_fields_request.json"
-	invalidDataTypeRequestBodyLocation = requestBodiesLocation + "invalid_data_type_request.json"
+	invalidDataTypeRequestBodyLocation              = requestBodiesLocation + "invalid_data_type_request.json"
 
-	responseBodiesLocation = "./response_bodies/"
-	missingTopLevelFieldsResponseBodyLocation = responseBodiesLocation + "missing_top_level_fields_response.json"
+	responseBodiesLocation                           = "./response_bodies/"
+	missingTopLevelFieldsResponseBodyLocation        = responseBodiesLocation + "missing_top_level_fields_response.json"
 	missingNestedExemptionFieldsResponseBodyLocation = responseBodiesLocation + "missing_description_items_fields_response.json"
-	invalidDataTypeResponseBodyLocation = responseBodiesLocation + "invalid_data_type_response.json"
+	invalidDataTypeResponseBodyLocation              = responseBodiesLocation + "invalid_data_type_response.json"
 
-	companyExemptionsEndpoint = "/delta/company-exemptions"
-	apiSpecLocation           = "../../../apispec/api-spec.yml"
-	contextId                 = "contextId"
-	methodPost                = "POST"
+	exemptionEndpoint = "/delta/exemption"
+	apiSpecLocation   = "../../../apispec/api-spec.yml"
+	contextId         = "contextId"
+	methodPost        = "POST"
 )
 
-func TestUnitCompanyExemptionsDeltaSchemaNoErrors(t *testing.T) {
+func TestUnitExemptionDeltaSchemaNoErrors(t *testing.T) {
 
-	convey.Convey("Given a valid company exemptions delta request body has been specified", t, func() {
+	convey.Convey("Given a valid exemption delta request body has been specified", t, func() {
 
 		requestBody := common.ReadRequestBody(okRequestBodyLocation)
 
-		r := httptest.NewRequest(methodPost, companyExemptionsEndpoint, bytes.NewBuffer(requestBody))
+		r := httptest.NewRequest(methodPost, exemptionEndpoint, bytes.NewBuffer(requestBody))
 		r = common.SetHeaders(r)
 
 		convey.Convey("When the request is validated", func() {
@@ -49,11 +49,11 @@ func TestUnitCompanyExemptionsDeltaSchemaNoErrors(t *testing.T) {
 	})
 }
 
-func TestUnitCompanyExemptionsDeltaSchemaRaisesErrorsIfTopLevelPropertiesAbsent(t *testing.T) {
-	convey.Convey("Given company_number and exemptions fields are absent from a company exemptions delta request", t, func() {
+func TestUnitExemptionDeltaSchemaRaisesErrorsIfTopLevelPropertiesAbsent(t *testing.T) {
+	convey.Convey("Given company_number and exemption fields are absent from an exemption delta request", t, func() {
 		requestBody := common.ReadRequestBody(missingTopLevelFieldsRequestBodyLocation)
 
-		r := httptest.NewRequest(methodPost, companyExemptionsEndpoint, bytes.NewBuffer(requestBody))
+		r := httptest.NewRequest(methodPost, exemptionEndpoint, bytes.NewBuffer(requestBody))
 		r = common.SetHeaders(r)
 
 		convey.Convey("When the request is validated", func() {
@@ -73,11 +73,11 @@ func TestUnitCompanyExemptionsDeltaSchemaRaisesErrorsIfTopLevelPropertiesAbsent(
 	})
 }
 
-func TestUnitCompanyExemptionsDeltaSchemaRaisesErrorsIfPropertiesAbsentFromExemptionTypes(t *testing.T) {
+func TestUnitExemptionDeltaSchemaRaisesErrorsIfPropertiesAbsentFromExemptionTypes(t *testing.T) {
 	convey.Convey("Given description and items fields are absent from individual exemptions in the request", t, func() {
 		requestBody := common.ReadRequestBody(missingNestedExemptionFieldsRequestBodyLocation)
 
-		r := httptest.NewRequest(methodPost, companyExemptionsEndpoint, bytes.NewBuffer(requestBody))
+		r := httptest.NewRequest(methodPost, exemptionEndpoint, bytes.NewBuffer(requestBody))
 		r = common.SetHeaders(r)
 
 		convey.Convey("When the request is validated", func() {
@@ -97,11 +97,11 @@ func TestUnitCompanyExemptionsDeltaSchemaRaisesErrorsIfPropertiesAbsentFromExemp
 	})
 }
 
-func TestUnitCompanyExemptionsDeltaSchemaRaisesErrorIfInvalidDataTypesProvided(t *testing.T) {
+func TestUnitExemptionDeltaSchemaRaisesErrorIfInvalidDataTypesProvided(t *testing.T) {
 	convey.Convey("Given the request contains invalid data types for expected fields", t, func() {
 		requestBody := common.ReadRequestBody(invalidDataTypeRequestBodyLocation)
 
-		r := httptest.NewRequest(methodPost, companyExemptionsEndpoint, bytes.NewBuffer(requestBody))
+		r := httptest.NewRequest(methodPost, exemptionEndpoint, bytes.NewBuffer(requestBody))
 		r = common.SetHeaders(r)
 
 		convey.Convey("When the request is validated", func() {

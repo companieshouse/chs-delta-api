@@ -57,9 +57,9 @@ func Register(mainRouter *mux.Router, cfg *config.Config, kSvc services.KafkaSer
 	appRouter.HandleFunc("/delta/disqualification/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, false, cfg.DisqualifiedDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("disqualified-officer-delta-validate")
 	appRouter.HandleFunc("/delta/company", NewDeltaHandler(kSvc, h, chv, cfg, false, false, cfg.CompanyDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("company-delta")
 	appRouter.HandleFunc("/delta/company/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, false, cfg.CompanyDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("company-delta-validate")
-	appRouter.HandleFunc("/delta/company-exemptions", NewDeltaHandler(kSvc, h, chv, cfg, false, false, cfg.CompanyExemptionsDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("company-exemptions-delta")
-	appRouter.HandleFunc("/delta/company-exemptions/delete", NewDeltaHandler(kSvc, h, chv, cfg, false, true, cfg.CompanyExemptionsDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("company-exemptions-delta")
-	appRouter.HandleFunc("/delta/company-exemptions/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, false, cfg.CompanyExemptionsDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("company-exemptions-delta-validate")
+	appRouter.HandleFunc("/delta/exemption", NewDeltaHandler(kSvc, h, chv, cfg, false, false, cfg.ExemptionDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("exemption-delta")
+	appRouter.HandleFunc("/delta/exemption/delete", NewDeltaHandler(kSvc, h, chv, cfg, false, true, cfg.ExemptionDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("exemption-delta")
+	appRouter.HandleFunc("/delta/exemption/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, false, cfg.ExemptionDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("exemption-delta-validate")
 	appRouter.Use(userAuthInterceptor.UserAuthenticationIntercept)
 	return nil
 }
