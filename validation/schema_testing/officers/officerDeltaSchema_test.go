@@ -23,11 +23,13 @@ const (
 	enumErrorResponseBodyLocation          = responseBodiesLocation + "enum_error_response_body"
 	noRequestBodyErrorResponseBodyLocation = responseBodiesLocation + "no_request_body_error_response_body"
 	maxPropertiesResponseBodyLocation      = responseBodiesLocation + "max_properties_response_body"
+	deleteRequestBodyLocation              = requestBodiesLocation + "delete_request_body"
 
-	officersEndpoint = "/delta/officers"
-	apiSpecLocation  = "../../../apispec/api-spec.yml"
-	contextId        = "contextId"
-	methodPost       = "POST"
+	officersEndpoint       = "/delta/officers"
+	officersDeleteEndpoint = "/delta/officers/delete"
+	apiSpecLocation        = "../../../apispec/api-spec.yml"
+	contextId              = "contextId"
+	methodPost             = "POST"
 )
 
 // TestUnitOfficerDeltaSchemaNoErrors asserts that when a valid request body is given which matches the schema, then no
@@ -187,6 +189,30 @@ func TestUnitOfficerDeltaSchemaMaxPropertiesError(t *testing.T) {
 
 				So(validationErrs, ShouldNotBeNil)
 				So(match, ShouldEqual, true)
+			})
+		})
+	})
+}
+
+// TestUnitOfficersDeleteDeltaSchemaNoErrors asserts that when a valid request body is given which matches the schema, then no
+// errors are returned.
+func TestUnitOfficersDeleteDeltaSchemaNoErrors(t *testing.T) {
+
+	Convey("Given I want to test the officers-delete-delta API schema", t, func() {
+
+		deleteRequestBody := common.ReadRequestBody(deleteRequestBodyLocation)
+
+		r := httptest.NewRequest(methodPost, officersDeleteEndpoint, bytes.NewBuffer(deleteRequestBody))
+		r = common.SetHeaders(r)
+
+		Convey("When I call to validate the request body, providing a valid request", func() {
+
+			chv, _ := validation.NewCHValidator(apiSpecLocation)
+
+			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
+
+			Convey("Then I am given a nil response as no validation errors are returned", func() {
+				So(validationErrs, ShouldBeNil)
 			})
 		})
 	})
