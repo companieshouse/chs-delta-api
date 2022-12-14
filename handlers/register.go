@@ -61,6 +61,8 @@ func Register(mainRouter *mux.Router, cfg *config.Config, kSvc services.KafkaSer
 	appRouter.HandleFunc("/delta/exemption", NewDeltaHandler(kSvc, h, chv, cfg, false, false, cfg.ExemptionDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("exemption-delta")
 	appRouter.HandleFunc("/delta/exemption/delete", NewDeltaHandler(kSvc, h, chv, cfg, false, true, cfg.ExemptionDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("exemption-delta")
 	appRouter.HandleFunc("/delta/exemption/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, false, cfg.ExemptionDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("exemption-delta-validate")
+	appRouter.HandleFunc("/delta/psc-statement", NewDeltaHandler(kSvc, h, chv, cfg, false, false, cfg.PscStatementDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("psc-statement-delta")
+	appRouter.HandleFunc("/delta/psc-statement/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, false, cfg.PscStatementDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("psc-statement-delta-validate")
 	appRouter.Use(userAuthInterceptor.UserAuthenticationIntercept)
 	return nil
 }
