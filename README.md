@@ -15,6 +15,7 @@ Environment Variables
 | DISQUALIFIED_OFFICERS_DELTA_TOPIC | disqualification-delta           | Disqualified Delta Kafka topic to write messages to       | YES             |               |
 | COMPANY_DELTA_TOPIC               | company-profile-delta            | Company Delta Kafka topic to write messages to            | YES             |               |
 | EXEMPTION_DELTA_TOPIC             | company-exemptions-delta         | Exemption Delta Kafka topic to write messages to          | YES             |               |
+| PSC_STATEMENT_DELTA_TOPIC         | psc-statement-exemptions-delta   | Psc Statement Delta Kafka topic to write messages to      | YES             |               |
 | OPEN_API_SPEC                     | ./apispec/api-spec.yml           | OpenAPI schema location                                   | YES             |               |
 | LOG_LEVEL                         | trace                            | The level at which the logger prints                      | NO              | info          |
 
