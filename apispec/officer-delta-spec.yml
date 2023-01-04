@@ -97,6 +97,8 @@ components:
         usual_residential_country:
           type: string
           maxLength: 160
+        person_number:
+          type: string
         previous_name_array:
           type: array
           items:
