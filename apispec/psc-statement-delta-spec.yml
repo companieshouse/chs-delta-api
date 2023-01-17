@@ -65,3 +65,7 @@ components:
           type: string
         forename:
           type: string
+        middle_name:
+          type: string
+        honours:
+          type: string
