@@ -43,6 +43,8 @@ paths:
     $ref: 'psc-statement-delta-spec.yml'
   /delta/psc-statement/validate:
     $ref: 'psc-statement-delta-spec.yml'
+  /delta/psc-statement/delete:
+    $ref: 'psc-statement-delete-delta-spec.yml'
 
 components:
   securitySchemes:
