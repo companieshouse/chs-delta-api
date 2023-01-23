@@ -1,7 +1,7 @@
 package psc
 
 import (
-	"bytes"
+    "bytes"
 	"net/http/httptest"
 	"testing"
 
@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	requestBodiesLocation            = "./request_bodies/"
+    requestBodiesLocation            = "./request_bodies/"
 	okRequestBodyLocation            = requestBodiesLocation + "ok_request_body"
 	typeErrorRequestBodyLocation     = requestBodiesLocation + "type_error_request_body"
 	requiredErrorRequestBodyLocation = requestBodiesLocation + "required_error_request_body"
