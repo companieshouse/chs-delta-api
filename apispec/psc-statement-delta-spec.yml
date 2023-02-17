@@ -48,7 +48,7 @@ components:
           type: string
         linked_psc:
           $ref: '#/components/schemas/LinkedPsc'
-        restrictions_notice_withdrawal_reason:
+        restrictions_notice_reason:
           type: string
       required:
         - company_number
