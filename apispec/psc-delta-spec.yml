@@ -1,0 +1,184 @@
+post:
+  summary: Accepts an incoming PSC delta, transforms it into an avro schema and puts it onto a Kafka topic.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PscDelta'
+  responses:
+    '200':
+      description: Successfully produced message onto Kafka topic.
+    '400':
+      description: Bad request body - validation errors.
+    '401':
+      description: Unauthorised - missing api key in header.
+    '500':
+      description: Internal server error has occured.
+
+components:
+  schemas:
+    PscDelta:
+      type: object
+      properties:
+        pscs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Psc'
+        CreatedTime:
+          type: string
+        delta_at:
+          type: string
+      required:
+        - pscs
+        - CreatedTime
+
+    Psc:
+      type: object
+      properties:
+        company_number:
+          type: string
+        internal_id:
+          type: string
+        kind:
+          type: string
+          enum:
+            - 'individual'
+            - 'corporate-entity'
+            - 'legal-person'
+            - 'super-secure'
+        psc_id:
+          type: string
+        notification_date:
+          type: string
+        ceased_on:
+          type: string
+        psc_statement_id:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        name_elements:
+          $ref: '#/components/schemas/NameElements'
+        date_of_birth:
+          type: string
+        nationality:
+          type: string
+          maxLength: 50
+        country_of_residence:
+          type: string
+        natures_of_control:
+          type: array
+          items:
+            type: string
+            enum:
+              - 'OWNERSHIPOFSHARES_25TO50PERCENT_AS_FIRM'
+              - 'OWNERSHIPOFSHARES_25TO50PERCENT_AS_PERSON'
+              - 'OWNERSHIPOFSHARES_25TO50PERCENT_AS_TRUST'
+              - 'OWNERSHIPOFSHARES_50TO75PERCENT_AS_FIRM'
+              - 'OWNERSHIPOFSHARES_50TO75PERCENT_AS_PERSON'
+              - 'OWNERSHIPOFSHARES_50TO75PERCENT_AS_TRUST'
+              - 'OWNERSHIPOFSHARES_75TO100PERCENT_AS_FIRM'
+              - 'OWNERSHIPOFSHARES_75TO100PERCENT_AS_PERSON'
+              - 'OWNERSHIPOFSHARES_75TO100PERCENT_AS_TRUST'
+              - 'PART_RIGHTTOSHARESURPLUSASSETS_25TO50PERCENT_AS_FIRM'
+              - 'PART_RIGHTTOSHARESURPLUSASSETS_25TO50PERCENT_AS_PERSON'
+              - 'PART_RIGHTTOSHARESURPLUSASSETS_25TO50PERCENT_AS_TRUST'
+              - 'PART_RIGHTTOSHARESURPLUSASSETS_50TO75PERCENT_AS_FIRM'
+              - 'PART_RIGHTTOSHARESURPLUSASSETS_50TO75PERCENT_AS_PERSON'
+              - 'PART_RIGHTTOSHARESURPLUSASSETS_50TO75PERCENT_AS_TRUST'
+              - 'PART_RIGHTTOSHARESURPLUSASSETS_75TO100PERCENT_AS_FIRM'
+              - 'PART_RIGHTTOSHARESURPLUSASSETS_75TO100PERCENT_AS_PERSON'
+              - 'PART_RIGHTTOSHARESURPLUSASSETS_75TO100PERCENT_AS_TRUST'
+              - 'RIGHTTOAPPOINTANDREMOVEDIRECTORS_AS_FIRM'
+              - 'RIGHTTOAPPOINTANDREMOVEDIRECTORS_AS_PERSON'
+              - 'RIGHTTOAPPOINTANDREMOVEDIRECTORS_AS_TRUST'
+              - 'RIGHTTOAPPOINTANDREMOVEMEMBERS_AS_FIRM'
+              - 'RIGHTTOAPPOINTANDREMOVEMEMBERS_AS_PERSON'
+              - 'RIGHTTOAPPOINTANDREMOVEMEMBERS_AS_TRUST'
+              - 'RIGHTTOAPPOINTANDREMOVEPERSONS_AS_FIRM'
+              - 'RIGHTTOAPPOINTANDREMOVEPERSONS_AS_PERSON'
+              - 'RIGHTTOAPPOINTANDREMOVEPERSONS_AS_TRUST'
+              - 'RIGHTTOSHARESURPLUSASSETS_25TO50PERCENT_AS_FIRM'
+              - 'RIGHTTOSHARESURPLUSASSETS_25TO50PERCENT_AS_PERSON'
+              - 'RIGHTTOSHARESURPLUSASSETS_25TO50PERCENT_AS_TRUST'
+              - 'RIGHTTOSHARESURPLUSASSETS_50TO75PERCENT_AS_FIRM'
+              - 'RIGHTTOSHARESURPLUSASSETS_50TO75PERCENT_AS_PERSON'
+              - 'RIGHTTOSHARESURPLUSASSETS_50TO75PERCENT_AS_TRUST'
+              - 'RIGHTTOSHARESURPLUSASSETS_75TO100PERCENT_AS_FIRM'
+              - 'RIGHTTOSHARESURPLUSASSETS_75TO100PERCENT_AS_PERSON'
+              - 'RIGHTTOSHARESURPLUSASSETS_75TO100PERCENT_AS_TRUST'
+              - 'SIGINFLUENCECONTROL_AS_FIRM'
+              - 'SIGINFLUENCECONTROL_AS_PERSON'
+              - 'SIGINFLUENCECONTROL_AS_TRUST'
+              - 'VOTINGRIGHTS_25TO50PERCENT_AS_FIRM'
+              - 'VOTINGRIGHTS_25TO50PERCENT_AS_PERSON'
+              - 'VOTINGRIGHTS_25TO50PERCENT_AS_TRUST'
+              - 'VOTINGRIGHTS_50TO75PERCENT_AS_FIRM'
+              - 'VOTINGRIGHTS_50TO75PERCENT_AS_PERSON'
+              - 'VOTINGRIGHTS_50TO75PERCENT_AS_TRUST'
+              - 'VOTINGRIGHTS_75TO100PERCENT_AS_FIRM'
+              - 'VOTINGRIGHTS_75TO100PERCENT_AS_PERSON'
+              - 'VOTINGRIGHTS_75TO100PERCENT_AS_TRUST'
+        name:
+          type: string
+        legal_form:
+          type: string
+        legal_authority:
+          type: string
+        place_registered:
+          type: string
+        registration_number:
+          type: string
+        country_registered:
+          type: string
+      required:
+        - company_number
+        - internal_id
+        - psc_id
+
+    Address:
+      type: object
+      properties:
+        premise:
+          type: string
+        address_line_1:
+          type: string
+          maxLength: 250
+        address_line_2:
+          type: string
+        locality:
+          type: string
+        care_of:
+          type: string
+        region:
+          type: string
+        po_box:
+          type: string
+        supplied_company_name:
+          type: string
+        country:
+          type: string
+        postal_code:
+          type: string
+          maxLength: 20
+        usual_country_of_residence:
+          type: string
+        care_of_name:
+          type: string
+
+    NameElements:
+      type: object
+      properties:
+        title:
+          type: string
+          maxLength: 50
+        surname:
+          type: string
+          maxLength: 160
+        forename:
+          type: string
+          maxLength: 50
+        middle_name:
+          type: string
+          maxLength: 50
+
