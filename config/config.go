@@ -28,6 +28,7 @@ type Config struct {
 	CompanyDeltaTopic      string   `env:"COMPANY_DELTA_TOPIC" flag:"company-delta-topic" flagDesc:"Topic for company deltas"`
 	ExemptionDeltaTopic    string   `env:"EXEMPTION_DELTA_TOPIC" flag:"exemption-delta-topic" flagDesc:"Topic for exemption deltas"`
 	PscStatementDeltaTopic string   `env:"PSC_STATEMENT_DELTA_TOPIC" flag:"psc-statement-delta-topic" flagDesc:"Topic for psc statement deltas"`
+	PscDeltaTopic          string   `env:"PSC_DELTA_TOPIC" flag:"psc-delta-topic" flagDesc:"Topic for psc deltas"`
 }
 
 // Get returns a pointer to a Config instance populated with values from environment or command-line flags
