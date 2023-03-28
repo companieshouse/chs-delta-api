@@ -1,0 +1,47 @@
+{
+    "pscs": [
+        {
+            "company_number": 123,
+            "internal_id": 123,
+            "kind": 123,
+            "psc_id": 123,
+            "notification_date": 123,
+            "ceased_on": 123,
+            "psc_statement_id": 123,
+            "address": {
+                "premise": 123,
+                "address_line_1": 123,
+                "address_line_2": 123,
+                "locality": 123,
+                "care_of": 123,
+                "region": 123,
+                "po_box": 123,
+                "supplied_company_name": 123,
+                "country": 123,
+                "postal_code": 123,
+                "usual_country_of_residence": 123,
+                "care_of_name": 123
+            },
+            "name_elements": {
+                "title": 123,
+                "surname": 123,
+                "forename": 123,
+                "middle_name": 123
+            },
+            "date_of_birth": 123,
+            "nationality": 123,
+            "country_of_residence": 123,
+            "natures_of_control": [
+                    123
+            ],
+            "name": 123,
+            "legal_form": 123,
+            "legal_authority": 123,
+            "place_registered": 123,
+            "registration_number": 123,
+            "country_registered": 123
+        }
+    ],
+    "CreatedTime": 123,
+    "delta_at": 123
+}

@@ -1,0 +1,317 @@
+[
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "CreatedTime": "number, integer"
+        },
+        "location": "CreatedTime",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "delta_at": "number, integer"
+        },
+        "location": "delta_at",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "legal_authority": "number, integer"
+        },
+        "location": "pscs.0.legal_authority",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "company_number": "number, integer"
+        },
+        "location": "pscs.0.company_number",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "internal_id": "number, integer"
+        },
+        "location": "pscs.0.internal_id",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "kind": "number, integer"
+        },
+        "location": "pscs.0.kind",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "psc_id": "number, integer"
+        },
+        "location": "pscs.0.psc_id",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "notification_date": "number, integer"
+        },
+        "location": "pscs.0.notification_date",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "ceased_on": "number, integer"
+        },
+        "location": "pscs.0.ceased_on",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "psc_statement_id": "number, integer"
+        },
+        "location": "pscs.0.psc_statement_id",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "premise": "number, integer"
+        },
+        "location": "pscs.0.address.premise",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "address_line_1": "number, integer"
+        },
+        "location": "pscs.0.address.address_line_1",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "address_line_2": "number, integer"
+        },
+        "location": "pscs.0.address.address_line_2",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "locality": "number, integer"
+        },
+        "location": "pscs.0.address.locality",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "care_of": "number, integer"
+        },
+        "location": "pscs.0.address.care_of",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "region": "number, integer"
+        },
+        "location": "pscs.0.address.region",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "po_box": "number, integer"
+        },
+        "location": "pscs.0.address.po_box",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "supplied_company_name": "number, integer"
+        },
+        "location": "pscs.0.address.supplied_company_name",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "country": "number, integer"
+        },
+        "location": "pscs.0.address.country",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "postal_code": "number, integer"
+        },
+        "location": "pscs.0.address.postal_code",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "usual_country_of_residence": "number, integer"
+        },
+        "location": "pscs.0.address.usual_country_of_residence",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "care_of_name": "number, integer"
+        },
+        "location": "pscs.0.address.care_of_name",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "title": "number, integer"
+        },
+        "location": "pscs.0.name_elements.title",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "surname": "number, integer"
+        },
+        "location": "pscs.0.name_elements.surname",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "forename": "number, integer"
+        },
+        "location": "pscs.0.name_elements.forename",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "middle_name": "number, integer"
+        },
+        "location": "pscs.0.name_elements.middle_name",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "date_of_birth": "number, integer"
+        },
+        "location": "pscs.0.date_of_birth",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "nationality": "number, integer"
+        },
+        "location": "pscs.0.nationality",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "country_of_residence": "number, integer"
+        },
+        "location": "pscs.0.country_of_residence",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "natures_of_control": "number, integer"
+        },
+        "location": "pscs.0.natures_of_control.0",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "name": "number, integer"
+        },
+        "location": "pscs.0.name",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "legal_form": "number, integer"
+        },
+        "location": "pscs.0.legal_form",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "place_registered": "number, integer"
+        },
+        "location": "pscs.0.place_registered",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "registration_number": "number, integer"
+        },
+        "location": "pscs.0.registration_number",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "country_registered": "number, integer"
+        },
+        "location": "pscs.0.country_registered",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    }
+]

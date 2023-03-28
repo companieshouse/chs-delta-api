@@ -99,6 +99,11 @@ func validateConfigs(cfg *Config) error {
 		mandatoryElementMissing = true
 	}
 
+	if cfg.PscDeltaTopic == "" {
+		log.Info("PSC_DELTA_TOPIC not set in environment")
+		mandatoryElementMissing = true
+	}
+
 	if cfg.OpenApiSpec == "" {
 		log.Info("OPEN_API_SPEC not set in environment")
 		mandatoryElementMissing = true

@@ -11,24 +11,24 @@ import (
 )
 
 const (
-	requestBodiesLocation              = "./request_bodies/"
-	okRequestBodyLocation              = requestBodiesLocation + "ok_request_body"
-	deleteRequestBodyLocation          = requestBodiesLocation + "delete_request_body"
-	typeErrorRequestBodyLocation       = requestBodiesLocation + "type_error_request_body"
-	requiredErrorRequestBodyLocation   = requestBodiesLocation + "required_error_request_body"
-	dateLengthErrorRequestBodyLocation = requestBodiesLocation + "date_length_error_request_body"
+	requestBodiesLocation            = "./request_bodies/"
+	okRequestBodyLocation            = requestBodiesLocation + "ok_request_body"
+	deleteRequestBodyLocation        = requestBodiesLocation + "delete_request_body"
+	typeErrorRequestBodyLocation     = requestBodiesLocation + "type_error_request_body"
+	requiredErrorRequestBodyLocation = requestBodiesLocation + "required_error_request_body"
+	enumErrorRequestBodyLocation     = requestBodiesLocation + "enum_error_request_body"
 
 	responseBodiesLocation                 = "./response_bodies/"
 	typeErrorResponseBodyLocation          = responseBodiesLocation + "type_error_response_body"
 	requiredErrorResponseBodyLocation      = responseBodiesLocation + "required_error_response_body"
 	noRequestBodyErrorResponseBodyLocation = responseBodiesLocation + "no_request_body_error_response_body"
-	dateLengthErrorResponseBodyLocation    = responseBodiesLocation + "date_length_error_response_body"
+	enumErrorResponseBodyLocation          = responseBodiesLocation + "enum_error_response_body"
 
 	pscEndpoint       = "/delta/pscs"
 	pscDeleteEndpoint = "/delta/pscs/delete"
-	apiSpecLocation                = "../../../apispec/api-spec.yml"
-	contextId                      = "contextId"
-	methodPost                     = "POST"
+	apiSpecLocation   = "../../../apispec/api-spec.yml"
+	contextId         = "contextId"
+	methodPost        = "POST"
 )
 
 // TestUnitPscDeltaSchemaNoErrors asserts that when a valid request body is given which matches the schema, then no
@@ -135,25 +135,26 @@ func TestUnitPscDeltaSchemaRequiredErrors(t *testing.T) {
 	})
 }
 
-// TestUnitPscDeltaDateLengthErrors asserts that when a request body is given with dates which are not of length 8
-// then an errors array is returned.
-// NOTE: there is no validation on the format of the dates in the spec, only properties asserted are type: string and [min|max]Length: 8
-func TestUnitPscDeltaDateLengthErrors(t *testing.T) {
+// TestUnitPscDeltaSchemaEnumErrors asserts that when an invalid request body is given with incorrect ENUM values.
+// then an errors array is returned, stating that given values are incorrect.
+func TestUnitPscDeltaSchemaEnumErrors(t *testing.T) {
 
-	Convey("Given I want to test the psc-delta API schema to assert mandatory validation is working correctly", t, func() {
-		dateErrorsRequestBody := common.ReadRequestBody(dateLengthErrorRequestBodyLocation)
+	Convey("Given I want to test the psc-delta API schema to assert ENUM validation is working correctly", t, func() {
 
-		r := httptest.NewRequest(methodPost, pscEndpoint, bytes.NewBuffer(dateErrorsRequestBody))
+		enumErrorsRequestBody := common.ReadRequestBody(enumErrorRequestBodyLocation)
+
+		r := httptest.NewRequest(methodPost, pscEndpoint, bytes.NewBuffer(enumErrorsRequestBody))
 		r = common.SetHeaders(r)
 
-		Convey("When I call to validate the request body, providing an valid request with missing mandatory values", func() {
+		Convey("When I call to validate the request body, providing an valid request with incorrect ENUM values", func() {
+
 			chv, _ := validation.NewCHValidator(apiSpecLocation)
 
 			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
 
 			Convey("Then I am given an errors array response as validation errors have been found", func() {
-				dateErrorsResponseBody := common.ReadRequestBody(dateLengthErrorResponseBodyLocation)
-				match := common.CompareActualToExpected(validationErrs, dateErrorsResponseBody)
+				enumErrorsResponseBody := common.ReadRequestBody(enumErrorResponseBodyLocation)
+				match := common.CompareActualToExpected(validationErrs, enumErrorsResponseBody)
 
 				So(validationErrs, ShouldNotBeNil)
 				So(match, ShouldEqual, true)

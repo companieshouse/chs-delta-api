@@ -64,8 +64,8 @@ func Register(mainRouter *mux.Router, cfg *config.Config, kSvc services.KafkaSer
 	appRouter.HandleFunc("/delta/psc-statement", NewDeltaHandler(kSvc, h, chv, cfg, false, false, cfg.PscStatementDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("psc-statement-delta")
 	appRouter.HandleFunc("/delta/psc-statement/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, false, cfg.PscStatementDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("psc-statement-delta-validate")
 	appRouter.HandleFunc("/delta/psc-statement/delete", NewDeltaHandler(kSvc, h, chv, cfg, false, true, cfg.PscStatementDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("psc-statement-delta")
-	appRouter.HandleFunc("/delta/psc", NewDeltaHandler(kSvc, h, chv, cfg, false, false, cfg.PscDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("psc-delta")
-	appRouter.HandleFunc("/delta/psc/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, false, cfg.PscDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("psc-delta")
+	appRouter.HandleFunc("/delta/pscs", NewDeltaHandler(kSvc, h, chv, cfg, false, false, cfg.PscDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("psc-delta")
+	appRouter.HandleFunc("/delta/pscs/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, false, cfg.PscDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("psc-delta-validate")
 	appRouter.Use(userAuthInterceptor.UserAuthenticationIntercept)
 	return nil
 }
