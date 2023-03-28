@@ -56,6 +56,8 @@ func TestUnitRegister(t *testing.T) {
 		So(router.GetRoute("disqualified-officer-delta-validate"), ShouldNotBeNil)
 		So(router.GetRoute("company-delta"), ShouldNotBeNil)
 		So(router.GetRoute("company-delta-validate"), ShouldNotBeNil)
+		So(router.GetRoute("psc-delta"), ShouldNotBeNil)
+		So(router.GetRoute("psc-delta-validate"), ShouldNotBeNil)
 		So(err, ShouldBeNil)
 	})
 }
