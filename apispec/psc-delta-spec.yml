@@ -47,6 +47,10 @@ components:
             - 'corporate-entity'
             - 'legal-person'
             - 'super-secure'
+            - 'individual-beneficial-owner'
+            - 'corporate-beneficial-owner'
+            - 'legal-person-beneficial-owner'
+            - 'super-secure-beneficial-owner'
         psc_id:
           type: string
         notification_date:
@@ -56,6 +60,8 @@ components:
         psc_statement_id:
           type: string
         address:
+          $ref: '#/components/schemas/Address'
+        usual_residential_address:
           $ref: '#/components/schemas/Address'
         name_elements:
           $ref: '#/components/schemas/NameElements'
