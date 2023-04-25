@@ -137,6 +137,16 @@ components:
           type: string
         country_registered:
           type: string
+        service_address_same_as_registered_office:
+          type: string
+          enum:
+            - 'Y'
+            - 'N'
+        residential_address_same_as_service_address:
+          type: string
+          enum:
+            - 'Y'
+            - 'N'
       required:
         - company_number
         - internal_id
