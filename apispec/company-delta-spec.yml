@@ -112,6 +112,8 @@ components:
           $ref:  '#/components/schemas/ForeignCompany'
         CreatedTime:
           type: string
+      required:
+        - company_number
 
     RegisteredOfficeAddress:
       type: object
