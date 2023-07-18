@@ -112,6 +112,8 @@ components:
           $ref:  '#/components/schemas/ForeignCompany'
         CreatedTime:
           type: string
+        super_secure_managing_officer_count:
+          type: string
       required:
         - company_number
 
@@ -219,8 +221,19 @@ components:
         required_to_publish:
           type: object
 
+    BranchCompanyDetails:
+      type: object
+      properties:
+        parent_company_name:
+          type: string
+        parent_company_number:
+          type: string
+    
     BooleanFlag:
       type: string
       enum:
         - '0'
         - '1'
+
+    parent_company_number:
+      type: string
