@@ -228,6 +228,8 @@ components:
           type: string
         parent_company_number:
           type: string
+        business_activity:
+          type: string
     
     BooleanFlag:
       type: string
