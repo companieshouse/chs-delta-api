@@ -51,6 +51,8 @@ components:
             - 'corporate-beneficial-owner'
             - 'legal-person-beneficial-owner'
             - 'super-secure-beneficial-owner'
+        identification:
+          $ref: '#/components/schemas/Identification'
         psc_id:
           type: string
         notification_date:
@@ -197,4 +199,18 @@ components:
         middle_name:
           type: string
           maxLength: 50
+
+    Identification:
+      type: object
+      properties:
+        legal_form:
+          type: string
+        legal_authority:
+          type: string
+        country_registered:
+          type: string
+        place_registered:
+          type: string
+        registration_number:
+          type: string
 
