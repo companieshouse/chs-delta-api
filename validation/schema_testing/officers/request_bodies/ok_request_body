@@ -2,6 +2,8 @@
   "officers": [
     {
       "company_number": "string",
+      "company_name": "string",
+      "status": "string",
       "changed_at": "string",
       "kind": "string",
       "internal_id": "string",

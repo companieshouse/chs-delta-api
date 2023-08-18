@@ -38,6 +38,12 @@ components:
       properties:
         company_number:
           type: string
+        company_name:
+          type: string
+          maxLength: 160
+        status:
+          type: string
+          maxLength: 160
         changed_at:
           type: string
         kind:
@@ -116,6 +122,7 @@ components:
         - officer_id
         - officer_detail_id
         - secure_director
+        - status
 
     Previous_name_array:
       type: object
