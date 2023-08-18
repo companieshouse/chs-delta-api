@@ -2,6 +2,8 @@
   "officers": [
     {
       "company_number": 123,
+      "company_name": 123,
+      "status": 123,
       "changed_at": 123,
       "kind": 123,
       "internal_id": 123,

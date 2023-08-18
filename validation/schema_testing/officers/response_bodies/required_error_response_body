@@ -1,5 +1,14 @@
 [
     {
+        "error": "property 'status' is missing",
+        "error_values": {
+            "status": ""
+        },
+        "location": "officers.0.status",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
         "error": "property 'corporate_ind' is missing",
         "error_values": {
             "corporate_ind": ""
