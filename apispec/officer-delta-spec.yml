@@ -123,6 +123,7 @@ components:
         - officer_detail_id
         - secure_director
         - status
+        - company_name
 
     Previous_name_array:
       type: object
