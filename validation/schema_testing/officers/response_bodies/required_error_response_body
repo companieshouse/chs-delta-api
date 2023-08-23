@@ -9,6 +9,15 @@
         "type": "ch:validation"
     },
     {
+        "error": "property 'company_name' is missing",
+        "error_values": {
+            "status": ""
+        },
+        "location": "officers.0.company_name",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
         "error": "property 'corporate_ind' is missing",
         "error_values": {
             "corporate_ind": ""
