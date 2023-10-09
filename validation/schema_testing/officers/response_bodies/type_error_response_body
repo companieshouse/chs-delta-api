@@ -317,6 +317,15 @@
     {
         "error": "Field must be set to string or not be present",
         "error_values": {
+            "external_number": "number, integer"
+        },
+        "location": "officers.0.external_number",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
             "usual_residential_country": "number, integer"
         },
         "location": "officers.0.usual_residential_country",

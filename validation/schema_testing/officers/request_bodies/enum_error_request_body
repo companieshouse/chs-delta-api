@@ -19,6 +19,7 @@
       "nationality": "string",
       "occupation": "string",
       "officer_id": "string",
+      "external_number": "string",
       "secure_director": "wrong",
       "officer_detail_id": "string",
       "officer_role": "string",
