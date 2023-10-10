@@ -13,6 +13,7 @@
       "nationality": "string",
       "occupation": "string",
       "officer_role": "string",
+      "external_number": "string",
       "usual_residential_country": "string",
       "residential_address_same_as_service_address": "Y",
       "previous_name_array": [{

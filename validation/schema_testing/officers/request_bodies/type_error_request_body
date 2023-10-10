@@ -19,6 +19,7 @@
       "nationality": 123,
       "occupation": 123,
       "officer_id": 123,
+      "external_number": 123,
       "secure_director": "Y",
       "officer_detail_id": 123,
       "officer_role": 123,
