@@ -23,10 +23,10 @@ const (
 	noRequestBodyErrorResponseBodyLocation = responseBodiesLocation + "no_request_body_error_response_body"
 	enumErrorResponseBodyLocation          = responseBodiesLocation + "enum_error_response_body"
 
-	pscEndpoint       = "/delta/pscs"
-	apiSpecLocation   = "../../../apispec/api-spec.yml"
-	contextId         = "contextId"
-	methodPost        = "POST"
+	pscEndpoint     = "/delta/pscs"
+	apiSpecLocation = "../../../apispec/api-spec.yml"
+	contextId       = "contextId"
+	methodPost      = "POST"
 )
 
 // TestUnitPscDeltaSchemaNoErrors asserts that when a valid request body is given which matches the schema, then no
