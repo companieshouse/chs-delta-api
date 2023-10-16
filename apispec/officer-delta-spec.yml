@@ -176,7 +176,7 @@ components:
           type: string
         locality:
           type: string
-        care_of:
+        care_of_name:
           type: string
         region:
           type: string

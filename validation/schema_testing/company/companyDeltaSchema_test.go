@@ -16,8 +16,8 @@ const (
 	invalidValueFormatRequestLocation = requestBodiesLocation + "invalid_value_format_request.json"
 	invalidDataTypeRequestLocation    = requestBodiesLocation + "invalid_data_type_request.json"
 	invalidComplexDataTypeRequest     = requestBodiesLocation + "invalid_complex_data_type_request.json"
-	deleteRequestBodyLocation          = requestBodiesLocation + "delete_ok_request_body.json"
-    deleteBadRequestBodyLocation       = requestBodiesLocation + "delete_bad_request_body.json"
+	deleteRequestBodyLocation         = requestBodiesLocation + "delete_ok_request_body.json"
+	deleteBadRequestBodyLocation      = requestBodiesLocation + "delete_bad_request_body.json"
 
 	responseBodiesLocation             = "./response_bodies/"
 	invalidEnumResponseLocation        = responseBodiesLocation + "invalid_enum_error_response.json"
@@ -26,11 +26,11 @@ const (
 	invalidComplexDataTypeResponse     = responseBodiesLocation + "invalid_complex_data_type_error_response.json"
 	deleteErrorResponseBodyLocation    = responseBodiesLocation + "delete_error_response_body"
 
-	companyEndpoint = "/delta/company"
+	companyEndpoint       = "/delta/company"
 	companyDeleteEndpoint = "/delta/company/delete"
-	apiSpecLocation = "../../../apispec/api-spec.yml"
-	contextId       = "contextId"
-	methodPost      = "POST"
+	apiSpecLocation       = "../../../apispec/api-spec.yml"
+	contextId             = "contextId"
+	methodPost            = "POST"
 )
 
 func TestUnitCompanyDeltaSchemaNoErrors(t *testing.T) {
@@ -161,48 +161,48 @@ func TestUnitCompanyDeltaSchemaReturnsErrorIfInvalidComplexDataTypesSpecified(t 
 
 func TestUnitCompanyDeleteDeltaSchemaNoErrors(t *testing.T) {
 
-    Convey("Given I want to test the company-delete-delta API schema", t, func() {
+	Convey("Given I want to test the company-delete-delta API schema", t, func() {
 
-        deleteRequestBody := common.ReadRequestBody(deleteRequestBodyLocation)
+		deleteRequestBody := common.ReadRequestBody(deleteRequestBodyLocation)
 
-        r := httptest.NewRequest(methodPost, companyDeleteEndpoint, bytes.NewBuffer(deleteRequestBody))
-        r = common.SetHeaders(r)
+		r := httptest.NewRequest(methodPost, companyDeleteEndpoint, bytes.NewBuffer(deleteRequestBody))
+		r = common.SetHeaders(r)
 
-        Convey("When I call to validate the request body, providing a valid request", func() {
+		Convey("When I call to validate the request body, providing a valid request", func() {
 
-            chv, _ := validation.NewCHValidator(apiSpecLocation)
+			chv, _ := validation.NewCHValidator(apiSpecLocation)
 
-            validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
+			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
 
-            Convey("Then I am given a nil response as no validation errors are returned", func() {
-                So(validationErrs, ShouldBeNil)
-            })
-        })
-    })
+			Convey("Then I am given a nil response as no validation errors are returned", func() {
+				So(validationErrs, ShouldBeNil)
+			})
+		})
+	})
 }
 
 func TestUnitCompanyDeleteDeltaSchemaBadRequestError(t *testing.T) {
 
-    Convey("Given I want to test the company-delete-delta API schema", t, func() {
+	Convey("Given I want to test the company-delete-delta API schema", t, func() {
 
-        deleteRequestBody := common.ReadRequestBody(deleteBadRequestBodyLocation)
+		deleteRequestBody := common.ReadRequestBody(deleteBadRequestBodyLocation)
 
-        r := httptest.NewRequest(methodPost, companyDeleteEndpoint, bytes.NewBuffer(deleteRequestBody))
-        r = common.SetHeaders(r)
+		r := httptest.NewRequest(methodPost, companyDeleteEndpoint, bytes.NewBuffer(deleteRequestBody))
+		r = common.SetHeaders(r)
 
-        Convey("When I call to validate the request body, providing a valid request", func() {
+		Convey("When I call to validate the request body, providing a valid request", func() {
 
-            chv, _ := validation.NewCHValidator(apiSpecLocation)
+			chv, _ := validation.NewCHValidator(apiSpecLocation)
 
-            validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
+			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
 
-            Convey("Then I am given an errors array response as validation errors have been found", func() {
-                mandatoryErrorsResponseBody := common.ReadRequestBody(deleteErrorResponseBodyLocation)
-                match := common.CompareActualToExpected(validationErrs, mandatoryErrorsResponseBody)
+			Convey("Then I am given an errors array response as validation errors have been found", func() {
+				mandatoryErrorsResponseBody := common.ReadRequestBody(deleteErrorResponseBodyLocation)
+				match := common.CompareActualToExpected(validationErrs, mandatoryErrorsResponseBody)
 
-                So(validationErrs, ShouldNotBeNil)
-                So(match, ShouldEqual, true)
-            })
-        })
-    })
+				So(validationErrs, ShouldNotBeNil)
+				So(match, ShouldEqual, true)
+			})
+		})
+	})
 }
