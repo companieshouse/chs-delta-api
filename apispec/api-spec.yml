@@ -37,6 +37,8 @@ paths:
     $ref: 'company-delta-spec.yml'
   /delta/pscs:
     $ref: 'psc-delta-spec.yml'
+  /delta/pscs:
+    $ref: 'psc-delete-delta-spec.yml'
   /delta/pscs/validate:
     $ref: 'psc-delta-spec.yml'
   /delta/exemption:
