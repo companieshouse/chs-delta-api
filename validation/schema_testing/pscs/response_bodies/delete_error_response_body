@@ -1,0 +1,8 @@
+[
+    {
+        "error":"property 'psc_id' is missing",
+        "error_values":{"psc__id":""},
+        "location":"psc_id",
+        "location_type":"json-path","type":"ch:validation"
+    }
+]

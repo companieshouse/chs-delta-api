@@ -16,14 +16,18 @@ const (
 	typeErrorRequestBodyLocation     = requestBodiesLocation + "type_error_request_body"
 	requiredErrorRequestBodyLocation = requestBodiesLocation + "required_error_request_body"
 	enumErrorRequestBodyLocation     = requestBodiesLocation + "enum_error_request_body"
+	deleteRequestBodyLocation        = requestBodiesLocation + "delete_ok_request_body"
+	deleteBadRequestBodyLocation     = requestBodiesLocation + "delete_bad_request_body"
 
 	responseBodiesLocation                 = "./response_bodies/"
 	typeErrorResponseBodyLocation          = responseBodiesLocation + "type_error_response_body"
 	requiredErrorResponseBodyLocation      = responseBodiesLocation + "required_error_response_body"
 	noRequestBodyErrorResponseBodyLocation = responseBodiesLocation + "no_request_body_error_response_body"
 	enumErrorResponseBodyLocation          = responseBodiesLocation + "enum_error_response_body"
+	deleteErrorResponseBodyLocation        = responseBodiesLocation + "delete_error_response_body"
 
 	pscEndpoint       = "/delta/pscs"
+	pscDeleteEndpoint = "/delta/pscs/delete"
 	apiSpecLocation   = "../../../apispec/api-spec.yml"
 	contextId         = "contextId"
 	methodPost        = "POST"
@@ -155,6 +159,58 @@ func TestUnitPscDeltaSchemaNoRequestBodyError(t *testing.T) {
 			Convey("Then I am given an error saying no request body provided", func() {
 				noRequestBodyErrorsResponseBody := common.ReadRequestBody(noRequestBodyErrorResponseBodyLocation)
 				match := common.CompareActualToExpected(validationErrs, noRequestBodyErrorsResponseBody)
+
+				So(validationErrs, ShouldNotBeNil)
+				So(match, ShouldEqual, true)
+			})
+		})
+	})
+}
+
+// TestUnitPscDeleteDeltaSchemaNoErrors asserts that when a valid request body is given which matches the schema, then no
+// errors are returned.
+func TestUnitPscDeleteDeltaSchemaNoErrors(t *testing.T) {
+	Convey("Given I want to test the psc-delete-delta API schema", t, func() {
+
+		deleteRequestBody := common.ReadRequestBody(deleteRequestBodyLocation)
+
+		r := httptest.NewRequest(methodPost, pscDeleteEndpoint, bytes.NewBuffer(deleteRequestBody))
+		r = common.SetHeaders(r)
+
+		Convey("When I call to validate the request body, providing a valid request", func() {
+
+			chv, _ := validation.NewCHValidator(apiSpecLocation)
+
+			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
+
+			Convey("Then I am given a nil response as no validation errors are returned", func() {
+				So(validationErrs, ShouldBeNil)
+			})
+		})
+	})
+}
+
+// TestUnitPscDeleteDeltaSchemaNoErrors asserts that when an invalid request body is given with a missing mandatory field and value, then 400
+// bad request error is returned.
+
+func TestUnitPscDeleteDeltaSchemaBadRequestError(t *testing.T) {
+
+	Convey("Given I want to test the psc-delete-delta API schema", t, func() {
+
+		deleteRequestBody := common.ReadRequestBody(deleteBadRequestBodyLocation)
+
+		r := httptest.NewRequest(methodPost, pscDeleteEndpoint, bytes.NewBuffer(deleteRequestBody))
+		r = common.SetHeaders(r)
+
+		Convey("When I call to validate the request body, providing a valid request", func() {
+
+			chv, _ := validation.NewCHValidator(apiSpecLocation)
+
+			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
+
+			Convey("Then I am given an errors array response as validation errors have been found", func() {
+				mandatoryErrorsResponseBody := common.ReadRequestBody(deleteErrorResponseBodyLocation)
+				match := common.CompareActualToExpected(validationErrs, mandatoryErrorsResponseBody)
 
 				So(validationErrs, ShouldNotBeNil)
 				So(match, ShouldEqual, true)
