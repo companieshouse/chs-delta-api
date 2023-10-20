@@ -4,12 +4,12 @@ github.com/Shopify/sarama v1.23.1 h1:XxJBCZEoWJtoWjf/xRbmGUpAmTZGnuuF0ON0EvxxBrs
 github.com/Shopify/sarama v1.23.1/go.mod h1:XLH1GYJnLVE0XCr6KdJGVJRTwY30moWNJ4sERjXX6fs=
 github.com/Shopify/toxiproxy v2.1.4+incompatible h1:TKdv8HiTLgE5wdJuEML90aBgNWsokNbMijUGhmcoBJc=
 github.com/Shopify/toxiproxy v2.1.4+incompatible/go.mod h1:OXgGpZ6Cli1/URJOF1DMxUHB2q5Ap20/P/eIdh4G0pI=
-github.com/companieshouse/chs.go v1.2.4 h1:zoSAZb9l6JCyX+3F2y2es95Mk7KRexhWNtBd8+q3FxM=
-github.com/companieshouse/chs.go v1.2.4/go.mod h1:93vQ2qlzSbZenUOFet+pAJzxHdz+w6BF1IvJ56lvC7c=
-github.com/companieshouse/envconf v0.1.0 h1:6EAyUYqBJsduWZQuz1AR8hxG5OwhPK0r3Y6ppcTDBmQ=
-github.com/companieshouse/envconf v0.1.0/go.mod h1:/gP4p46vTAENnqc2vXW441VOjL91ReJv/uqnYBzlaFo=
-github.com/companieshouse/gofigure v0.1.4 h1:BN7Dqn0xvNHwC+KHOUHigwP7ajkfHORos3hKRtEACUU=
-github.com/companieshouse/gofigure v0.1.4/go.mod h1:lBAsI13q21rMce+pO7x4xUYAXzO0MchuDsZUbCs0Yng=
+github.com/companieshouse/chs.go v1.2.10 h1:CB3xw+fbTpF8ioxv60QbYTPF4XksguGmVyt5QPmpUmk=
+github.com/companieshouse/chs.go v1.2.10/go.mod h1:mOIXD+8doirVUA+gHzA3bsR1AfYoPbMsO5aABFRLqoQ=
+github.com/companieshouse/envconf v0.1.5 h1:Tr0OqQwN8efwHwYtyLrFhX9bLtqLrOJFTe564nFeSWA=
+github.com/companieshouse/envconf v0.1.5/go.mod h1:0pyAKzutljmPjNsuYUVrcBN+azbhxL+/Vn7kPjf+VU4=
+github.com/companieshouse/gofigure v0.1.6 h1:jK/dpAOLphGJqtlZVki11nPjlHrouYccAu7ZmzlBm1w=
+github.com/companieshouse/gofigure v0.1.6/go.mod h1:IA7HSZu1Ji/kTPtLeP/Oi6N8YsNSTZQbMntd0YdV7Ms=
 github.com/companieshouse/htmlform v0.1.0/go.mod h1:fWScPVYjGyeBhYwppGaGRDtCQ5hMd3t3Q+0I6HaUZT4=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
@@ -52,7 +52,7 @@ github.com/jcmturner/gofork v0.0.0-20190328161633-dc7c13fece03/go.mod h1:MK8+TM0
 github.com/jtolds/gls v4.20.0+incompatible h1:xdiiI2gbIgH/gLH7ADydsJ1uDOEzR8yvV7C0MuV77Wo=
 github.com/jtolds/gls v4.20.0+incompatible/go.mod h1:QJZ7F/aHp+rZTRtaJ1ow/lLfFfVYBRgL+9YlvaHOwJU=
 github.com/justinas/alice v0.0.0-20171023064455-03f45bd4b7da/go.mod h1:oLH0CmIaxCGXD67VKGR5AacGXZSMznlmeqM8RzPrcY8=
-github.com/justinas/nosurf v0.0.0-20190416172904-05988550ea18/go.mod h1:Aucr5I5chr4OCuuVB4LTuHVrKHBuyRSo7vM2hqrcb7E=
+github.com/justinas/nosurf v1.1.1/go.mod h1:ALpWdSbuNGy2lZWtyXdjkYv4edL23oSEgfBT1gPJ5BQ=
 github.com/kr/pretty v0.1.0 h1:L/CwN0zerZDmRFUapSPitk6f+Q3+0za1rQkzVuMiMFI=
 github.com/kr/pretty v0.1.0/go.mod h1:dAy3ld7l9f0ibDNOQOHHMYYIIbhfbHSm3C4ZsoJORNo=
 github.com/kr/pty v1.1.1/go.mod h1:pFQYn66WHrOpPYNljwOMqo10TkYh1fy3cYio2l3bCsQ=
