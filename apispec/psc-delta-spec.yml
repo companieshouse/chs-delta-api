@@ -48,7 +48,7 @@ components:
             - 'legal-person'
             - 'super-secure'
             - 'individual-beneficial-owner'
-            - 'corporate-beneficial-owner'
+            - 'corporate-entity-beneficial-owner'
             - 'legal-person-beneficial-owner'
             - 'super-secure-beneficial-owner'
         identification:
@@ -64,6 +64,8 @@ components:
         address:
           $ref: '#/components/schemas/Address'
         usual_residential_address:
+          $ref: '#/components/schemas/Address'
+        principal_office_address:
           $ref: '#/components/schemas/Address'
         name_elements:
           $ref: '#/components/schemas/NameElements'
@@ -127,6 +129,18 @@ components:
               - 'VOTINGRIGHTS_75TO100PERCENT_AS_FIRM'
               - 'VOTINGRIGHTS_75TO100PERCENT_AS_PERSON'
               - 'VOTINGRIGHTS_75TO100PERCENT_AS_TRUST'
+              - 'OE_OWNERSHIPOFSHARES_MORETHAN25PERCENT_AS_FIRM'
+              - 'OE_OWNERSHIPOFSHARES_MORETHAN25PERCENT_AS_PERSON'
+              - 'OE_OWNERSHIPOFSHARES_MORETHAN25PERCENT_AS_TRUST'
+              - 'OE_RIGHTTOAPPOINTANDREMOVEDIRECTORS_AS_FIRM'
+              - 'OE_RIGHTTOAPPOINTANDREMOVEDIRECTORS_AS_PERSON'
+              - 'OE_RIGHTTOAPPOINTANDREMOVEDIRECTORS_AS_TRUST'
+              - 'OE_SIGINFLUENCECONTROL_AS_FIRM'
+              - 'OE_SIGINFLUENCECONTROL_AS_PERSON'
+              - 'OE_SIGINFLUENCECONTROL_AS_TRUST'
+              - 'OE_VOTINGRIGHTS_MORETHAN25PERCENT_AS_FIRM'
+              - 'OE_VOTINGRIGHTS_MORETHAN25PERCENT_AS_PERSON'
+              - 'OE_VOTINGRIGHTS_MORETHAN25PERCENT_AS_TRUST'
         name:
           type: string
         legal_form:
@@ -149,6 +163,11 @@ components:
           enum:
             - 'Y'
             - 'N'
+        sanction_ind:
+          type: string
+          enum:
+            - "0"
+            - "1"
       required:
         - company_number
         - internal_id
