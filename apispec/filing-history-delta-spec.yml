@@ -57,6 +57,10 @@ components:
           $ref: '#/components/schemas/DescriptionValues'
         pre_scanned_batch:
           type: string
+        child:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChildProperties'
 
     DescriptionValues:
       type: object
@@ -94,4 +98,20 @@ components:
         res_type:
           type: string
         cessation_date:
+          type: string
+
+    ChildProperties:
+      type: object
+      properties:
+        entity_id:
+          type: string
+        receive_date:
+          type: string
+        category:
+          type: string
+        form_type:
+          type: string
+        description:
+          type: string
+        document_id:
           type: string
