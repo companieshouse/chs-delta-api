@@ -115,3 +115,5 @@ components:
           type: string
         document_id:
           type: string
+        note:
+          type: string
