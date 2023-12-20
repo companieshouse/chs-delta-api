@@ -1,0 +1,119 @@
+post:
+  summary: Accepts an incoming Filing History delta, transforms it into an avro schema and puts it onto a Kafka topic.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/FilingHistoryDelta'
+  responses:
+    '200':
+      description: Successfully produced message onto Kafka topic.
+    '400':
+      description: Bad request body - validation errors.
+    '401':
+      description: Unauthorised - missing api key in header.
+    '500':
+      description: Internal server error has occurred.
+
+components:
+  schemas:
+    FilingHistoryDelta:
+      type: object
+      properties:
+        filing_history:
+          type: array
+          items:
+            $ref: '#/components/schemas/FilingHistory'
+        delta_at:
+          type: string
+      required:
+        - delta_at
+
+    FilingHistory:
+      type: object
+      properties:
+        category:
+          type: string
+        receive_date:
+          type: string
+        form_type:
+          type: string
+        description:
+          type: string
+        barcode:
+          type: string
+        document_id:
+          type: string
+        company_number:
+          type: string
+        entity_id:
+          type: string
+        parent_entity_id:
+          type: string
+        parent_form_type:
+          type: string
+        description_values:
+          $ref: '#/components/schemas/DescriptionValues'
+        pre_scanned_batch:
+          type: string
+        child:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChildProperties'
+
+    DescriptionValues:
+      type: object
+      properties:
+        resignation_date:
+          type: string
+        OFFICER_NAME:
+          type: string
+        case_start_date:
+          type: string
+        case_end_date:
+          type: string
+        made_up_date:
+          type: string
+        acc_type:
+          type: string
+        change_date:
+          type: string
+        officer_name:
+          type: string
+        accounting_period:
+          type: string
+        period_type:
+          type: string
+        extended:
+          type: string
+        new_date:
+          type: string
+        notification_date:
+          type: string
+        psc_name:
+          type: string
+        new_ro_address:
+          type: string
+        res_type:
+          type: string
+        cessation_date:
+          type: string
+
+    ChildProperties:
+      type: object
+      properties:
+        entity_id:
+          type: string
+        receive_date:
+          type: string
+        category:
+          type: string
+        form_type:
+          type: string
+        description:
+          type: string
+        document_id:
+          type: string
+        note:
+          type: string

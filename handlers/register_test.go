@@ -58,6 +58,8 @@ func TestUnitRegister(t *testing.T) {
 		So(router.GetRoute("company-delta-validate"), ShouldNotBeNil)
 		So(router.GetRoute("psc-delta"), ShouldNotBeNil)
 		So(router.GetRoute("psc-delta-validate"), ShouldNotBeNil)
+		So(router.GetRoute("filing-history-delta"), ShouldNotBeNil)
+		So(router.GetRoute("filing-history-delta-validate"), ShouldNotBeNil)
 		So(err, ShouldBeNil)
 	})
 }

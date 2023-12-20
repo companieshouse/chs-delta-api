@@ -53,6 +53,10 @@ paths:
     $ref: 'psc-statement-delta-spec.yml'
   /delta/psc-statement/delete:
     $ref: 'psc-statement-delete-delta-spec.yml'
+  /delta/filing-history:
+    $ref: 'filing-history-delta-spec.yml'
+  /delta/filing-history/validate:
+    $ref: 'filing-history-delta-spec.yml'
 
 components:
   securitySchemes:
