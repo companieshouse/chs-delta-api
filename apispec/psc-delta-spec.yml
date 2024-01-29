@@ -231,4 +231,3 @@ components:
           type: string
         registration_number:
           type: string
-
