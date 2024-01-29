@@ -25,14 +25,5 @@
         "location": "pscs.0.internal_id",
         "location_type": "json-path",
         "type": "ch:validation"
-    },
-    {
-        "error": "property 'psc_id' is missing",
-        "error_values": {
-            "psc_id": ""
-        },
-        "location": "pscs.0.psc_id",
-        "location_type": "json-path",
-        "type": "ch:validation"
     }
 ]

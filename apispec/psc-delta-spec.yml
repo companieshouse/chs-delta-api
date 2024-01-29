@@ -171,7 +171,6 @@ components:
       required:
         - company_number
         - internal_id
-        - psc_id
 
     Address:
       type: object
@@ -232,4 +231,3 @@ components:
           type: string
         registration_number:
           type: string
-
