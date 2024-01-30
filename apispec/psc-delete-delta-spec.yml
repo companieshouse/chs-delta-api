@@ -31,5 +31,4 @@ components:
             - DELETE
       required:
         - company_number
-        - psc_id
         - action

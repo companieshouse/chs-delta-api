@@ -1,8 +1,8 @@
 [
     {
-        "error":"property 'psc_id' is missing",
-        "error_values":{"psc__id":""},
-        "location":"psc_id",
+        "error":"property 'company_number' is missing",
+        "error_values":{"company_number":""},
+        "location":"company_number",
         "location_type":"json-path","type":"ch:validation"
     }
 ]
