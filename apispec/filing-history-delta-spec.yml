@@ -27,8 +27,11 @@ components:
             $ref: '#/components/schemas/FilingHistory'
         delta_at:
           type: string
+          minLength: 20
+          maxLength: 20
       required:
         - delta_at
+        - filing_history
 
     FilingHistory:
       type: object
@@ -37,6 +40,8 @@ components:
           type: string
         receive_date:
           type: string
+          minLength: 14
+          maxLength: 14
         form_type:
           type: string
         description:
@@ -47,6 +52,8 @@ components:
           type: string
         company_number:
           type: string
+          minLength: 8
+          maxLength: 8
         entity_id:
           type: string
         parent_entity_id:
@@ -61,6 +68,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ChildProperties'
+      required:
+        - category
+        - receive_date
+        - form_type
+        - description
+        - entity_id
 
     DescriptionValues:
       type: object
@@ -117,3 +130,9 @@ components:
           type: string
         note:
           type: string
+      required:
+        - category
+        - receive_date
+        - form_type
+        - description
+        - entity_id
