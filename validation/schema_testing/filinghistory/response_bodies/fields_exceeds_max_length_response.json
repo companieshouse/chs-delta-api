@@ -1,0 +1,29 @@
+[
+  {
+    "error": "maximum string length is 8",
+    "error_values": {
+      "company_number": "1234567890"
+    },
+    "location": "filing_history.0.company_number",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "maximum string length is 14",
+    "error_values": {
+      "receive_date": "2012060405391999"
+    },
+    "location": "filing_history.0.receive_date",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "maximum string length is 20",
+    "error_values": {
+      "delta_at": "2024110205391901583599"
+    },
+    "location": "delta_at",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  }
+]

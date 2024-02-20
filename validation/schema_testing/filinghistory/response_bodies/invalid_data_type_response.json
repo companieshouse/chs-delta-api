@@ -1,0 +1,65 @@
+[
+  {
+    "error": "Field must be set to string or not be present",
+    "error_values": {
+      "entity_id": "number, integer"
+    },
+    "location": "filing_history.0.child.0.entity_id",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "Field must be set to string or not be present",
+    "error_values": {
+      "receive_date": "number, integer"
+    },
+    "location": "filing_history.0.child.0.receive_date",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "Field must be set to string or not be present",
+    "error_values": {
+      "company_number": "number, integer"
+    },
+    "location": "filing_history.0.company_number",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "Field must be set to string or not be present",
+    "error_values": {
+      "entity_id": "number, integer"
+    },
+    "location": "filing_history.0.entity_id",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "Field must be set to string or not be present",
+    "error_values": {
+      "category": "number, integer"
+    },
+    "location": "filing_history.0.category",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "Field must be set to string or not be present",
+    "error_values": {
+      "receive_date": "number, integer"
+    },
+    "location": "filing_history.0.receive_date",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "Field must be set to string or not be present",
+    "error_values": {
+      "delta_at": "number, integer"
+    },
+    "location": "delta_at",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  }
+]

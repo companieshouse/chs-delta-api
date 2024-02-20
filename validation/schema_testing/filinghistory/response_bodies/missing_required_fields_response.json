@@ -1,0 +1,101 @@
+[
+  {
+    "error": "property 'category' is missing",
+    "error_values": {
+      "category": ""
+    },
+    "location": "filing_history.0.child.0.category",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "property 'receive_date' is missing",
+    "error_values": {
+      "receive_date": ""
+    },
+    "location": "filing_history.0.child.0.receive_date",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "property 'form_type' is missing",
+    "error_values": {
+      "form_type": ""
+    },
+    "location": "filing_history.0.child.0.form_type",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "property 'description' is missing",
+    "error_values": {
+      "description": ""
+    },
+    "location": "filing_history.0.child.0.description",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "property 'entity_id' is missing",
+    "error_values": {
+      "entity_id": ""
+    },
+    "location": "filing_history.0.child.0.entity_id",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "property 'category' is missing",
+    "error_values": {
+      "category": ""
+    },
+    "location": "filing_history.0.category",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "property 'receive_date' is missing",
+    "error_values": {
+      "receive_date": ""
+    },
+    "location": "filing_history.0.receive_date",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "property 'form_type' is missing",
+    "error_values": {
+      "form_type": ""
+    },
+    "location": "filing_history.0.form_type",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "property 'description' is missing",
+    "error_values": {
+      "description": ""
+    },
+    "location": "filing_history.0.description",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "property 'entity_id' is missing",
+    "error_values": {
+      "entity_id": ""
+    },
+    "location": "filing_history.0.entity_id",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "property 'delta_at' is missing",
+    "error_values": {
+      "delta_at": ""
+    },
+    "location": "delta_at",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  }
+]
