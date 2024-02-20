@@ -112,6 +112,24 @@ components:
           type: string
         cessation_date:
           type: string
+        appointment_date:
+          type: string
+        charge_creation_date:
+          type: string
+        property_acquired_date:
+          type: string
+        description:
+          type: string
+        date:
+          type: string
+        resolution_date:
+          type: string
+        action:
+          type: string
+        capital_type:
+          type: string
+        mortgage_satisfaction_date:
+          type: string
 
     ChildProperties:
       type: object
