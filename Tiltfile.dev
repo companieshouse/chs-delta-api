@@ -22,6 +22,7 @@ custom_build(
     'README.md',
     '.gitignore',
     '.dockerignore',
-    'version'
+    'version',
+    'start'
   ]
 )
