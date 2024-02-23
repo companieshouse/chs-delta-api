@@ -17,6 +17,8 @@ Environment Variables
 | EXEMPTION_DELTA_TOPIC             | company-exemptions-delta                | Exemption Delta Kafka topic to write messages to      | YES             |               |
 | PSC_STATEMENT_DELTA_TOPIC         | psc-statement-delta                     | Psc Statement Delta Kafka topic to write messages to  | YES             |               |
 | FILING_HISTORY_DELTA_TOPIC        | filing-history-delta                    | Filing History Delta Kafka topic to write messages to | YES             |               |
+| DOCUMENT_STORE_DELTA_TOPIC        | document-store-delta                    | Document Store Delta Kafka topic to write messages to | YES             |               |
+| REGISTERS_DELTA_TOPIC             | registers-delta                         | Registers Delta Kafka topic to write messages to      | YES             |               |
 | OPEN_API_SPEC                     | ./apispec/api-spec.yml                  | OpenAPI schema location                               | YES             |               |
 | LOG_LEVEL                         | trace                                   | The level at which the logger prints                  | NO              | info          |
 

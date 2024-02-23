@@ -1,0 +1,79 @@
+post:
+  summary: Accepts an incoming document store delta, transforms it into an avro schema and puts it onto a Kafka topic.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/DocumentStoreDelta'
+  responses:
+    '200':
+      description: Successfully produced message onto Kafka topic.
+    '400':
+      description: Bad request body - validation errors.
+    '401':
+      description: Unauthorised - missing api key in header.
+    '500':
+      description: Internal server error has occured.
+
+components:
+  schemas:
+    DocumentStoreDelta:
+      type: object
+      properties:
+        category:
+          type: string
+          enum:
+          - 'accounts'
+          - 'registered-office-change'
+          - 'officers'
+          - 'annual-returns'
+          - 'new-companies'
+          - 'miscellaneous'
+          - 'capital'
+          - 'liquidations'
+          - 'changes-of-name'
+          - 'constitutional'
+          - 'mortgages'
+        significant_date:
+          minLength: 10
+          maxLength: 10
+          type: string
+        significant_date_type:
+          type: string
+          enum:
+          - 'made-up-date'
+          - 'appointment-date'
+          - 'resignation-date'
+        barcode:
+          type: string
+        transaction_id:
+          type: string
+          pattern: '^[0-9]{0,10}$'
+        parent_transaction_id:
+          type: string
+          pattern: '^[0-9]{0,10}$'
+        company_number:
+          maxLength: 10
+          type: string
+        stored_image_url:
+          type: string
+        document_type:
+          type: string
+        parent_document_type:
+          type: string
+        pages:
+          type: string
+        filename:
+          type: string
+        delta_at:
+          type: string
+
+      required:
+        - category
+        - significant_date
+        - significant_date_type
+        - transaction_id
+        - company_number
+        - stored_image_url
+        - delta_at

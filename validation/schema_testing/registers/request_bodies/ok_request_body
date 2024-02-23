@@ -1,0 +1,65 @@
+{
+  "company_number": "14107712",
+  "directors": {
+      "items": [
+          {
+              "moved_on": "20231030111806",
+              "chips_description": "COMPANIES_HOUSE"
+          },
+          {
+              "moved_on": "20221030111806",
+              "chips_description": "ROA"
+          }
+      ]
+  },
+  "members": {
+      "items": [
+          {
+              "moved_on": "20231030111806",
+              "chips_description": "COMPANIES_HOUSE"
+          },
+          {
+              "moved_on": "20221030111806",
+              "chips_description": "ROA"
+          }
+      ]
+  },
+  "persons_with_significant_control": {
+      "items": [
+          {
+              "moved_on": "20231030111806",
+              "chips_description": "COMPANIES_HOUSE"
+          },
+          {
+              "moved_on": "20221030111806",
+              "chips_description": "ROA"
+          }
+      ]
+  },
+  "usual_residential_address": {
+      "items": [
+          {
+              "moved_on": "20231030111806",
+              "chips_description": "COMPANIES_HOUSE"
+          },
+          {
+              "moved_on": "20221030111806",
+              "chips_description": "ROA"
+          }
+      ]
+  },
+  "secretaries": {
+      "items": [
+          {
+              "moved_on": "20231030111806",
+              "chips_description": "COMPANIES_HOUSE"
+          },
+          {
+              "moved_on": "20221030111806",
+              "chips_description": "ROA"
+          }
+      ]
+  },
+  "CreatedTime": "30-OCT-23 11.21.02.000000",
+  "delta_at": "20231030111806428778"
+}
