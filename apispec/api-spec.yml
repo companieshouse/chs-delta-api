@@ -57,6 +57,8 @@ paths:
     $ref: 'filing-history-delta-spec.yml'
   /delta/filing-history/validate:
     $ref: 'filing-history-delta-spec.yml'
+  /delta/filing-history/delete:
+    $ref: 'filing-history-delete-delta-spec.yml'
 
 components:
   securitySchemes:

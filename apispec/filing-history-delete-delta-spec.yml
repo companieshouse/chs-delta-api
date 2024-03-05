@@ -1,0 +1,34 @@
+post:
+  summary: Accepts an incoming Filing History delta for a delete, transforms it into an avro schema and puts it onto a Kafka topic.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/FilingHistoryDeleteDelta'
+  responses:
+    '200':
+      description: Successfully added delete message onto Kafka topic.
+    '400':
+      description: Bad request body - validation errors.
+    '401':
+      description: Unauthorised - missing api key in header.
+    '500':
+      description: Internal server error has occurred.
+
+components:
+  schemas:
+    FilingHistoryDeleteDelta:
+      type: object
+      properties:
+        entity_id:
+          type: string
+          minLength: 1
+          maxLength: 10
+        action:
+          type: string
+          enum:
+            - DELETE
+      required:
+        - entity_id
+        - action
