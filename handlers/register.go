@@ -70,7 +70,7 @@ func Register(mainRouter *mux.Router, cfg *config.Config, kSvc services.KafkaSer
 	appRouter.HandleFunc("/delta/pscs/delete", NewDeltaHandler(kSvc, h, chv, cfg, false, true, cfg.PscDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("psc-delta-delete")
 	appRouter.HandleFunc("/delta/filing-history", NewDeltaHandler(kSvc, h, chv, cfg, false, false, cfg.FilingHistoryDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("filing-history-delta")
 	appRouter.HandleFunc("/delta/filing-history/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, false, cfg.FilingHistoryDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("filing-history-delta-validate")
-	appRouter.HandleFunc("/delta/filing-history/delete", NewDeltaHandler(kSvc, h, chv, cfg, false, true, cfg.ExemptionDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("filing-history-delete-delta")
+	appRouter.HandleFunc("/delta/filing-history/delete", NewDeltaHandler(kSvc, h, chv, cfg, false, true, cfg.FilingHistoryDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("filing-history-delete-delta")
 	appRouter.Use(userAuthInterceptor.UserAuthenticationIntercept)
 	return nil
 }
