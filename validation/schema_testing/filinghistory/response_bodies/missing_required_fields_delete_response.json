@@ -1,0 +1,20 @@
+[
+  {
+    "error": "property 'entity_id' is missing",
+    "error_values": {
+      "entity_id": ""
+    },
+    "location": "entity_id",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "property 'action' is missing",
+    "error_values": {
+      "action": ""
+    },
+    "location": "action",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  }
+]
