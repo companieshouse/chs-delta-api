@@ -136,6 +136,8 @@ components:
       properties:
         entity_id:
           type: string
+        barcode:
+          type: string
         receive_date:
           type: string
         category:
