@@ -59,6 +59,16 @@ paths:
     $ref: 'filing-history-delta-spec.yml'
   /delta/filing-history/delete:
     $ref: 'filing-history-delete-delta-spec.yml'
+  /delta/document-store:
+    $ref: 'document-store-delta-spec.yml'
+  /delta/document-store/validate:
+    $ref: 'document-store-delta-spec.yml'
+  /delta/registers:
+    $ref: 'registers-delta-spec.yml'
+  /delta/registers/validate:
+    $ref: 'registers-delta-spec.yml'
+  /delta/registers/delete:
+    $ref: 'registers-delete-delta-spec.yml'
 
 components:
   securitySchemes:

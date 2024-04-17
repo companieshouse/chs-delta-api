@@ -30,6 +30,8 @@ type Config struct {
 	PscStatementDeltaTopic  string   `env:"PSC_STATEMENT_DELTA_TOPIC" flag:"psc-statement-delta-topic" flagDesc:"Topic for psc statement deltas"`
 	PscDeltaTopic           string   `env:"PSC_DELTA_TOPIC" flag:"psc-delta-topic" flagDesc:"Topic for psc deltas"`
 	FilingHistoryDeltaTopic string   `env:"FILING_HISTORY_DELTA_TOPIC" flag:"filing-history-delta-topic" flagDesc:"Topic for filing history deltas"`
+	DocumentStoreDeltaTopic string   `env:"DOCUMENT_STORE_DELTA_TOPIC" flag:"document-store-delta-topic" flagDesc:"Topic for document store deltas"`
+	RegistersDeltaTopic     string   `env:"REGISTERS_DELTA_TOPIC" flag:"registers-delta-topic" flagDesc:"Topic for registers deltas"`
 }
 
 // Get returns a pointer to a Config instance populated with values from environment or command-line flags
@@ -106,9 +108,19 @@ func validateConfigs(cfg *Config) error {
 	}
 
 	if cfg.FilingHistoryDeltaTopic == "" {
-        log.Info("FILING_HISTORY_DELTA_TOPIC not set in environment")
-        mandatoryElementMissing = true
-    }
+		log.Info("FILING_HISTORY_DELTA_TOPIC not set in environment")
+		mandatoryElementMissing = true
+	}
+
+	if cfg.DocumentStoreDeltaTopic == "" {
+		log.Info("DOCUMENT_STORE_DELTA_TOPIC not set in environment")
+		mandatoryElementMissing = true
+	}
+
+	if cfg.RegistersDeltaTopic == "" {
+		log.Info("REGISTERS_DELTA_TOPIC not set in environment")
+		mandatoryElementMissing = true
+	}
 
 	if cfg.OpenApiSpec == "" {
 		log.Info("OPEN_API_SPEC not set in environment")

@@ -61,6 +61,11 @@ func TestUnitRegister(t *testing.T) {
 		So(router.GetRoute("filing-history-delta"), ShouldNotBeNil)
 		So(router.GetRoute("filing-history-delta-validate"), ShouldNotBeNil)
 		So(router.GetRoute("filing-history-delete-delta"), ShouldNotBeNil)
+		So(router.GetRoute("document-store-delta"), ShouldNotBeNil)
+		So(router.GetRoute("document-store-delta-validate"), ShouldNotBeNil)
+		So(router.GetRoute("registers-delta"), ShouldNotBeNil)
+		So(router.GetRoute("registers-delta-delete"), ShouldNotBeNil)
+		So(router.GetRoute("registers-delta-validate"), ShouldNotBeNil)
 		So(err, ShouldBeNil)
 	})
 }
