@@ -93,7 +93,7 @@ components:
         super_secure_psc_ind:
           $ref: '#/components/schemas/BooleanFlag'
         subtype:
-          $ref: '#/components/schemas/BooleanFlag'
+          type: string
         confirmation_statement_dates:
           $ref: '#/components/schemas/ConfirmationStatementDates'
         annual_return_dates:
