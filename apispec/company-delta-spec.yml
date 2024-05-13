@@ -104,8 +104,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SicCodes'
-        partial_data_available:
-          type: string
         previous_company_names:
           type: array
           items:
