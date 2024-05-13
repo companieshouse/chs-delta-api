@@ -219,7 +219,21 @@ components:
         country_of_origin:
           type: string
         required_to_publish:
-          type: object
+          $ref:  '#/components/schemas/RequiredToPublish'
+
+    RequiredToPublish:
+      type: object
+      properties:
+        day_from:
+          type: string
+        day_to:
+          type: string
+        month_from:
+          type: string
+        month_to:
+          type: string
+        number_of_months:
+          type: string
 
     BranchCompanyDetails:
       type: object
