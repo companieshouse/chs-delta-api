@@ -125,7 +125,7 @@ components:
           maxLength: 251
         address_line_2:
           type: string
-          maxLength: 50
+          maxLength: 251
         locality:
           type: string
           maxLength: 50
