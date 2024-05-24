@@ -3,9 +3,6 @@
         "location": "company_number"
     },
     {
-        "location": "registered_office_address.address_line_2"
-    },
-    {
         "location": "registered_office_address.locality"
     },
     {
