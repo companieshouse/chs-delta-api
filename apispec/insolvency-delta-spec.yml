@@ -34,6 +34,7 @@ components:
       - delta_at
       - company_number
       - case_numbers
+      - status
       type: object
       properties:
         delta_at:
@@ -46,6 +47,8 @@ components:
           items:
             $ref: '#/components/schemas/CaseNumber'
           minItems: 1
+        status:
+          type: string
 
     CaseNumber:
       required:

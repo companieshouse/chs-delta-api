@@ -1,6 +1,7 @@
 {
   "insolvency": [
     {
+      "status": "A",
       "case_numbers": [
         {
           "mortgage_id": "0",
