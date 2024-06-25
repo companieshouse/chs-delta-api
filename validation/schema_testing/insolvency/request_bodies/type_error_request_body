@@ -3,6 +3,7 @@
     {
       "delta_at": 123,
       "company_number": 123,
+      "status": "A",
       "case_numbers": [
         {
           "case_number": 0,

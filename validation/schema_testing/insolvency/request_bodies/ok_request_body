@@ -3,6 +3,7 @@
     {
       "delta_at": "20211008152823383176",
       "company_number": "string",
+      "status": "A",
       "case_numbers": [
         {
           "case_number": "0",
