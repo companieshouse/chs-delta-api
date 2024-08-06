@@ -70,6 +70,10 @@ components:
           $ref: '#/components/schemas/BooleanFlag'
         annual_return_overdue:
           $ref: '#/components/schemas/BooleanFlag'
+        corporate_annotation:
+          type: array
+          items:
+            $ref: '#/components/schemas/CorporateAnnotation'
         account_type:
           type: string
         acc_ref_date:
@@ -116,6 +120,18 @@ components:
           type: string
       required:
         - company_number
+
+    CorporateAnnotation:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - '100'
+        created_on:
+          type: string
+        description:
+          type: string
 
     RegisteredOfficeAddress:
       type: object
