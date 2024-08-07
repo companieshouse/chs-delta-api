@@ -37,7 +37,7 @@ components:
           - 'mortgages'
         significant_date:
           minLength: 10
-          maxLength: 10
+          maxLength: 26
           type: string
         significant_date_type:
           type: string
