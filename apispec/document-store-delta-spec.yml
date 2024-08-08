@@ -71,9 +71,6 @@ components:
 
       required:
         - category
-        - significant_date
-        - significant_date_type
         - transaction_id
         - company_number
         - stored_image_url
-        - delta_at
