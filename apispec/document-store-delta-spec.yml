@@ -62,8 +62,8 @@ components:
           type: string
         parent_document_type:
           type: string
-        pages:
-          type: string
+        page_count:
+          type: number
         filename:
           type: string
         delta_at:
