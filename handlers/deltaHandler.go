@@ -40,6 +40,7 @@ func NewDeltaHandler(kSvc services.KafkaService, h helpers.Helper, chv validatio
 func (kp *DeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	contextId := kp.h.GetRequestIdFromHeader(r)
+	log.InfoC(contextId, "processing delta", nil)
 
 	// Validate against the openAPI 3 spec before progressing any further.
 	errValidation, err := kp.chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
@@ -62,6 +63,7 @@ func (kp *DeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		// Get request body and marshal into a string, ready for publishing.
 		data, err := kp.h.GetDataFromRequest(r, contextId)
 		if err != nil {
+			log.ErrorC(contextId, err, log.Data{config.MessageKey: "error getting data from request"})
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
@@ -75,5 +77,6 @@ func (kp *DeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	log.InfoC(contextId, "Successfully processed delta", nil)
 	w.WriteHeader(http.StatusOK)
 }
