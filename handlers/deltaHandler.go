@@ -59,6 +59,8 @@ func NewDeltaHandlerValidate(kSvc services.KafkaService, h helpers.Helper, chv v
 func (kp *DeltaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	contextId := kp.h.GetRequestIdFromHeader(r)
+	startMsg := fmt.Sprintf("Starting delta process for: %s", r.URL.Path)
+	log.InfoC(contextId, startMsg, log.Data{"request_id": contextId})
 
 	// Validate against the openAPI 3 spec before progressing any further.
 	errValidation, err := kp.chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
