@@ -22,6 +22,7 @@ const (
 	endPoint         = "/delta/delta"
 	doValidationOnly = true
 	isDelete         = false
+	primaryId        = "primaryId"
 )
 
 // TestUnitNewDeltaHandler asserts that the constructor for the DeltaHandler returns a fully configured handler.
@@ -41,7 +42,7 @@ func TestUnitNewDeltaHandler(t *testing.T) {
 		}
 		cfg, _ := config.Get()
 
-		deltaHandler := NewDeltaHandler(svc, h, chv, cfg, !doValidationOnly, isDelete, topic)
+		deltaHandler := NewDeltaHandler(svc, h, chv, cfg, !doValidationOnly, isDelete, topic, primaryId)
 
 		So(deltaHandler, ShouldNotBeNil)
 
@@ -79,7 +80,7 @@ func TestUnitDeltaHandlerFailsRequestBodyRetrieval(t *testing.T) {
 			}
 			cfg, _ := config.Get()
 
-			handler := NewDeltaHandler(svc, h, chv, cfg, !doValidationOnly, isDelete, topic)
+			handler := NewDeltaHandler(svc, h, chv, cfg, !doValidationOnly, isDelete, topic, primaryId)
 
 			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, contextId).Return(nil, nil)
 			h.EXPECT().GetDataFromRequest(req, contextId).Return("", errors.New("error converting request body"))
@@ -117,7 +118,7 @@ func TestUnitDeltaHandlerSuccessfullySends(t *testing.T) {
 			}
 			cfg, _ := config.Get()
 
-			handler := NewDeltaHandler(svc, h, chv, cfg, !doValidationOnly, isDelete, topic)
+			handler := NewDeltaHandler(svc, h, chv, cfg, !doValidationOnly, isDelete, topic, primaryId)
 
 			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, contextId).Return(nil, nil)
 			h.EXPECT().GetDataFromRequest(req, contextId).Return(requestBody, nil)
@@ -155,7 +156,7 @@ func TestUnitDeltaHandlerFailsSend(t *testing.T) {
 			}
 			cfg, _ := config.Get()
 
-			handler := NewDeltaHandler(svc, h, chv, cfg, !doValidationOnly, isDelete, topic)
+			handler := NewDeltaHandler(svc, h, chv, cfg, !doValidationOnly, isDelete, topic, primaryId)
 
 			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, contextId).Return(nil, nil)
 			h.EXPECT().GetDataFromRequest(req, contextId).Return(requestBody, nil)
@@ -194,7 +195,7 @@ func TestUnitDeltaHandlerErrorsCallingValidation(t *testing.T) {
 			}
 			cfg, _ := config.Get()
 
-			handler := NewDeltaHandler(svc, h, chv, cfg, !doValidationOnly, isDelete, topic)
+			handler := NewDeltaHandler(svc, h, chv, cfg, !doValidationOnly, isDelete, topic, primaryId)
 
 			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, contextId).Return(nil, errors.New("error"))
 			h.EXPECT().GetRequestIdFromHeader(req).Return(contextId)
@@ -230,7 +231,7 @@ func TestUnitDeltaHandlerFailsValidation(t *testing.T) {
 			}
 			cfg, _ := config.Get()
 
-			handler := NewDeltaHandler(svc, h, chv, cfg, !doValidationOnly, isDelete, topic)
+			handler := NewDeltaHandler(svc, h, chv, cfg, !doValidationOnly, isDelete, topic, primaryId)
 
 			errBytes := []byte("error string")
 			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, contextId).Return(errBytes, nil)
@@ -267,7 +268,7 @@ func TestUnitDeltaHandlerValidatesOnly(t *testing.T) {
 			}
 			cfg, _ := config.Get()
 
-			handler := NewDeltaHandler(svc, h, chv, cfg, doValidationOnly, isDelete, topic)
+			handler := NewDeltaHandler(svc, h, chv, cfg, doValidationOnly, isDelete, topic, primaryId)
 
 			h.EXPECT().GetRequestIdFromHeader(req).Return(contextId)
 			chv.EXPECT().ValidateRequestAgainstOpenApiSpec(req, contextId).Return(nil, nil)
