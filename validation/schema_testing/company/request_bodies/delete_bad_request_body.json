@@ -1,3 +1,4 @@
 {
-  "action": "DELETE"
+  "action": "DELETE",
+  "delta_at": "string"
 }

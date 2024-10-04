@@ -29,7 +29,10 @@ components:
           type: string
           enum:
             - DELETE
+        delta_at:
+          type: string
       required:
         - company_number
         - psc_statement_id
         - action
+        - delta_at

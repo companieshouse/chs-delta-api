@@ -31,7 +31,10 @@ components:
           type: string
           enum:
             - DELETE
+        delta_at:
+          type: string
       required:
         - internal_id
         - company_number
         - action
+        - delta_at

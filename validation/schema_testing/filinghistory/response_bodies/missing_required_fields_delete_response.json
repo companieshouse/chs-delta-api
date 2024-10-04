@@ -16,5 +16,14 @@
     "location": "action",
     "location_type": "json-path",
     "type": "ch:validation"
+  },
+  {
+    "error": "property 'delta_at' is missing",
+    "error_values": {
+      "delta_at": ""
+    },
+    "location": "delta_at",
+    "location_type": "json-path",
+    "type": "ch:validation"
   }
 ]

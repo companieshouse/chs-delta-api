@@ -48,7 +48,7 @@ func (h Impl) GetDataFromRequest(r *http.Request, contextId string) (string, err
 	return strData, nil
 }
 
-//GetRequestIdFromHeader gets X-Request-Id from header and use it as a context id for logging
+// GetRequestIdFromHeader gets X-Request-Id from header and use it as a context id for logging
 func (h Impl) GetRequestIdFromHeader(r *http.Request) string {
 	requestID := r.Header.Get(xRequestId)
 	if requestID == "" {
