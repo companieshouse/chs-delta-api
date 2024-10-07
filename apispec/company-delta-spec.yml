@@ -125,6 +125,8 @@ components:
         type:
           type: string
           enum:
+            - '1'
+            - '2'
             - '100'
         created_on:
           type: string
