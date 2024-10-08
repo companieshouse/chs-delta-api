@@ -37,4 +37,3 @@ components:
         - internal_id
         - company_number
         - action
-        - delta_at
