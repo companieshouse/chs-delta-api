@@ -29,6 +29,8 @@ components:
           type: string
           enum:
             - DELETE
+        delta_at:
+          type: string
       required:
         - company_number
         - action
