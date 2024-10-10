@@ -1,0 +1,74 @@
+[
+  {
+    "error": "property 'acsp_number' is missing",
+    "error_values": {
+      "acsp_number": ""
+    },
+    "location": "acsp_number",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "property 'acsp_name' is missing",
+    "error_values": {
+      "acsp_name": ""
+    },
+    "location": "acsp_name",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "property 'status' is missing",
+    "error_values": {
+      "status": ""
+    },
+    "location": "status",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "property 'type' is missing",
+    "error_values": {
+      "type": ""
+    },
+    "location": "type",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "property 'notified_from' is missing",
+    "error_values": {
+      "notified_from": ""
+    },
+    "location": "notified_from",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "property 'registered_office_address' is missing",
+    "error_values": {
+      "registered_office_address": ""
+    },
+    "location": "registered_office_address",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "property 'email' is missing",
+    "error_values": {
+      "email": ""
+    },
+    "location": "email",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "property 'delta_at' is missing",
+    "error_values": {
+      "delta_at": ""
+    },
+    "location": "delta_at",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  }
+]
