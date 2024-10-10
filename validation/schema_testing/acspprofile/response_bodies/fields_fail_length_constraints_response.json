@@ -1,0 +1,38 @@
+[
+  {
+    "error": "maximum string length is 20",
+    "error_values": {
+      "delta_at": "20241010175532456"
+    },
+    "location": "delta_at",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "maximum string length is 8",
+    "error_values": {
+      "deauthorised_from": "1/8/25"
+    },
+    "location": "deauthorised_from",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "maximum string length is 8",
+    "error_values": {
+      "acsp_number": "AP12345678"
+    },
+    "location": "acsp_number",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  },
+  {
+    "error": "maximum string length is 8",
+    "error_values": {
+      "notified_from": "240902"
+    },
+    "location": "notified_from",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  }
+]

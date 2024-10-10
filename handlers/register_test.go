@@ -66,6 +66,8 @@ func TestUnitRegister(t *testing.T) {
 		So(router.GetRoute("registers-delta"), ShouldNotBeNil)
 		So(router.GetRoute("registers-delta-delete"), ShouldNotBeNil)
 		So(router.GetRoute("registers-delta-validate"), ShouldNotBeNil)
+		So(router.GetRoute("acsp-profile-delta"), ShouldNotBeNil)
+		So(router.GetRoute("acsp-profile-delta-validate"), ShouldNotBeNil)
 		So(err, ShouldBeNil)
 	})
 }

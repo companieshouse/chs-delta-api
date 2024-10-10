@@ -1,0 +1,47 @@
+{
+  "acsp_number": "AP12345678",
+  "acsp_name": "John Doe",
+  "status": "ceased",
+  "type": "sole-trader",
+  "business_sector": "high-value-dealers",
+  "notified_from": "240902",
+  "deauthorised_from": "1/8/25",
+  "registered_office_address": {
+    "address_line_1": "456 Another Street",
+    "address_line_2": "Floor 2",
+    "care_of": "Jane Smith",
+    "country": "united-kingdom",
+    "locality": "Manchester",
+    "po_box": "PO Box 123",
+    "postal_code": "M1 2AB",
+    "premises": "Another Building",
+    "region": "Greater Manchester"
+  },
+  "service_address": {
+    "address_line_1": "456 Another Street",
+    "address_line_2": "Floor 2",
+    "care_of": "Jane Smith",
+    "country": "united-kingdom",
+    "locality": "Manchester",
+    "po_box": "PO Box 123",
+    "postal_code": "M1 2AB",
+    "premises": "Another Building",
+    "region": "Greater Manchester"
+  },
+  "sole_trader_details": {
+    "date_of_birth": "19410627",
+    "forename": "John",
+    "other_forenames": "A.",
+    "surname": "Doe",
+    "nationality": "British",
+    "usual_residential_country": "united-kingdom"
+  },
+  "email": "john.doe@example.com",
+  "aml_details": [
+    {
+      "membership_details": "Membership ID: FCA654321",
+      "supervisory_body": "financial-conduct-authority-fca"
+    }
+  ],
+  "delta_at": "20241010175532456"
+}

@@ -32,6 +32,7 @@ type Config struct {
 	FilingHistoryDeltaTopic string   `env:"FILING_HISTORY_DELTA_TOPIC" flag:"filing-history-delta-topic" flagDesc:"Topic for filing history deltas"`
 	DocumentStoreDeltaTopic string   `env:"DOCUMENT_STORE_DELTA_TOPIC" flag:"document-store-delta-topic" flagDesc:"Topic for document store deltas"`
 	RegistersDeltaTopic     string   `env:"REGISTERS_DELTA_TOPIC" flag:"registers-delta-topic" flagDesc:"Topic for registers deltas"`
+	AcspProfileDeltaTopic   string   `env:"ACSP_PROFILE_DELTA_TOPIC" flag:"acsp-profile-delta-topic" flagDesc:"Topic for ACSP profile deltas"`
 }
 
 // Get returns a pointer to a Config instance populated with values from environment or command-line flags
@@ -119,6 +120,11 @@ func validateConfigs(cfg *Config) error {
 
 	if cfg.RegistersDeltaTopic == "" {
 		log.Info("REGISTERS_DELTA_TOPIC not set in environment")
+		mandatoryElementMissing = true
+	}
+
+	if cfg.AcspProfileDeltaTopic == "" {
+		log.Info("ACSP_PROFILE_DELTA_TOPIC not set in environment")
 		mandatoryElementMissing = true
 	}
 

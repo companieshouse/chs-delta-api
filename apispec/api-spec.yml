@@ -69,6 +69,10 @@ paths:
     $ref: 'registers-delta-spec.yml'
   /delta/registers/delete:
     $ref: 'registers-delete-delta-spec.yml'
+  /delta/acsp:
+    $ref: 'acsp-profile-delta-spec.yml'
+  /delta/acsp/validate:
+    $ref: 'acsp-profile-delta-spec.yml'
 
 components:
   securitySchemes:
