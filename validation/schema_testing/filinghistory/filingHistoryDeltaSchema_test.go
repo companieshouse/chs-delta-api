@@ -158,7 +158,7 @@ func TestUnitFilingHistoryDeleteDeltaSchemaNoErrors(t *testing.T) {
 }
 
 func TestUnitFilingHistoryDeleteDeltaSchemasWhereFieldsAreMissing(t *testing.T) {
-	convey.Convey("Given a filing history delete delta request body is missing both top level fields", t, func() {
+	convey.Convey("Given a filing history delete delta request body is missing top level fields", t, func() {
 		requestBody := common.ReadRequestBody(missingFieldsDeleteRequestBody)
 		r := httptest.NewRequest(methodPost, filingHistoryDeleteEndpoint, bytes.NewBuffer(requestBody))
 		r = common.SetHeaders(r)
