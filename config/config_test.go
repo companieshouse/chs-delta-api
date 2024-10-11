@@ -32,6 +32,7 @@ func TestUnitGetNoErrors(t *testing.T) {
 	_ = os.Setenv("FILING_HISTORY_DELTA_TOPIC", "filing-history-delta-topic")
 	_ = os.Setenv("DOCUMENT_STORE_DELTA_TOPIC", "document-store-delta-topic")
 	_ = os.Setenv("REGISTERS_DELTA_TOPIC", "registers-delta-topic")
+	_ = os.Setenv("ACSP_PROFILE_DELTA_TOPIC", "acsp-profile-delta-topic")
 	_ = os.Setenv("OPEN_API_SPEC", "open_api_spec")
 	Convey("When I try to get the config via the Get method and all config vars are provided", t, func() {
 		cfg, err := Get()

@@ -76,6 +76,8 @@ func Register(mainRouter *mux.Router, cfg *config.Config, kSvc services.KafkaSer
 	appRouter.HandleFunc("/delta/registers", NewDeltaHandler(kSvc, h, chv, cfg, false, false, cfg.RegistersDeltaTopic, "company_number").ServeHTTP).Methods(http.MethodPost).Name("registers-delta")
 	appRouter.HandleFunc("/delta/registers/delete", NewDeltaHandler(kSvc, h, chv, cfg, false, true, cfg.RegistersDeltaTopic, "company_number").ServeHTTP).Methods(http.MethodPost).Name("registers-delta-delete")
 	appRouter.HandleFunc("/delta/registers/validate", NewDeltaHandlerValidate(kSvc, h, chv, cfg, true, false, cfg.RegistersDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("registers-delta-validate")
+	appRouter.HandleFunc("/delta/acsp", NewDeltaHandler(kSvc, h, chv, cfg, false, false, cfg.AcspProfileDeltaTopic, "acsp_number").ServeHTTP).Methods(http.MethodPost).Name("acsp-profile-delta")
+	appRouter.HandleFunc("/delta/acsp/validate", NewDeltaHandlerValidate(kSvc, h, chv, cfg, true, false, cfg.AcspProfileDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("acsp-profile-delta-validate")
 	appRouter.Use(userAuthInterceptor.UserAuthenticationIntercept)
 
 	// TODO: move these back to appRouter when CHIPS image-sender service has been updated to allow an aPI key to be configured to its calls here
