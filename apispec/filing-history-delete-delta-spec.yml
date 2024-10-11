@@ -34,3 +34,4 @@ components:
       required:
         - entity_id
         - action
+        - delta_at

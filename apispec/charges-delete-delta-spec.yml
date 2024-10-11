@@ -32,3 +32,4 @@ components:
       required:
         - charges_id
         - action
+        - delta_at
