@@ -35,3 +35,4 @@ components:
         - company_number
         - psc_statement_id
         - action
+        - delta_at
