@@ -30,7 +30,7 @@ components:
         aml_details:
           type: array
           items:
-            $ref: '#/components/schemas/AmlDetails'
+            $ref: '#/components/schemas/AcspAmlDetails'
         business_sector:
           type: string
         deauthorised_from:
@@ -48,17 +48,11 @@ components:
           minLength: 8
           maxLength: 8
         registered_office_address:
-          type: object
-          items:
-            $ref: '#/components/schemas/Address'
+          $ref: '#/components/schemas/AcspAddress'
         service_address:
-          type: object
-          items:
-            $ref: '#/components/schemas/Address'
+          $ref: '#/components/schemas/AcspAddress'
         sole_trader_details:
-          type: object
-          items:
-            $ref: '#/components/schemas/SoleTraderDetails'
+          $ref: '#/components/schemas/AcspSoleTraderDetails'
         status:
           type: string
         type:
@@ -73,7 +67,7 @@ components:
         - status
         - type
 
-    AmlDetails:
+    AcspAmlDetails:
       type: object
       properties:
         membership_details:
@@ -81,7 +75,7 @@ components:
         supervisory_body:
           type: string
 
-    Address:
+    AcspAddress:
       type: object
       properties:
         address_line_1:
@@ -103,7 +97,7 @@ components:
         region:
           type: string
 
-    SoleTraderDetails:
+    AcspSoleTraderDetails:
       type: object
       properties:
         date_of_birth:
