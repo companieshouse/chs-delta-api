@@ -34,3 +34,4 @@ components:
       required:
         - officer_id
         - action
+        - delta_at

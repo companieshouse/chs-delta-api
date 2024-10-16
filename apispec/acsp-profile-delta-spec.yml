@@ -1,0 +1,120 @@
+post:
+  summary: Accepts an incoming ACSP Profile delta, transforms it into an avro schema and puts it onto a Kafka topic.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/AcspProfileDelta'
+  responses:
+    '200':
+      description: Successfully produced message onto Kafka topic.
+    '400':
+      description: Bad request body - validation errors.
+    '401':
+      description: Unauthorised - missing api key in header.
+    '500':
+      description: Internal server error has occurred.
+
+components:
+  schemas:
+    AcspProfileDelta:
+      type: object
+      properties:
+        acsp_name:
+          type: string
+        acsp_number:
+          type: string
+          minLength: 8
+          maxLength: 8
+        aml_details:
+          type: array
+          items:
+            $ref: '#/components/schemas/AmlDetails'
+        business_sector:
+          type: string
+        deauthorised_from:
+          type: string
+          minLength: 8
+          maxLength: 8
+        delta_at:
+          type: string
+          minLength: 20
+          maxLength: 20
+        email:
+          type: string
+        notified_from:
+          type: string
+          minLength: 8
+          maxLength: 8
+        registered_office_address:
+          type: object
+          items:
+            $ref: '#/components/schemas/Address'
+        service_address:
+          type: object
+          items:
+            $ref: '#/components/schemas/Address'
+        sole_trader_details:
+          type: object
+          items:
+            $ref: '#/components/schemas/SoleTraderDetails'
+        status:
+          type: string
+        type:
+          type: string
+      required:
+        - acsp_name
+        - acsp_number
+        - delta_at
+        - email
+        - notified_from
+        - registered_office_address
+        - status
+        - type
+
+    AmlDetails:
+      type: object
+      properties:
+        membership_details:
+          type: string
+        supervisory_body:
+          type: string
+
+    Address:
+      type: object
+      properties:
+        address_line_1:
+          type: string
+        address_line_2:
+          type: string
+        care_of:
+          type: string
+        country:
+          type: string
+        locality:
+          type: string
+        po_box:
+          type: string
+        postal_code:
+          type: string
+        premises:
+          type: string
+        region:
+          type: string
+
+    SoleTraderDetails:
+      type: object
+      properties:
+        date_of_birth:
+          type: string
+        forename:
+          type: string
+        middle_name:
+          type: string
+        nationality:
+          type: string
+        surname:
+          type: string
+        usual_country_of_residence:
+          type: string
