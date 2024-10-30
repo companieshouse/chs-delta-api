@@ -2,5 +2,4 @@
   "company_number": "1234",
   "action": "DELETE",
   "delta_at": "string"
-  "psc_kind": "individual"
 }
