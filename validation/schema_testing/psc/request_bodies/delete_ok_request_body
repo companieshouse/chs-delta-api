@@ -3,4 +3,5 @@
   "psc_statement_id": "123456789",
   "action": "DELETE",
   "delta_at": "string"
+  "psc_kind": "individual"
 }
