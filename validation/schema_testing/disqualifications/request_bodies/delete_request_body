@@ -1,5 +1,6 @@
 {
     "officer_id": "1234567",
     "action": "DELETE",
-    "delta_at": "string"
+    "delta_at": "string",
+    "corporate_ind": "1"
 }
