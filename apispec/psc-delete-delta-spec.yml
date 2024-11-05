@@ -31,7 +31,7 @@ components:
             - DELETE
         delta_at:
           type: string
-        psc_kind:
+        kind:
           type: string
           enum:
             - 'individual'
