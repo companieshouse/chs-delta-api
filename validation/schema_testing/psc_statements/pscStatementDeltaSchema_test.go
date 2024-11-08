@@ -1,4 +1,4 @@
-package psc
+package psc_statements
 
 import (
 	"bytes"

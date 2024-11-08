@@ -1,5 +1,6 @@
 {
   "psc_id": "123456789",
   "action": "DELETE",
+  "kind": "individual",
   "delta_at": "string"
 }

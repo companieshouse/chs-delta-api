@@ -14,7 +14,7 @@ post:
     '401':
       description: Unauthorised - missing api key in header.
     '500':
-      description: Internal server error has occured.
+      description: Internal server error has occurred.
 
 components:
   schemas:
@@ -31,6 +31,17 @@ components:
             - DELETE
         delta_at:
           type: string
+        kind:
+          type: string
+          enum:
+            - 'individual'
+            - 'corporate-entity'
+            - 'legal-person'
+            - 'super-secure'
+            - 'individual-beneficial-owner'
+            - 'corporate-entity-beneficial-owner'
+            - 'legal-person-beneficial-owner'
+            - 'super-secure-beneficial-owner'
       required:
         - company_number
         - action
