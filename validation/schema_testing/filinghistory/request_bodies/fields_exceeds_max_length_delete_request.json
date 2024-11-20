@@ -1,5 +1,6 @@
 {
   "entity_id" : "11769591490",
   "action" : "DELETE",
-  "delta_at": "string"
+  "delta_at": "string",
+  "company_number" : "12345678"
 }

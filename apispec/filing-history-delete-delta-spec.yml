@@ -47,3 +47,4 @@ components:
         - entity_id
         - action
         - delta_at
+        - company_number
