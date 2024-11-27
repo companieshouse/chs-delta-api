@@ -1,0 +1,11 @@
+[
+  {
+    "error": "maximum string length is 8",
+    "error_values": {
+      "entity_id": "123456789"
+    },
+    "location": "company_number",
+    "location_type": "json-path",
+    "type": "ch:validation"
+  }
+]

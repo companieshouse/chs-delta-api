@@ -13,11 +13,14 @@ import (
 const (
 	requestBodiesLocation              = "./request_bodies/"
 	okRequestBodyLocation              = requestBodiesLocation + "ok_request_body"
-	deleteRequestBodyLocation          = requestBodiesLocation + "delete_request_body"
 	typeErrorRequestBodyLocation       = requestBodiesLocation + "type_error_request_body"
 	requiredErrorRequestBodyLocation   = requestBodiesLocation + "required_error_request_body"
 	dateLengthErrorRequestBodyLocation = requestBodiesLocation + "date_length_error_request_body"
 	regexErrorRequestBodyLocation      = requestBodiesLocation + "regex_error_request_body"
+	deleteRequestBodyLocation          = requestBodiesLocation + "valid_delete_request"
+	missingFieldsDeleteRequestBody     = requestBodiesLocation + "missing_required_fields_delete_request.json"
+	exceedsMaxLengthDeleteRequestBody  = requestBodiesLocation + "fields_exceeds_max_length_delete_request.json"
+	invalidDataTypeDeleteRequestBody   = requestBodiesLocation + "invalid_data_type_delete_request.json"
 
 	responseBodiesLocation                 = "./response_bodies/"
 	typeErrorResponseBodyLocation          = responseBodiesLocation + "type_error_response_body"
@@ -25,6 +28,9 @@ const (
 	noRequestBodyErrorResponseBodyLocation = responseBodiesLocation + "no_request_body_error_response_body"
 	dateLengthErrorResponseBodyLocation    = responseBodiesLocation + "date_length_error_response_body"
 	regexErrorResponseBodyLocation         = responseBodiesLocation + "regex_error_response_body"
+	missingFieldsDeleteResponseBody        = responseBodiesLocation + "missing_required_fields_delete_response.json"
+	exceedsMaxLengthDeleteResponseBody     = responseBodiesLocation + "fields_exceeds_max_length_delete_response.json"
+	invalidDataTypeDeleteResponseBody      = responseBodiesLocation + "invalid_data_type_delete_response.json"
 
 	chargesEndpoint       = "/delta/charges"
 	chargesDeleteEndpoint = "/delta/charges/delete"
@@ -42,30 +48,6 @@ func TestUnitChargesDeltaSchemaNoErrors(t *testing.T) {
 		okRequestBody := common.ReadRequestBody(okRequestBodyLocation)
 
 		r := httptest.NewRequest(methodPost, chargesEndpoint, bytes.NewBuffer(okRequestBody))
-		r = common.SetHeaders(r)
-
-		Convey("When I call to validate the request body, providing a valid request", func() {
-
-			chv, _ := validation.NewCHValidator(apiSpecLocation)
-
-			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
-
-			Convey("Then I am given a nil response as no validation errors are returned", func() {
-				So(validationErrs, ShouldBeNil)
-			})
-		})
-	})
-}
-
-// TestUnitChargesDeleteDeltaSchemaNoErrors asserts that when a valid request body is given which matches the schema, then no
-// errors are returned.
-func TestUnitChargesDeleteDeltaSchemaNoErrors(t *testing.T) {
-
-	Convey("Given I want to test the charges-delete-delta API schema", t, func() {
-
-		deleteRequestBody := common.ReadRequestBody(deleteRequestBodyLocation)
-
-		r := httptest.NewRequest(methodPost, chargesDeleteEndpoint, bytes.NewBuffer(deleteRequestBody))
 		r = common.SetHeaders(r)
 
 		Convey("When I call to validate the request body, providing a valid request", func() {
@@ -213,6 +195,93 @@ func TestUnitChargesDeltaSchemaRegexErrors(t *testing.T) {
 
 				So(validationErrs, ShouldNotBeNil)
 				So(match, ShouldEqual, true)
+			})
+		})
+	})
+}
+
+// TestUnitChargesDeleteDeltaSchemaNoErrors asserts that when a valid request body is given which matches the schema, then no
+// errors are returned.
+func TestUnitChargesDeleteDeltaSchemaNoErrors(t *testing.T) {
+
+	Convey("Given I want to test the charges-delete-delta API schema", t, func() {
+
+		deleteRequestBody := common.ReadRequestBody(deleteRequestBodyLocation)
+
+		r := httptest.NewRequest(methodPost, chargesDeleteEndpoint, bytes.NewBuffer(deleteRequestBody))
+		r = common.SetHeaders(r)
+
+		Convey("When I call to validate the request body, providing a valid request", func() {
+
+			chv, _ := validation.NewCHValidator(apiSpecLocation)
+
+			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
+
+			Convey("Then I am given a nil response as no validation errors are returned", func() {
+				So(validationErrs, ShouldBeNil)
+			})
+		})
+	})
+}
+
+func TestUnitFilingHistoryDeleteDeltaSchemasWhereFieldsAreMissing(t *testing.T) {
+	Convey("Given a charge delete delta request body is missing top level fields", t, func() {
+		requestBody := common.ReadRequestBody(missingFieldsDeleteRequestBody)
+		r := httptest.NewRequest(methodPost, chargesDeleteEndpoint, bytes.NewBuffer(requestBody))
+		r = common.SetHeaders(r)
+
+		Convey("When the request is validated", func() {
+			chv, _ := validation.NewCHValidator(apiSpecLocation)
+			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
+
+			Convey("Then all validation errors should be returned", func() {
+				responseBody := common.ReadRequestBody(missingFieldsDeleteResponseBody)
+				match := common.CompareActualToExpected(validationErrs, responseBody)
+
+				So(validationErrs, ShouldNotBeNil)
+				So(match, ShouldBeTrue)
+			})
+		})
+	})
+}
+
+func TestUnitFilingHistoryDeleteDeltaSchemasWhereFieldsExceedsMaxLength(t *testing.T) {
+	Convey("Given a charge delete delta request body where entity id is over 10 characters", t, func() {
+		requestBody := common.ReadRequestBody(exceedsMaxLengthDeleteRequestBody)
+		r := httptest.NewRequest(methodPost, chargesDeleteEndpoint, bytes.NewBuffer(requestBody))
+		r = common.SetHeaders(r)
+
+		Convey("When the request is validated", func() {
+			chv, _ := validation.NewCHValidator(apiSpecLocation)
+			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
+
+			Convey("Then all validation errors should be returned", func() {
+				responseBody := common.ReadRequestBody(exceedsMaxLengthDeleteResponseBody)
+				match := common.CompareActualToExpected(validationErrs, responseBody)
+
+				So(validationErrs, ShouldNotBeNil)
+				So(match, ShouldBeTrue)
+			})
+		})
+	})
+}
+
+func TestUnitFilingHistoryDeleteDeltaSchemasWithInvalidDataTypeForFields(t *testing.T) {
+	Convey("Given a charge delete delta request body where entity id is not a string", t, func() {
+		requestBody := common.ReadRequestBody(invalidDataTypeDeleteRequestBody)
+		r := httptest.NewRequest(methodPost, chargesDeleteEndpoint, bytes.NewBuffer(requestBody))
+		r = common.SetHeaders(r)
+
+		Convey("When the request is validated", func() {
+			chv, _ := validation.NewCHValidator(apiSpecLocation)
+			validationErrs, _ := chv.ValidateRequestAgainstOpenApiSpec(r, contextId)
+
+			Convey("Then all validation errors should be returned", func() {
+				responseBody := common.ReadRequestBody(invalidDataTypeDeleteResponseBody)
+				match := common.CompareActualToExpected(validationErrs, responseBody)
+
+				So(validationErrs, ShouldNotBeNil)
+				So(match, ShouldBeTrue)
 			})
 		})
 	})
