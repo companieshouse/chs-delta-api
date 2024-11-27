@@ -224,7 +224,7 @@ func TestUnitChargesDeleteDeltaSchemaNoErrors(t *testing.T) {
 	})
 }
 
-func TestUnitFilingHistoryDeleteDeltaSchemasWhereFieldsAreMissing(t *testing.T) {
+func TestUnitChargeDeleteDeltaSchemasWhereFieldsAreMissing(t *testing.T) {
 	Convey("Given a charge delete delta request body is missing top level fields", t, func() {
 		requestBody := common.ReadRequestBody(missingFieldsDeleteRequestBody)
 		r := httptest.NewRequest(methodPost, chargesDeleteEndpoint, bytes.NewBuffer(requestBody))
@@ -245,7 +245,7 @@ func TestUnitFilingHistoryDeleteDeltaSchemasWhereFieldsAreMissing(t *testing.T) 
 	})
 }
 
-func TestUnitFilingHistoryDeleteDeltaSchemasWhereFieldsExceedsMaxLength(t *testing.T) {
+func TestUnitChargeDeleteDeltaSchemasWhereFieldsExceedsMaxLength(t *testing.T) {
 	Convey("Given a charge delete delta request body where entity id is over 10 characters", t, func() {
 		requestBody := common.ReadRequestBody(exceedsMaxLengthDeleteRequestBody)
 		r := httptest.NewRequest(methodPost, chargesDeleteEndpoint, bytes.NewBuffer(requestBody))
@@ -266,7 +266,7 @@ func TestUnitFilingHistoryDeleteDeltaSchemasWhereFieldsExceedsMaxLength(t *testi
 	})
 }
 
-func TestUnitFilingHistoryDeleteDeltaSchemasWithInvalidDataTypeForFields(t *testing.T) {
+func TestUnitChargeDeleteDeltaSchemasWithInvalidDataTypeForFields(t *testing.T) {
 	Convey("Given a charge delete delta request body where entity id is not a string", t, func() {
 		requestBody := common.ReadRequestBody(invalidDataTypeDeleteRequestBody)
 		r := httptest.NewRequest(methodPost, chargesDeleteEndpoint, bytes.NewBuffer(requestBody))
