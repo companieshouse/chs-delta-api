@@ -25,5 +25,14 @@
     "location": "delta_at",
     "location_type": "json-path",
     "type": "ch:validation"
+  },
+  {
+    "error": "property 'company_number' is missing",
+    "error_values": {
+      "delta_at": ""
+    },
+    "location": "company_number",
+    "location_type": "json-path",
+    "type": "ch:validation"
   }
 ]
