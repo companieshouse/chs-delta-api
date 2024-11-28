@@ -21,6 +21,8 @@ components:
     PscDeleteDelta:
       type: object
       properties:
+        internal_id:
+          type: string
         company_number:
           type: string
         psc_id:
@@ -43,6 +45,7 @@ components:
             - 'legal-person-beneficial-owner'
             - 'super-secure-beneficial-owner'
       required:
+        - internal_id
         - company_number
         - action
         - delta_at
