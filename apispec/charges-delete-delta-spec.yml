@@ -29,6 +29,10 @@ components:
             - DELETE
         delta_at:
           type: string
+        company_number:
+          type: string
+          minLength: 8
+          maxLength: 8
       required:
         - charges_id
         - action
