@@ -29,7 +29,7 @@
   {
     "error": "property 'company_number' is missing",
     "error_values": {
-      "delta_at": ""
+      "company_number": ""
     },
     "location": "company_number",
     "location_type": "json-path",
