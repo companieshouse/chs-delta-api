@@ -10,5 +10,11 @@
         "error_values":{"company_number":""},
         "location":"company_number",
         "location_type":"json-path","type":"ch:validation"
+    },
+    {
+        "error":"property 'kind' is missing",
+        "error_values":{"kind":""},
+        "location":"kind",
+        "location_type":"json-path","type":"ch:validation"
     }
 ]
