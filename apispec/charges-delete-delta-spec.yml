@@ -37,3 +37,4 @@ components:
         - charges_id
         - action
         - delta_at
+        - company_number
