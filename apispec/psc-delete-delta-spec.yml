@@ -49,3 +49,4 @@ components:
         - company_number
         - action
         - delta_at
+        - kind
