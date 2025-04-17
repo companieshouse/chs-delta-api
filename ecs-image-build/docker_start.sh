@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Start script for chs-monitor-api
+# Start script for chs-delta-api
 PORT="5010"
 
-exec ./chs-kafka-api "-bind-addr=:${PORT}"
+exec ./chs-delta-api "-bind-addr=:${PORT}"
