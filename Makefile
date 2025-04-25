@@ -1,7 +1,10 @@
-EXPORT_ALL_VARIABLES:
+.EXPORT_ALL_VARIABLES:
+
 # Common
-BIN          = chs-delta-api
+BIN          := chs-delta-api
+SHELL		 :=	/bin/bash
 VERSION		 = unversioned
+
 # Go
 CGO_ENABLED  = 1
 XUNIT_OUTPUT = test.xml
@@ -24,9 +27,9 @@ fmt:
 .PHONY: build
 build: arch fmt
 ifeq ($(shell uname; uname -p), Darwin arm)
-	GOOS=linux GOARCH=amd64 CGO_ENABLED=1 CC=x86_64-linux-musl-gcc CXX=x86_64-linux-musl-g++ go build --ldflags '-linkmode external -extldflags "-static"' -o ecs-image-build/$(BIN)
+	GOOS=linux GOARCH=amd64 CGO_ENABLED=1 CC=x86_64-linux-musl-gcc CXX=x86_64-linux-musl-g++ go build --ldflags '-linkmode external -extldflags "-static"' -o ecs-image-build/app/$(BIN)
 else
-	go build -o ecs-image-build/$(BIN)
+	go build -o ecs-image-build/app/$(BIN)
 endif
 
 .PHONY: test
@@ -54,13 +57,13 @@ clean-coverage:
 	@rm -f $(COVERAGE_OUT) coverage.html
 
 .PHONY: coverage-html
-coverage-html: 
+coverage-html:
 	@go tool cover -html=$(COVERAGE_OUT) -o coverage.html
 
 .PHONY: clean
 clean: clean-coverage
 	go mod tidy
-	rm -f ./ecs-image-build/$(BIN) ./$(BIN)-*.zip
+	rm -rf ./ecs-image-build/app/ ./$(BIN)-*.zip
 
 .PHONY: package
 package:
@@ -68,7 +71,7 @@ ifndef VERSION
 	$(error No version given. Aborting)
 endif
 	$(eval tmpdir := $(shell mktemp -d build-XXXXXXXXXX))
-	cp ./ecs-image-build/$(BIN) $(tmpdir)/$(BIN)
+	cp ./ecs-image-build/app/$(BIN) $(tmpdir)/$(BIN)
 	cp ./ecs-image-build/docker_start.sh $(tmpdir)/docker_start.sh
 	cd $(tmpdir) && zip ../$(BIN)-$(VERSION).zip $(BIN) docker_start.sh
 	rm -rf $(tmpdir)
@@ -87,7 +90,8 @@ security-check dependency-check:
 	@go get golang.org/x/vuln/cmd/govulncheck
 	@go build -o ${GOBIN} golang.org/x/vuln/cmd/govulncheck
 	@govulncheck ./...
-
+	
 .PHONY: docker-image
 docker-image: dist
-	docker build -t "169942020521.dkr.ecr.eu-west-2.amazonaws.com/local/chs-delta-api:latest" -f ./ecs-image-build/Dockerfile.local ./ecs-image-build
+	chmod +x build-docker-local.sh
+	./build-docker-local.sh
