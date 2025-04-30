@@ -71,7 +71,7 @@ To build the service:
   chs-dev logs -f chs-delta-api
 
 ## Healthcheck
-This service implements a `healthcheck` endpoint. Using POSTMAN call the `/delta/healthcheck` GET endpoint to assert 
+This service implements a `healthcheck` endpoint. Using POSTMAN call the `/chs-delta-api/healthcheck` GET endpoint to assert 
 the service is running correctly.
 
 ## Documentation
