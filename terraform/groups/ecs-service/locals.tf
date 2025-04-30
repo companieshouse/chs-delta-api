@@ -10,7 +10,7 @@ locals {
   kms_alias                  = "alias/${var.aws_profile}/environment-services-kms"
   lb_listener_rule_priority  = 55
   lb_listener_paths          = ["/delta*"]
-  healthcheck_path           = "/delta/healthcheck" # healthcheck path for chs-delta-api 
+  healthcheck_path           = "/chs-delta-api/healthcheck" # healthcheck path for chs-delta-api 
   healthcheck_matcher        = "200"
   vpc_name                   = local.stack_secrets["vpc_name"]
   s3_config_bucket           = data.vault_generic_secret.shared_s3.data["config_bucket_name"]
@@ -18,7 +18,7 @@ locals {
   use_set_environment_files  = var.use_set_environment_files
   application_subnet_ids     = data.aws_subnets.application.ids
   application_subnet_pattern = local.stack_secrets["application_subnet_pattern"]
-  
+
   # Set this to true if secrets are required and need to be retrieved from vault
   secrets_required           = false
   stack_secrets = jsondecode(data.vault_generic_secret.stack_secrets.data_json)
