@@ -8,7 +8,7 @@ locals {
   eric_port                  = "10000"
   docker_repo                = "chs-delta-api"
   kms_alias                  = "alias/${var.aws_profile}/environment-services-kms"
-  lb_listener_rule_priority  = 73
+  lb_listener_rule_priority  = 55
   lb_listener_paths          = ["/delta*"]
   healthcheck_path           = "/delta/healthcheck" # healthcheck path for chs-delta-api 
   healthcheck_matcher        = "200"
