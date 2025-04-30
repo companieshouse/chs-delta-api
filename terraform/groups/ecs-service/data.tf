@@ -7,6 +7,7 @@ data "aws_kms_key" "kms_key" {
 }
 
 data "vault_generic_secret" "service_secrets" {
+  count = local.secrets_required ? 1 : 0
   path = "applications/${var.aws_profile}/${var.environment}/${local.stack_name}-stack/${local.service_name}"
 }
 
