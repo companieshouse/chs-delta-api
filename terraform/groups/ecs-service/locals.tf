@@ -18,7 +18,9 @@ locals {
   use_set_environment_files  = var.use_set_environment_files
   application_subnet_ids     = data.aws_subnets.application.ids
   application_subnet_pattern = local.stack_secrets["application_subnet_pattern"]
-
+  
+  # Set this to true if secrets are required and need to be retrieved from vault
+  secrets_required           = false
   stack_secrets = jsondecode(data.vault_generic_secret.stack_secrets.data_json)
   service_secrets = (
     local.secrets_required && length(data.vault_generic_secret.service_secrets) > 0
