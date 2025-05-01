@@ -26,7 +26,7 @@ const (
 
 	insolvencyEndpoint       = "/delta/insolvency"
 	insolvencyDeleteEndpoint = "/delta/insolvency/delete"
-	apiSpecLocation          = "../../../apispec/api-spec.yml"
+	apiSpecLocation          = "../../../ecs-image-build/apispec/api-spec.yml"
 	contextId                = "contextId"
 	methodPost               = "POST"
 )

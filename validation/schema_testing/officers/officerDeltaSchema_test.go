@@ -27,7 +27,7 @@ const (
 
 	officersEndpoint       = "/delta/officers"
 	officersDeleteEndpoint = "/delta/officers/delete"
-	apiSpecLocation        = "../../../apispec/api-spec.yml"
+	apiSpecLocation        = "../../../ecs-image-build/apispec/api-spec.yml"
 	contextId              = "contextId"
 	methodPost             = "POST"
 )

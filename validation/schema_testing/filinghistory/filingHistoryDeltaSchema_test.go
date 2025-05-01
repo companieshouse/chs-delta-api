@@ -32,7 +32,7 @@ const (
 
 	filingHistoryEndpoint       = "/delta/filing-history"
 	filingHistoryDeleteEndpoint = "/delta/filing-history/delete"
-	apiSpecLocation             = "../../../apispec/api-spec.yml"
+	apiSpecLocation             = "../../../ecs-image-build/apispec/api-spec.yml"
 	contextId                   = "contextId"
 	methodPost                  = "POST"
 )

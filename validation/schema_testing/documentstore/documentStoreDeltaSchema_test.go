@@ -26,7 +26,7 @@ const (
 	regexErrorResponseBodyLocation         = responseBodiesLocation + "regex_error_response_body"
 
 	docStoreEndpoint = "/delta/document-store"
-	apiSpecLocation  = "../../../apispec/api-spec.yml"
+	apiSpecLocation  = "../../../ecs-image-build/apispec/api-spec.yml"
 	contextId        = "contextId"
 	methodPost       = "POST"
 )
