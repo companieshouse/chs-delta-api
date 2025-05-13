@@ -40,7 +40,7 @@ func Register(mainRouter *mux.Router, cfg *config.Config, kSvc services.KafkaSer
 	}
 
 	// Register endpoints for service.
-	mainRouter.HandleFunc("/delta/healthcheck", healthCheck).Methods(http.MethodGet).Name("healthcheck")
+	mainRouter.HandleFunc("/chs-delta-api/healthcheck", healthCheck).Methods(http.MethodGet).Name("healthcheck")
 	mainRouter.Use(log.Handler)
 
 	appRouter := mainRouter.PathPrefix("").Subrouter()

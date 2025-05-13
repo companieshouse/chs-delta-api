@@ -48,8 +48,30 @@ command or run the following steps to build image locally:
 2. `DOCKER_BUILDKIT=0 docker build --build-arg SSH_PRIVATE_KEY="$(cat ~/.ssh/id_rsa)" --build-arg SSH_PRIVATE_KEY_PASSPHRASE -t 169942020521.dkr.ecr.eu-west-1.amazonaws.com/local/chs-delta-api .`
 3. `docker run 169942020521.dkr.ecr.eu-west-1.amazonaws.com/local/chs-delta-api:latest`
 
+Local testing
+=============
+
+## Getting Started
+
+To build the service:
+ 1. Clone the repository into your GOPATH under `src/github.com/companieshouse`
+ 2. Build the docker image using the image definiton from the docker-chs-development repo using:
+ ```shell
+ make docker-image
+ ```
+ 3. Run the service in the chs-env by enabling the filing-notification-sender module:
+ ```shell
+  chs-dev servies enable authentication-service chs-delta-api officer-delta-processor company-appointments-api-ch-gov-uk company-metrics-api company-metrics-consumer
+
+  chs-dev modules enable streaming
+
+  chs-dev up
+   ```
+4. When run in the background logs can be found at
+  chs-dev logs -f chs-delta-api
+
 ## Healthcheck
-This service implements a `healthcheck` endpoint. Using POSTMAN call the `/delta/healthcheck` GET endpoint to assert 
+This service implements a `healthcheck` endpoint. Using POSTMAN call the `/chs-delta-api/healthcheck` GET endpoint to assert 
 the service is running correctly.
 
 ## Documentation
@@ -58,3 +80,31 @@ All documentation can be found in the `/docs` folder at the root of this project
 Note : Make sure you are logged into AWS ECR before running any of the above commands
 `aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 169942020521.dkr.ecr.eu-west-1.amazonaws.com
 `
+## Terraform ECS
+
+### What does this code do?
+
+The code present in this repository is used to define and deploy a dockerised container in AWS ECS.
+This is done by calling a [module](https://github.com/companieshouse/terraform-modules/tree/main/aws/ecs) from terraform-modules. Application specific attributes are injected and the service is then deployed using Terraform via the CICD platform 'Concourse'.
+
+
+Application specific attributes | Value                                | Description
+:---------|:-----------------------------------------------------------------------------|:-----------
+**ECS Cluster**        | data-sync                                     | ECS cluster (stack) the service belongs to
+**Load balancer**      |{env}-chs-internalapi                                           | The load balancer that sits in front of the service
+**Concourse pipeline**     |[Pipeline link](https://ci-platform.companieshouse.gov.uk/teams/team-development/pipelines/chs-delta-api) <br> [Pipeline code](https://github.com/companieshouse/ci-pipelines/blob/master/pipelines/ssplatform/team-development/chs-delta-api)                                  | Concourse pipeline link in shared services
+
+
+### Contributing
+- Please refer to the [ECS Development and Infrastructure Documentation](https://companieshouse.atlassian.net/wiki/spaces/DEVOPS/pages/4390649858/Copy+of+ECS+Development+and+Infrastructure+Documentation+Updated) for detailed information on the infrastructure being deployed.
+
+### Testing
+- Ensure the terraform runner local plan executes without issues. For information on terraform runners please see the [Terraform Runner Quickstart guide](https://companieshouse.atlassian.net/wiki/spaces/DEVOPS/pages/1694236886/Terraform+Runner+Quickstart).
+- If you encounter any issues or have questions, reach out to the team on the **#platform** slack channel.
+
+### Vault Configuration Updates
+- Any secrets required for this service will be stored in Vault. For any updates to the Vault configuration, please consult with the **#platform** team and submit a workflow request.
+
+### Useful Links
+- [ECS service config dev repository](https://github.com/companieshouse/ecs-service-configs-dev)
+- [ECS service config production repository](https://github.com/companieshouse/ecs-service-configs-production)

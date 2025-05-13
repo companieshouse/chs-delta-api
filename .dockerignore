@@ -1,11 +1,3 @@
 *
-!config/
-!handlers/
-!apispec/
-!services/
-!models/
-!helpers/
-!validation/
-!go.mod
-!go.sum
-!main.go
+!chs-delta-api
+!ecs-image-build/*

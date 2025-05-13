@@ -22,7 +22,7 @@ const (
 	invalidDataTypeResponseBodyLocation              = responseBodiesLocation + "invalid_data_type_response.json"
 
 	exemptionEndpoint = "/delta/exemption"
-	apiSpecLocation   = "../../../apispec/api-spec.yml"
+	apiSpecLocation   = "../../../ecs-image-build/apispec/api-spec.yml"
 	contextId         = "contextId"
 	methodPost        = "POST"
 )

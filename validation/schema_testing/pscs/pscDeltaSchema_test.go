@@ -28,7 +28,7 @@ const (
 
 	pscEndpoint       = "/delta/pscs"
 	pscDeleteEndpoint = "/delta/pscs/delete"
-	apiSpecLocation   = "../../../apispec/api-spec.yml"
+	apiSpecLocation   = "../../../ecs-image-build/apispec/api-spec.yml"
 	contextId         = "contextId"
 	methodPost        = "POST"
 )
