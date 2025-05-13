@@ -16,7 +16,7 @@ import (
 
 const (
 	requestBody     = `{"dummy" : "request"}`
-	apiSpecLocation = "../apispec/api-spec.yml"
+	apiSpecLocation = "../ecs-image-build/apispec/api-spec.yml"
 	contextId       = "contextId"
 )
 

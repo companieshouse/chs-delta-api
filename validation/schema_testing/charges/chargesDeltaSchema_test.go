@@ -34,7 +34,7 @@ const (
 
 	chargesEndpoint       = "/delta/charges"
 	chargesDeleteEndpoint = "/delta/charges/delete"
-	apiSpecLocation       = "../../../apispec/api-spec.yml"
+	apiSpecLocation       = "../../../ecs-image-build/apispec/api-spec.yml"
 	contextId             = "contextId"
 	methodPost            = "POST"
 )

@@ -1,4 +1,6 @@
 // Package config defines the environment variable and command-line flags
+//
+//coverage:ignore file
 package config
 
 import (

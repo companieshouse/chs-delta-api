@@ -48,8 +48,30 @@ command or run the following steps to build image locally:
 2. `DOCKER_BUILDKIT=0 docker build --build-arg SSH_PRIVATE_KEY="$(cat ~/.ssh/id_rsa)" --build-arg SSH_PRIVATE_KEY_PASSPHRASE -t 169942020521.dkr.ecr.eu-west-1.amazonaws.com/local/chs-delta-api .`
 3. `docker run 169942020521.dkr.ecr.eu-west-1.amazonaws.com/local/chs-delta-api:latest`
 
+Local testing
+=============
+
+## Getting Started
+
+To build the service:
+ 1. Clone the repository into your GOPATH under `src/github.com/companieshouse`
+ 2. Build the docker image using the image definiton from the docker-chs-development repo using:
+ ```shell
+ make docker-image
+ ```
+ 3. Run the service in the chs-env by enabling the filing-notification-sender module:
+ ```shell
+  chs-dev servies enable authentication-service chs-delta-api officer-delta-processor company-appointments-api-ch-gov-uk company-metrics-api company-metrics-consumer
+
+  chs-dev modules enable streaming
+
+  chs-dev up
+   ```
+4. When run in the background logs can be found at
+  chs-dev logs -f chs-delta-api
+
 ## Healthcheck
-This service implements a `healthcheck` endpoint. Using POSTMAN call the `/delta/healthcheck` GET endpoint to assert 
+This service implements a `healthcheck` endpoint. Using POSTMAN call the `/chs-delta-api/healthcheck` GET endpoint to assert 
 the service is running correctly.
 
 ## Documentation
