@@ -9,7 +9,7 @@ locals {
   docker_repo                = "chs-delta-api"
   kms_alias                  = "alias/${var.aws_profile}/environment-services-kms"
   lb_listener_rule_priority  = 55
-  lb_listener_paths          = ["/delta*"]
+  lb_listener_paths          = ["/delta*", "/chs-delta-api*"]
   healthcheck_path           = "/chs-delta-api/healthcheck" # healthcheck path for chs-delta-api 
   healthcheck_matcher        = "200"
   vpc_name                   = local.stack_secrets["vpc_name"]
