@@ -91,4 +91,6 @@ module "ecs-service" {
   eric_port                 = local.eric_port
   eric_environment_filename = local.eric_environment_filename
   eric_secrets              = local.eric_secrets
+  eric_extra_bypass_paths   = "/delta/document-store"
 }
+
