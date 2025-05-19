@@ -3,7 +3,7 @@
 # Common
 BIN          := chs-delta-api
 SHELL		 :=	/bin/bash
-VERSION		 = unversioned
+VERSION		 ?= unversioned
 
 # Go
 CGO_ENABLED  = 1
@@ -92,7 +92,7 @@ security-check dependency-check:
 	@go list -json -deps ./... | nancy sleuth -o json | jq
 	@go build -o ${GOBIN} golang.org/x/vuln/cmd/govulncheck
 	@govulncheck ./...
-	
+
 .PHONY: security-check-summary
 security-check-summary:
 	@go get golang.org/x/vuln/cmd/govulncheck
