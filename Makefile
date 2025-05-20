@@ -3,7 +3,7 @@
 # Common
 BIN          := chs-delta-api
 SHELL		 :=	/bin/bash
-VERSION		 = unversioned
+VERSION		 ?= unversioned
 
 # Go
 CGO_ENABLED  = 1
@@ -88,8 +88,19 @@ lint:
 .PHONY: security-check
 security-check dependency-check:
 	@go get golang.org/x/vuln/cmd/govulncheck
+	@go get github.com/sonatype-nexus-community/nancy@latest
+	@go list -json -deps ./... | nancy sleuth -o json | jq
 	@go build -o ${GOBIN} golang.org/x/vuln/cmd/govulncheck
 	@govulncheck ./...
+
+.PHONY: security-check-summary
+security-check-summary:
+	@go get golang.org/x/vuln/cmd/govulncheck
+	@go get github.com/sonatype-nexus-community/nancy@latest
+	@LOW=0 MED=0 HIGH=0 CRIT=0 res=`go list -json -deps ./... | nancy sleuth -o json | jq -c '.vulnerable[].Vulnerabilities[].CvssScore'`; for score in $$res; do if [ $${score:1:1} -ge 9 ]; then CRIT=$$(($$CRIT+1)); elif [ $${score:1:1} -ge 7 ]; then HIGH=$$(($$HIGH+1)); elif [ $${score:1:1} -ge 4 ]; then MED=$$(($$MED+1)); else LOW=$$(($$LOW+1)); fi; done; echo -e "Sonar:\nCRITICAL=$$CRIT\nHigh=$$HIGH\nMedium=$$MED\nLow=$$LOW";
+	@go build -o ${GOBIN} golang.org/x/vuln/cmd/govulncheck
+	@OTHER=`govulncheck ./... | grep "More info:" | wc -l | tr -d ' '`; echo -e "\nOther=$$OTHER"
+
 	
 .PHONY: docker-image
 docker-image: dist
