@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 #
-# Start script for filing-resource-handler
+# Start script for chs-delta-api
 PORT="5010"
 
 # Read brokers and topics from environment and split on comma
