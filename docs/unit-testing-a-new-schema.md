@@ -13,6 +13,7 @@ and response bodies used to unit test the schema.
 Finally, create a new Go file ending in `_test` (e.g. `exampleDeltaSchema_test.go`). This file will contain the unit 
 tests used to test the schema.
 
+
 ## 2. Unit test structure
 We elected to structure the openAPI schema unit tests using a `Karate API Scenario` layout. Each unit test will have a 
 `Given`, `When`, `Then` stage and will use sample request bodies and response bodies to test the schema.
