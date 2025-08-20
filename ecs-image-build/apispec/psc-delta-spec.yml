@@ -53,6 +53,8 @@ components:
             - 'super-secure-beneficial-owner'
         identification:
           $ref: '#/components/schemas/Identification'
+        identity_verification_details:
+          $ref: '#/components/schemas/IdentityVerificationDetails'
         psc_id:
           type: string
         notification_date:
@@ -244,4 +246,26 @@ components:
         place_registered:
           type: string
         registration_number:
+          type: string
+
+    IdentityVerificationDetails:
+      type: object
+      properties:
+        anti_money_laundering_supervisory_bodies:
+          type: array
+          items:
+            type: string
+        appointment_verification_end_on:
+          type: string
+        appointment_verification_statement_date:
+          type: string
+        appointment_verification_statement_due_on:
+          type: string
+        appointment_verification_start_on:
+          type: string
+        authorised_corporate_service_provider_name:
+          type: string
+        identity_verified_on:
+          type: string
+        preferred_name:
           type: string

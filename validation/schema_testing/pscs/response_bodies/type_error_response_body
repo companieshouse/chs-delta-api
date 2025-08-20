@@ -313,5 +313,68 @@
         "location": "pscs.0.country_registered",
         "location_type": "json-path",
         "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "anti_money_laundering_supervisory_bodies": "number, integer"
+        },
+        "location": "pscs.0.identity_verification_details.anti_money_laundering_supervisory_bodies.0",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "appointment_verification_end_on": "number, integer"
+        },
+        "location": "pscs.0.identity_verification_details.appointment_verification_end_on",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "appointment_verification_statement_date": "number, integer"
+        },
+        "location": "pscs.0.identity_verification_details.appointment_verification_statement_date",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "appointment_verification_statement_due_on": "number, integer"
+        },
+        "location": "pscs.0.identity_verification_details.appointment_verification_statement_due_on",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "authorised_corporate_service_provider_name": "number, integer"
+        },
+        "location": "pscs.0.identity_verification_details.authorised_corporate_service_provider_name",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "identity_verified_on": "number, integer"
+        },
+        "location": "pscs.0.identity_verification_details.identity_verified_on",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "preferred_name": "number, integer"
+        },
+        "location": "pscs.0.identity_verification_details.preferred_name",
+        "location_type": "json-path",
+        "type": "ch:validation"
     }
 ]
