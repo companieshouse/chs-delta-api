@@ -353,6 +353,15 @@
     {
         "error": "Field must be set to string or not be present",
         "error_values": {
+            "appointment_verification_start_on": "number, integer"
+        },
+        "location": "pscs.0.identity_verification_details.appointment_verification_start_on",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
             "authorised_corporate_service_provider_name": "number, integer"
         },
         "location": "pscs.0.identity_verification_details.authorised_corporate_service_provider_name",
