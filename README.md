@@ -1,6 +1,30 @@
 # chs-delta-api
 Service to send delta events from CHIPS on the correct kafka topic
 
+## Requirements
+
+In order to build the service locally you will need the following:
+
+- [Go](https://go.dev/doc/install)
+- [Git](https://git-scm.com/downloads)
+
+These should be installed/updated using the CH dev env scripts.
+
+Note the following:
+
+- Version 1.22 of Go should be installed in your CHS development environment
+- Check settings for the GOPRIVATE, GOPROXY and GONOPROXY environment variables using the command `go env`. Working values are:
+
+```shell
+GOPRIVATE='github.com/companieshouse/*'
+GOPROXY='https://proxy.golang.org,direct'
+GONOPROXY='github.com/pierrec/*,gopkg.in/jcmturner/*'
+```
+
+- If certificate download errors are encountered when building or running tests, try disconnecting from the VPN and running `chproxyoff` before reissuing the command (reconnecting and reenabling the proxy will need to be done afterwards)
+- Running `make test` from the terminal will build the project and run the unit tests
+
+
 Environment Variables
 -----------------
 
