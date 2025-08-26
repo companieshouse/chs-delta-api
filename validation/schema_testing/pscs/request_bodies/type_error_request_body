@@ -4,6 +4,18 @@
             "company_number": 123,
             "internal_id": 123,
             "kind": 123,
+            "identity_verification_details": {
+                "anti_money_laundering_supervisory_bodies": [
+                    123
+                ],
+                "appointment_verification_end_on": 123,
+                "appointment_verification_statement_date": 123,
+                "appointment_verification_statement_due_on": 123,
+                "appointment_verification_start_on": 123,
+                "authorised_corporate_service_provider_name": 123,
+                "identity_verified_on": 123,
+                "preferred_name": 123
+            },
             "psc_id": 123,
             "notification_date": 123,
             "ceased_on": 123,
