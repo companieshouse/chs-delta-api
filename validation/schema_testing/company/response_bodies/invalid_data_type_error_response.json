@@ -6,6 +6,9 @@
     "location": "registered_office_address.locality"
   },
   {
+    "location": "term"
+  },
+  {
     "location": "sic_codes.0.sic_1"
   }
 ]
