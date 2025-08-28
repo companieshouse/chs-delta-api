@@ -37,6 +37,18 @@
           "legal_form": 123
         }
       },
+      "identity_verification_details": {
+        "anti_money_laundering_supervisory_bodies": [
+          123
+        ],
+        "appointment_verification_end_on": 123,
+        "appointment_verification_statement_date": 123,
+        "appointment_verification_statement_due_on": 123,
+        "appointment_verification_start_on": 123,
+        "authorised_corporate_service_provider_name": 123,
+        "identity_verified_on": 123,
+        "preferred_name": 123
+      },
       "service_address": {
         "premise": 123,
         "address_line_1": 123,
