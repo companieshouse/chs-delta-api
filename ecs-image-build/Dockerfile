@@ -1,7 +1,9 @@
 FROM 416670754337.dkr.ecr.eu-west-2.amazonaws.com/ci-golang-build-1.24:latest
 
 # Install curl for healthcheck
-RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+RUN apk update && \
+    apk upgrade --no-cache && \
+    apk add --no-cache curl
 
 WORKDIR /opt
 
