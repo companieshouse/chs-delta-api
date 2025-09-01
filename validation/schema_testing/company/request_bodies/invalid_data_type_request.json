@@ -25,6 +25,7 @@
   "proof_status": "0",
   "cic_ind": "0",
   "subtype": "0",
+  "term": 12345678,
   "confirmation_statement_dates": {
     "next_due": "20160606",
     "next_made_up_to": "20160523"

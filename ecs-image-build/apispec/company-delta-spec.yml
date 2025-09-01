@@ -98,6 +98,8 @@ components:
           $ref: '#/components/schemas/BooleanFlag'
         subtype:
           type: string
+        term:
+          type: string
         confirmation_statement_dates:
           $ref: '#/components/schemas/ConfirmationStatementDates'
         annual_return_dates:
