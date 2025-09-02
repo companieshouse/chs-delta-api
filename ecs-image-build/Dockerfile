@@ -1,10 +1,5 @@
 FROM 416670754337.dkr.ecr.eu-west-2.amazonaws.com/ci-golang-build-1.24:latest
 
-# Install curl for healthcheck
-RUN apk update && \
-    apk upgrade --no-cache && \
-    apk add --no-cache curl
-
 WORKDIR /opt
 
 COPY apispec ./apispec
