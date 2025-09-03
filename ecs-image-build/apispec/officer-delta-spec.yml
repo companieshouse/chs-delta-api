@@ -111,6 +111,8 @@ components:
             $ref: '#/components/schemas/Previous_name_array'
         identification:
           $ref: '#/components/schemas/Identification'
+        identity_verification_details:
+          $ref: '#/components/schemas/IdentityVerificationDetails'
         service_address:
           $ref: '#/components/schemas/Address'
         usual_residential_address:
@@ -190,4 +192,26 @@ components:
           type: string
           maxLength: 20
         usual_country_of_residence:
+          type: string
+
+    IdentityVerificationDetails:
+      type: object
+      properties:
+        anti_money_laundering_supervisory_bodies:
+          type: array
+          items:
+            type: string
+        appointment_verification_end_on:
+          type: string
+        appointment_verification_statement_date:
+          type: string
+        appointment_verification_statement_due_on:
+          type: string
+        appointment_verification_start_on:
+          type: string
+        authorised_corporate_service_provider_name:
+          type: string
+        identity_verified_on:
+          type: string
+        preferred_name:
           type: string
