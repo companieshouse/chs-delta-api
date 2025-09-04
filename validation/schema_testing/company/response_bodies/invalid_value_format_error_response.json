@@ -13,5 +13,23 @@
     },
     {
         "location": "registered_office_address.postal_code"
+    },
+    {
+        "location": "service_address.address_line_1"
+    },
+    {
+        "location": "service_address.address_line_2"
+    },
+    {
+        "location": "service_address.locality"
+    },
+    {
+        "location": "service_address.region"
+    },
+    {
+        "location": "service_address.country"
+    },
+    {
+        "location": "service_address.postal_code"
     }
 ]

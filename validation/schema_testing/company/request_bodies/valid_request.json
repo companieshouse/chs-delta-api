@@ -7,6 +7,14 @@
     "country": "Wales",
     "postal_code": "CF14 3UA"
   },
+  "service_address": {
+    "address_line_1": "11 Acacia Avenue",
+    "address_line_2": "Forest Walk",
+    "locality": "Wallingford",
+    "region": "Oxfordshire",
+    "country": "United Kingdom",
+    "postal_code": "OX11 4DE"
+  },
   "type": "3",
   "has_mortgages": "0",
   "registered_office_is_in_dispute": "0",
@@ -24,7 +32,7 @@
   "jurisdiction": "1",
   "proof_status": "0",
   "cic_ind": "0",
-  "subtype": "0",
+  "subtype": "3",
   "term": "2",
   "confirmation_statement_dates": {
     "next_due": "20160606",

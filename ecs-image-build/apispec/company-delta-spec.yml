@@ -42,6 +42,8 @@ components:
           type: string
         registered_office_address:
           $ref: '#/components/schemas/RegisteredOfficeAddress'
+        service_address:
+          $ref: '#/components/schemas/RegisteredOfficeAddress'
         type:
           type: string
         has_mortgages:
