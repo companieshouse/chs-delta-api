@@ -43,6 +43,7 @@ components:
         registered_office_address:
           $ref: '#/components/schemas/RegisteredOfficeAddress'
         service_address:
+          # Service address fields are the same as for registered office address
           $ref: '#/components/schemas/RegisteredOfficeAddress'
         type:
           type: string
