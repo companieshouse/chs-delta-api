@@ -74,7 +74,7 @@ A new image named `chs-delta-api` should be created in the project folder and Do
 ## Running locally in Docker, without Docker CHS
 Export the required environment variables to ensure the service can start up correctly.
 
-Pull image from private CH registry by running `docker pull 169942020521.dkr.ecr.eu-west-1.amazonaws.com/local/chs-delta-api:latest`
+Pull image from private CH registry by running `docker pull 169942020521.dkr.ecr.eu-west-1.amazonaws.com/local/chs-delta-api:latest` 
 command or run the following steps to build image locally:
 
 1. `export SSH_PRIVATE_KEY_PASSPHRASE='[your SSH key passhprase goes here]'` (optional, set only if SSH key is passphrase protected)
@@ -87,12 +87,12 @@ Local testing
 ## Getting Started
 
 To build the service:
-1. Clone the repository into your GOPATH under `src/github.com/companieshouse`
-2. Build the docker image using the image definiton from the docker-chs-development repo using:
+ 1. Clone the repository into your GOPATH under `src/github.com/companieshouse`
+ 2. Build the docker image using the image definiton from the docker-chs-development repo using:
  ```shell
  make docker-image
  ```
-3. Run the service in the chs-env by enabling the filing-notification-sender module:
+ 3. Run the service in the chs-env by enabling the filing-notification-sender module:
  ```shell
   chs-dev servies enable authentication-service chs-delta-api officer-delta-processor company-appointments-api-ch-gov-uk company-metrics-api company-metrics-consumer
 
@@ -101,10 +101,10 @@ To build the service:
   chs-dev up
    ```
 4. When run in the background logs can be found at
-   chs-dev logs -f chs-delta-api
+  chs-dev logs -f chs-delta-api
 
 ## Healthcheck
-This service implements a `healthcheck` endpoint. Using POSTMAN call the `/chs-delta-api/healthcheck` GET endpoint to assert
+This service implements a `healthcheck` endpoint. Using POSTMAN call the `/chs-delta-api/healthcheck` GET endpoint to assert 
 the service is running correctly.
 
 ## Documentation
