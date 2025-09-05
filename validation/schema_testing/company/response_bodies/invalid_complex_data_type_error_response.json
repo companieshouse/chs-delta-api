@@ -6,6 +6,9 @@
     "location": "registered_office_address"
   },
   {
+    "location": "service_address"
+  },
+  {
     "location": "sic_codes"
   },
   {

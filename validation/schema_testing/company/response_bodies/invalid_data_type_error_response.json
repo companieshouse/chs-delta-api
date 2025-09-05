@@ -6,6 +6,12 @@
     "location": "registered_office_address.locality"
   },
   {
+    "location": "service_address.country"
+  },
+  {
+    "location": "subtype"
+  },
+  {
     "location": "term"
   },
   {

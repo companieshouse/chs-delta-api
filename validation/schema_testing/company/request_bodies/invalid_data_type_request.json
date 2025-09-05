@@ -7,6 +7,12 @@
     "country": "Wales",
     "postal_code": "CF14 3UA"
   },
+  "service_address": {
+    "address_line_1": "1 North Road",
+    "locality": "Cardiff",
+    "country": 12345678,
+    "postal_code": "CF14 3UA"
+  },
   "type": "3",
   "has_mortgages": "0",
   "registered_office_is_in_dispute": "0",
@@ -24,7 +30,7 @@
   "jurisdiction": "1",
   "proof_status": "0",
   "cic_ind": "0",
-  "subtype": "0",
+  "subtype": 87654321,
   "term": 12345678,
   "confirmation_statement_dates": {
     "next_due": "20160606",

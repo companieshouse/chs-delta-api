@@ -62,6 +62,15 @@ Development mode is available for this service in Docker CHS Development.
 
 `./bin/chs-dev development enable chs-delta-api`
 
+After making local code changes, build a new 'development' Docker image using:
+
+```shell
+go mod tidy
+OOS=linux GOARCH=amd64 GOOS=linux go build
+```
+
+A new image named `chs-delta-api` should be created in the project folder and Docker CHS must then be restarted for the changes to take effect.
+
 ## Running locally in Docker, without Docker CHS
 Export the required environment variables to ensure the service can start up correctly.
 
