@@ -520,5 +520,41 @@
         "location": "officers.0.identity_verification_details.preferred_name",
         "location_type": "json-path",
         "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "contribution_currency_type": "number, integer"
+        },
+        "location": "officers.0.contribution_currency_type",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "contribution_currency_value": "number, integer"
+        },
+        "location": "officers.0.contribution_currency_value",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "sub_type": "number, integer"
+        },
+        "location": "officers.0.contribution_sub_types.0.sub_type",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "sub_type": "number, integer"
+        },
+        "location": "officers.0.contribution_sub_types.1.sub_type",
+        "location_type": "json-path",
+        "type": "ch:validation"
     }
 ]

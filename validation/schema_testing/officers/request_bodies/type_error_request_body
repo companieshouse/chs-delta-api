@@ -74,7 +74,13 @@
         "country": 123,
         "postal_code": 123,
         "usual_country_of_residence": 123
-      }
+      },
+      "contribution_currency_type": 123,
+      "contribution_currency_value": 123,
+      "contribution_sub_types": [
+        { "sub_type": 123 },
+        { "sub_type": 123 }
+      ]
     }
   ],
   "CreatedTime": 123,

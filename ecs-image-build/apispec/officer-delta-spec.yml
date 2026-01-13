@@ -117,6 +117,15 @@ components:
           $ref: '#/components/schemas/Address'
         usual_residential_address:
           $ref: '#/components/schemas/Address'
+        contribution_currency_type:
+          type: string
+        contribution_currency_value:
+          type: string
+        contribution_sub_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contribution_sub_type_array'
+
       required:
         - corporate_ind
         - appointment_date
@@ -214,4 +223,10 @@ components:
         identity_verified_on:
           type: string
         preferred_name:
+          type: string
+
+    Contribution_sub_type_array:
+      type: object
+      properties:
+        sub_type:
           type: string
