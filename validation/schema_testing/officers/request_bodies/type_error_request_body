@@ -33,6 +33,7 @@
         "EEA": {
           "place_registered": 123,
           "registration_number": 123,
+          "register_location": 123,
           "legal_authority": 123,
           "legal_form": 123
         }
