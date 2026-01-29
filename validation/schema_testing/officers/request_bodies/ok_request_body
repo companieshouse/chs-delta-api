@@ -30,9 +30,10 @@
         "previous_timestamp": "string"
       }],
       "identification": {
-        "EEA": {
+        "limited_partnership_corporate_partner": {
           "place_registered": "string",
           "registration_number": "string",
+          "register_location": "string",
           "legal_authority": "string",
           "legal_form": "string"
         }

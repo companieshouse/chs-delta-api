@@ -157,6 +157,8 @@ components:
           $ref: '#/components/schemas/EEA'
         other_corporate_body_or_firm:
           $ref: '#/components/schemas/EEA'
+        limited_partnership_corporate_partner:
+          $ref: '#/components/schemas/EEA'
       maxProperties: 1
 
     EEA:
@@ -172,6 +174,9 @@ components:
           type: string
           maxLength: 160
         legal_form:
+          type: string
+          maxLength: 160
+        register_location:
           type: string
           maxLength: 160
 

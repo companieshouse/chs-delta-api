@@ -263,6 +263,15 @@
     {
         "error": "Field must be set to string or not be present",
         "error_values": {
+            "registration_number": "number, integer"
+        },
+        "location": "officers.0.identification.EEA.register_location",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
             "legal_authority": "number, integer"
         },
         "location": "officers.0.identification.EEA.legal_authority",
