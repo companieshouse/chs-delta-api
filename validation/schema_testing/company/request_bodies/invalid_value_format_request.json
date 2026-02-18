@@ -17,6 +17,7 @@
     "country": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
     "postal_code": "BBBBBBBBBBBBBBBBBBBBBB"
   },
+  "registered_email_address": "johndoe@.example.com",
   "type": "3",
   "has_mortgages": "0",
   "registered_office_is_in_dispute": "0",

@@ -7,6 +7,7 @@
   ],
   "registered_office_address": "12345678",
   "service_address": "986754321",
+  "registered_email_address": "johndoe@.example.com",
   "type": "3",
   "has_mortgages": "0",
   "registered_office_is_in_dispute": "0",
