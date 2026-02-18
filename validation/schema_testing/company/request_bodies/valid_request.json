@@ -15,7 +15,7 @@
     "country": "United Kingdom",
     "postal_code": "OX11 4DE"
   },
-  "registered_email_address": "johndoe@.example.com",
+  "registered_email_address": "johndoe@example.com",
   "type": "3",
   "has_mortgages": "0",
   "registered_office_is_in_dispute": "0",
