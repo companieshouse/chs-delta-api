@@ -40,7 +40,7 @@ components:
           type: string
         delta_at:
           type: string
-        registered_email_address:
+        email_address:
           type: string
         registered_office_address:
           $ref: '#/components/schemas/RegisteredOfficeAddress'

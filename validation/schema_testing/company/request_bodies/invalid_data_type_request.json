@@ -13,7 +13,7 @@
     "country": 12345678,
     "postal_code": "CF14 3UA"
   },
-  "registered_email_address": "johndoe@example.com",
+  "email_address": "johndoe@example.com",
   "type": "3",
   "has_mortgages": "0",
   "registered_office_is_in_dispute": "0",
