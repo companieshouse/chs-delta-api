@@ -17,6 +17,9 @@
                 "preferred_name": 123
             },
             "psc_id": 123,
+            "previous_psc_id": 123,
+            "company_name": 123,
+            "company_status": 123,
             "notification_date": 123,
             "ceased_on": 123,
             "psc_statement_id": 123,

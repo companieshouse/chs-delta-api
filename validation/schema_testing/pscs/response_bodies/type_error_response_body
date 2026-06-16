@@ -27,7 +27,7 @@
         "type": "ch:validation"
     },
     {
-        "error": "Field must be set to string or not be present",
+        "error": "Field must be set to string.",
         "error_values": {
             "company_number": "number, integer"
         },
@@ -36,7 +36,7 @@
         "type": "ch:validation"
     },
     {
-        "error": "Field must be set to string or not be present",
+        "error": "Field must be set to string.",
         "error_values": {
             "internal_id": "number, integer"
         },
@@ -59,6 +59,33 @@
             "psc_id": "number, integer"
         },
         "location": "pscs.0.psc_id",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string or not be present",
+        "error_values": {
+            "previous_psc_id": "number, integer"
+        },
+        "location": "pscs.0.previous_psc_id",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string.",
+        "error_values": {
+            "company_name": "number, integer"
+        },
+        "location": "pscs.0.company_name",
+        "location_type": "json-path",
+        "type": "ch:validation"
+    },
+    {
+        "error": "Field must be set to string.",
+        "error_values": {
+            "company_status": "number, integer"
+        },
+        "location": "pscs.0.company_status",
         "location_type": "json-path",
         "type": "ch:validation"
     },

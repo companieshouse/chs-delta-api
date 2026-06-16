@@ -57,6 +57,12 @@ components:
           $ref: '#/components/schemas/IdentityVerificationDetails'
         psc_id:
           type: string
+        previous_psc_id:
+          type: string
+        company_name:
+          type: string
+        company_status:
+          type: string
         notification_date:
           type: string
         ceased_on:
@@ -187,6 +193,8 @@ components:
       required:
         - company_number
         - internal_id
+        - company_name
+        - company_status
 
     Address:
       type: object
