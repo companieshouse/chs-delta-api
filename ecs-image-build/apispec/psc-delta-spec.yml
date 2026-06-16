@@ -193,6 +193,8 @@ components:
       required:
         - company_number
         - internal_id
+        - company_name
+        - company_status
 
     Address:
       type: object
