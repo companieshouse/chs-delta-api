@@ -5,6 +5,8 @@
             "internal_id": "string",
             "kind": "wrong",
             "psc_id": "string",
+            "company_name": "string",
+            "company_status": "string",
             "notification_date": "string",
             "ceased_on": "string",
             "psc_statement_id": "string",
