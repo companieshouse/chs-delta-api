@@ -27,7 +27,7 @@
         "type": "ch:validation"
     },
     {
-        "error": "Field must be set to string or not be present",
+        "error": "Field must be set to string.",
         "error_values": {
             "company_number": "number, integer"
         },
@@ -36,7 +36,7 @@
         "type": "ch:validation"
     },
     {
-        "error": "Field must be set to string or not be present",
+        "error": "Field must be set to string.",
         "error_values": {
             "internal_id": "number, integer"
         },
@@ -72,7 +72,7 @@
         "type": "ch:validation"
     },
     {
-        "error": "Field must be set to string or not be present",
+        "error": "Field must be set to string.",
         "error_values": {
             "company_name": "number, integer"
         },
@@ -81,7 +81,7 @@
         "type": "ch:validation"
     },
     {
-        "error": "Field must be set to string or not be present",
+        "error": "Field must be set to string.",
         "error_values": {
             "company_status": "number, integer"
         },
