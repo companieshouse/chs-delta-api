@@ -36,11 +36,11 @@
         "type": "ch:validation"
     },
     {
-        "error": "property 'company_status' is missing",
+        "error": "property 'status' is missing",
         "error_values": {
             "company_status": ""
         },
-        "location": "pscs.0.company_status",
+        "location": "pscs.0.status",
         "location_type": "json-path",
         "type": "ch:validation"
     }
