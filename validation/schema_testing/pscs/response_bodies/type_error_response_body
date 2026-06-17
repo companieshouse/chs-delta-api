@@ -83,9 +83,9 @@
     {
         "error": "Field must be set to string.",
         "error_values": {
-            "company_status": "number, integer"
+            "status": "number, integer"
         },
-        "location": "pscs.0.company_status",
+        "location": "pscs.0.status",
         "location_type": "json-path",
         "type": "ch:validation"
     },

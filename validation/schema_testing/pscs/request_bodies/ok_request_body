@@ -7,7 +7,7 @@
             "psc_id": "string",
             "previous_psc_id": "string",
             "company_name": "string",
-            "company_status": "active",
+            "status": "active",
             "notification_date": "string",
             "ceased_on": "string",
             "psc_statement_id": "string",

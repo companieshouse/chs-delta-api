@@ -61,7 +61,7 @@ components:
           type: string
         company_name:
           type: string
-        company_status:
+        status:
           type: string
         notification_date:
           type: string
@@ -194,7 +194,7 @@ components:
         - company_number
         - internal_id
         - company_name
-        - company_status
+        - status
 
     Address:
       type: object
