@@ -1,28 +1,27 @@
+terraform {
+  required_version = ">= 1.3.0, < 2.0.0"
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 6.0.0, < 7.0.0"
+    }
+    vault = {
+      source  = "hashicorp/vault"
+      version = ">= 5.0.0, < 6.0.0"
+    }
+  }
+  backend "s3" {}
+}
+
 provider "aws" {
   region = var.aws_region
 }
 
-terraform {
-  backend "s3" {
-  }
-  required_version = "~> 1.3"
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.54.0"
-    }
-    vault = {
-      source  = "hashicorp/vault"
-      version = "~> 3.18.0"
-    }
-  }
-}
-
 module "secrets" {
-  source = "git@github.com:companieshouse/terraform-modules//aws/ecs/secrets?ref=1.0.319"
+  source = "git@github.com:companieshouse/terraform-modules//aws/parameter-store?ref=1.0.446"
 
   name_prefix = "${local.service_name}-${var.environment}"
-  environment = var.environment
   kms_key_id  = data.aws_kms_key.kms_key.id
   secrets = (
     local.secrets_required
@@ -32,21 +31,21 @@ module "secrets" {
 }
 
 module "ecs-service" {
-  source = "git@github.com:companieshouse/terraform-modules//aws/ecs/ecs-service?ref=1.0.319"
+  source = "git@github.com:companieshouse/terraform-modules//aws/ecs/ecs-service?ref=1.0.446"
 
   # Environmental configuration
-  environment             = var.environment
-  aws_region              = var.aws_region
-  aws_profile             = var.aws_profile
-  vpc_id                  = data.aws_vpc.vpc.id
-  ecs_cluster_id          = data.aws_ecs_cluster.ecs_cluster.id
-  task_execution_role_arn = data.aws_iam_role.ecs_cluster_iam_role.arn
+  environment               = var.environment
+  aws_region                = var.aws_region
+  aws_profile               = var.aws_profile
+  vpc_id                    = data.aws_vpc.vpc.id
+  ecs_cluster_id            = data.aws_ecs_cluster.ecs_cluster.id
+  task_execution_role_arn   = data.aws_iam_role.ecs_cluster_iam_role.arn
   read_only_root_filesystem = false
 
   # Load balancer configuration
-  lb_listener_arn                   = data.aws_lb_listener.service_lb_listener.arn
-  lb_listener_rule_priority         = local.lb_listener_rule_priority
-  lb_listener_paths                 = local.lb_listener_paths
+  lb_listener_arn           = data.aws_lb_listener.service_lb_listener.arn
+  lb_listener_rule_priority = local.lb_listener_rule_priority
+  lb_listener_paths         = local.lb_listener_paths
 
   # ECS Task container health check
   use_task_container_healthcheck = true
@@ -94,3 +93,15 @@ module "ecs-service" {
   eric_extra_bypass_paths   = "/delta/document-store"
 }
 
+module "owner_tags" {
+  source = "git@github.com:companieshouse/terraform-modules//aws/tagging/owner?ref=tags/1.0.446"
+
+  platform_owner = "toro-loco-devs"
+}
+
+module "iac_tags" {
+  source = "git@github.com:companieshouse/terraform-modules//aws/tagging/iac?ref=tags/1.0.446"
+
+  source_code_url = "https://github.com/companieshouse/chs-delta-api"
+  group           = "ecs-service"
+}

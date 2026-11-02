@@ -8,7 +8,7 @@ data "aws_kms_key" "kms_key" {
 
 data "vault_generic_secret" "service_secrets" {
   count = local.secrets_required ? 1 : 0
-  path = "applications/${var.aws_profile}/${var.environment}/${local.stack_name}-stack/${local.service_name}"
+  path  = "applications/${var.aws_profile}/${var.environment}/${local.stack_name}-stack/${local.service_name}"
 }
 
 data "aws_vpc" "vpc" {
@@ -40,18 +40,7 @@ data "aws_lb" "service_lb" {
 
 data "aws_lb_listener" "service_lb_listener" {
   load_balancer_arn = data.aws_lb.service_lb.arn
-  port = 443
-}
-
-# retrieve all secrets for this stack using the stack path
-data "aws_ssm_parameters_by_path" "secrets" {
-  path = "/${local.name_prefix}"
-}
-
-# create a list of secrets names to retrieve them in a nicer format and lookup each secret by name
-data "aws_ssm_parameter" "secret" {
-  for_each = toset(data.aws_ssm_parameters_by_path.secrets.names)
-  name = each.key
+  port              = 443
 }
 
 # retrieve all global secrets for this env using global path

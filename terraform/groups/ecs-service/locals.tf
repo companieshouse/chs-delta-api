@@ -20,20 +20,13 @@ locals {
   application_subnet_pattern = local.stack_secrets["application_subnet_pattern"]
 
   # Set this to true if secrets are required and need to be retrieved from vault
-  secrets_required           = false
-  stack_secrets = jsondecode(data.vault_generic_secret.stack_secrets.data_json)
+  secrets_required = false
+  stack_secrets    = jsondecode(data.vault_generic_secret.stack_secrets.data_json)
   service_secrets = (
     local.secrets_required && length(data.vault_generic_secret.service_secrets) > 0
     ? jsondecode(data.vault_generic_secret.service_secrets[0].data_json)
     : {}
   )
-
-  # create a map of secret name => secret arn to pass into ecs service module
-  # using the trimprefix function to remove the prefixed path from the secret name
-  secrets_arn_map = {
-    for sec in data.aws_ssm_parameter.secret :
-    trimprefix(sec.name, "/${local.name_prefix}/") => sec.arn
-  }
 
   global_secrets_arn_map = {
     for sec in data.aws_ssm_parameter.global_secret :
@@ -46,7 +39,7 @@ locals {
 
   ssm_global_version_map = [
     for sec in data.aws_ssm_parameter.global_secret :
-      { "name"  = "GLOBAL_${var.ssm_version_prefix}${replace(upper(basename(sec.name)), "-", "_")}", "value" = sec.version }
+    { "name" = "GLOBAL_${var.ssm_version_prefix}${replace(upper(basename(sec.name)), "-", "_")}", "value" = sec.version }
   ]
 
   service_secrets_arn_map = {
@@ -60,20 +53,20 @@ locals {
 
   ssm_service_version_map = [
     for sec in module.secrets.secrets :
-      { "name"  = "${replace(upper(local.service_name), "-", "_")}_${var.ssm_version_prefix}${replace(upper(basename(sec.name)), "-", "_")}", "value" = sec.version }
+    { "name" = "${replace(upper(local.service_name), "-", "_")}_${var.ssm_version_prefix}${replace(upper(basename(sec.name)), "-", "_")}", "value" = sec.version }
   ]
 
   # secrets to go in list
-  task_secrets = concat(local.global_secret_list,local.service_secret_list)
+  task_secrets = concat(local.global_secret_list, local.service_secret_list)
 
-  task_environment = concat(local.ssm_global_version_map,local.ssm_service_version_map,[
+  task_environment = concat(local.ssm_global_version_map, local.ssm_service_version_map, [
     { "name" : "PORT", "value" : local.container_port }
   ])
 
-# get eric secrets from global secrets map
+  # get eric secrets from global secrets map
   eric_secrets = [
-    { "name": "API_KEY", "valueFrom": local.global_secrets_arn_map.eric_api_key },
-    { "name": "AES256_KEY", "valueFrom": local.global_secrets_arn_map.eric_aes256_key }
+    { "name" : "API_KEY", "valueFrom" : local.global_secrets_arn_map.eric_api_key },
+    { "name" : "AES256_KEY", "valueFrom" : local.global_secrets_arn_map.eric_aes256_key }
   ]
   eric_environment_filename = "eric.env"
 }
