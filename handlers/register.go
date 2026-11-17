@@ -71,18 +71,14 @@ func Register(mainRouter *mux.Router, cfg *config.Config, kSvc services.KafkaSer
 	appRouter.HandleFunc("/delta/filing-history", NewDeltaHandler(kSvc, h, chv, cfg, false, false, cfg.FilingHistoryDeltaTopic, "entity_id").ServeHTTP).Methods(http.MethodPost).Name("filing-history-delta")
 	appRouter.HandleFunc("/delta/filing-history/validate", NewDeltaHandlerValidate(kSvc, h, chv, cfg, true, false, cfg.FilingHistoryDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("filing-history-delta-validate")
 	appRouter.HandleFunc("/delta/filing-history/delete", NewDeltaHandler(kSvc, h, chv, cfg, false, true, cfg.FilingHistoryDeltaTopic, "entity_id").ServeHTTP).Methods(http.MethodPost).Name("filing-history-delete-delta")
-	// appRouter.HandleFunc("/delta/document-store", NewDeltaHandler(kSvc, h, chv, cfg, false, false, cfg.DocumentStoreDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("document-store-delta")
-	// appRouter.HandleFunc("/delta/document-store/validate", NewDeltaHandler(kSvc, h, chv, cfg, true, false, cfg.DocumentStoreDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("document-store-delta-validate")
+	appRouter.HandleFunc("/delta/document-store", NewDeltaHandler(kSvc, h, chv, cfg, false, false, cfg.DocumentStoreDeltaTopic, "transaction_id").ServeHTTP).Methods(http.MethodPost).Name("document-store-delta")
+	appRouter.HandleFunc("/delta/document-store/validate", NewDeltaHandlerValidate(kSvc, h, chv, cfg, true, false, cfg.DocumentStoreDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("document-store-delta-validate")
 	appRouter.HandleFunc("/delta/registers", NewDeltaHandler(kSvc, h, chv, cfg, false, false, cfg.RegistersDeltaTopic, "company_number").ServeHTTP).Methods(http.MethodPost).Name("registers-delta")
 	appRouter.HandleFunc("/delta/registers/delete", NewDeltaHandler(kSvc, h, chv, cfg, false, true, cfg.RegistersDeltaTopic, "company_number").ServeHTTP).Methods(http.MethodPost).Name("registers-delta-delete")
 	appRouter.HandleFunc("/delta/registers/validate", NewDeltaHandlerValidate(kSvc, h, chv, cfg, true, false, cfg.RegistersDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("registers-delta-validate")
 	appRouter.HandleFunc("/delta/acsp", NewDeltaHandler(kSvc, h, chv, cfg, false, false, cfg.AcspProfileDeltaTopic, "acsp_number").ServeHTTP).Methods(http.MethodPost).Name("acsp-profile-delta")
 	appRouter.HandleFunc("/delta/acsp/validate", NewDeltaHandlerValidate(kSvc, h, chv, cfg, true, false, cfg.AcspProfileDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("acsp-profile-delta-validate")
 	appRouter.Use(userAuthInterceptor.UserAuthenticationIntercept)
-
-	// TODO: move these back to appRouter when CHIPS image-sender service has been updated to allow an aPI key to be configured to its calls here
-	mainRouter.HandleFunc("/delta/document-store", NewDeltaHandler(kSvc, h, chv, cfg, false, false, cfg.DocumentStoreDeltaTopic, "transaction_id").ServeHTTP).Methods(http.MethodPost).Name("document-store-delta")
-	mainRouter.HandleFunc("/delta/document-store/validate", NewDeltaHandlerValidate(kSvc, h, chv, cfg, true, false, cfg.DocumentStoreDeltaTopic).ServeHTTP).Methods(http.MethodPost).Name("document-store-delta-validate")
 
 	return nil
 }
