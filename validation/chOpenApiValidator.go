@@ -86,6 +86,8 @@ func (chv *CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Requ
 	opts := &openapi3filter.Options{
 		MultiError:         true,
 		AuthenticationFunc: openapi3filter.NoopAuthenticationFunc, // No-op as external middleware handles security.
+		// Disable the addition of schema error details to the returned error to prevent the OpenAPI spec from being exposed.
+		SchemaValidationOptions: []openapi3.SchemaValidationOption{openapi3.DisableSchemaErrorDetails()},
 	}
 
 	requestValidationInput := &openapi3filter.RequestValidationInput{
@@ -94,9 +96,6 @@ func (chv *CHValidatorImpl) ValidateRequestAgainstOpenApiSpec(httpReq *http.Requ
 		Route:      route,
 		Options:    opts,
 	}
-
-	// Disable the addition of schema error details to the returned error to prevent the OpenAPI spec from being exposed.
-	openapi3.SchemaErrorDetailsDisabled = true
 
 	log.InfoC(contextId, "Validating request using: ", log.Data{config.OpenApiSpecKey: chv.openApiSpec})
 	if err := callOpenApiFilterValidateRequest(ctx, requestValidationInput); err != nil {
