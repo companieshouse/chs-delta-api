@@ -12,13 +12,29 @@ test to account for your new delta.
 
 ## 1. Creating the OpenAPI spec
 Inside of the `/apispec` directory create a new yml file (e.g. `example-delta-spec.yml`). Inside of the new spec file create
-your delta spec.
+your delta spec. The path operations must be nested under a top-level key named after the spec file (e.g. `exampleDelta`), with schemas kept in a top-level `components`
+section. OpenAPI Path Item Objects must not contain extra fields such as `components`, so they cannot share the same level.
+```yaml
+exampleDelta:
+  post:
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ExampleDelta'
+    ...
+
+components:
+  schemas:
+    ExampleDelta:
+      ...
+```
 
 Finally, associate the new delta-spec.yml file with a route by adding it to the `api-spec.yml` file under the paths section.
 ```yaml
 paths:
   /delta/example-delta:
-    $ref: 'example-delta-spec.yml'
+    $ref: 'example-delta-spec.yml#/exampleDelta'
 ```
 
 ## 2. Adding the new delta to config

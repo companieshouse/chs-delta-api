@@ -6,73 +6,73 @@ info:
 
 paths:
   /delta/officers:
-    $ref: 'officer-delta-spec.yml'
+    $ref: 'officer-delta-spec.yml#/officerDelta'
   /delta/officers/delete:
-    $ref: 'officer-delete-delta-spec.yml'
+    $ref: 'officer-delete-delta-spec.yml#/officerDeleteDelta'
   /delta/officers/validate:
-    $ref: 'officer-delta-spec.yml'
+    $ref: 'officer-delta-spec.yml#/officerDelta'
   /delta/insolvency:
-    $ref: 'insolvency-delta-spec.yml'
+    $ref: 'insolvency-delta-spec.yml#/insolvencyDelta'
   /delta/insolvency/delete:
-    $ref: 'insolvency-delete-delta-spec.yml'
+    $ref: 'insolvency-delete-delta-spec.yml#/insolvencyDeleteDelta'
   /delta/insolvency/validate:
-    $ref: 'insolvency-delta-spec.yml'
+    $ref: 'insolvency-delta-spec.yml#/insolvencyDelta'
   /delta/charges:
-    $ref: 'charges-delta-spec.yml'
+    $ref: 'charges-delta-spec.yml#/chargesDelta'
   /delta/charges/delete:
-    $ref: 'charges-delete-delta-spec.yml'
+    $ref: 'charges-delete-delta-spec.yml#/chargesDeleteDelta'
   /delta/charges/validate:
-    $ref: 'charges-delta-spec.yml'
+    $ref: 'charges-delta-spec.yml#/chargesDelta'
   /delta/disqualification:
-    $ref: 'disqualification-delta-spec.yml'
+    $ref: 'disqualification-delta-spec.yml#/disqualificationDelta'
   /delta/disqualification/delete:
-    $ref: 'disqualification-delete-delta-spec.yml'
+    $ref: 'disqualification-delete-delta-spec.yml#/disqualificationDeleteDelta'
   /delta/disqualification/validate:
-    $ref: 'disqualification-delta-spec.yml'
+    $ref: 'disqualification-delta-spec.yml#/disqualificationDelta'
   /delta/company:
-    $ref: 'company-delta-spec.yml'
+    $ref: 'company-delta-spec.yml#/companyDelta'
   /delta/company/delete:
-    $ref: 'company-delete-delta-spec.yml'
+    $ref: 'company-delete-delta-spec.yml#/companyDeleteDelta'
   /delta/company/validate:
-    $ref: 'company-delta-spec.yml'
+    $ref: 'company-delta-spec.yml#/companyDelta'
   /delta/pscs:
-    $ref: 'psc-delta-spec.yml'
+    $ref: 'psc-delta-spec.yml#/pscDelta'
   /delta/pscs/delete:
-    $ref: 'psc-delete-delta-spec.yml'
+    $ref: 'psc-delete-delta-spec.yml#/pscDeleteDelta'
   /delta/pscs/validate:
-    $ref: 'psc-delta-spec.yml'
+    $ref: 'psc-delta-spec.yml#/pscDelta'
   /delta/exemption:
-    $ref: 'psc-exemption-delta-spec.yml'
+    $ref: 'psc-exemption-delta-spec.yml#/pscExemptionDelta'
   /delta/exemption/delete:
-    $ref: 'psc-exemption-delete-delta-spec.yml'
+    $ref: 'psc-exemption-delete-delta-spec.yml#/pscExemptionDeleteDelta'
   /delta/exemption/validate:
-    $ref: 'psc-exemption-delta-spec.yml'
+    $ref: 'psc-exemption-delta-spec.yml#/pscExemptionDelta'
   /delta/psc-statement:
-    $ref: 'psc-statement-delta-spec.yml'
+    $ref: 'psc-statement-delta-spec.yml#/pscStatementDelta'
   /delta/psc-statement/validate:
-    $ref: 'psc-statement-delta-spec.yml'
+    $ref: 'psc-statement-delta-spec.yml#/pscStatementDelta'
   /delta/psc-statement/delete:
-    $ref: 'psc-statement-delete-delta-spec.yml'
+    $ref: 'psc-statement-delete-delta-spec.yml#/pscStatementDeleteDelta'
   /delta/filing-history:
-    $ref: 'filing-history-delta-spec.yml'
+    $ref: 'filing-history-delta-spec.yml#/filingHistoryDelta'
   /delta/filing-history/validate:
-    $ref: 'filing-history-delta-spec.yml'
+    $ref: 'filing-history-delta-spec.yml#/filingHistoryDelta'
   /delta/filing-history/delete:
-    $ref: 'filing-history-delete-delta-spec.yml'
+    $ref: 'filing-history-delete-delta-spec.yml#/filingHistoryDeleteDelta'
   /delta/document-store:
-    $ref: 'document-store-delta-spec.yml'
+    $ref: 'document-store-delta-spec.yml#/documentStoreDelta'
   /delta/document-store/validate:
-    $ref: 'document-store-delta-spec.yml'
+    $ref: 'document-store-delta-spec.yml#/documentStoreDelta'
   /delta/registers:
-    $ref: 'registers-delta-spec.yml'
+    $ref: 'registers-delta-spec.yml#/registersDelta'
   /delta/registers/validate:
-    $ref: 'registers-delta-spec.yml'
+    $ref: 'registers-delta-spec.yml#/registersDelta'
   /delta/registers/delete:
-    $ref: 'registers-delete-delta-spec.yml'
+    $ref: 'registers-delete-delta-spec.yml#/registersDeleteDelta'
   /delta/acsp:
-    $ref: 'acsp-profile-delta-spec.yml'
+    $ref: 'acsp-profile-delta-spec.yml#/acspProfileDelta'
   /delta/acsp/validate:
-    $ref: 'acsp-profile-delta-spec.yml'
+    $ref: 'acsp-profile-delta-spec.yml#/acspProfileDelta'
 
 components:
   securitySchemes:
